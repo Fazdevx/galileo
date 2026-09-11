@@ -389,22 +389,6 @@ try {
         // Inline implementation to avoid dynamic imports
         const STORAGE_KEY = 'galileo-olimpiadas-v2';
         
-        const load = async (defaultData) => {
-            try {
-                const raw = localStorage.getItem(STORAGE_KEY);
-                if (!raw) return defaultData;
-                const parsed = JSON.parse(raw);
-                return {
-                    sections: Array.isArray(parsed.sections) ? parsed.sections : defaultData.sections,
-                    sports: Array.isArray(parsed.sports) ? parsed.sports : defaultData.sports,
-                    games: Array.isArray(parsed.games) ? parsed.games : defaultData.games,
-                    heroStats: parsed.heroStats || defaultData.heroStats,
-                };
-            } catch {
-                return defaultData;
-            }
-        };
-        
         const onDataChanged = (callback) => {
             const handler = () => callback();
             window.addEventListener('galileo-data-changed', handler);
@@ -455,6 +439,53 @@ try {
         
         const DEFAULT_DATA_COPY = JSON.parse(JSON.stringify(DEFAULT_DATA));
 
+        const loadFromFirebase = async () => {
+            try {
+                const { fetchData } = await import('../data/api');
+                const data = await fetchData();
+                if (data && data.sections && data.sports && data.games) {
+                    return data;
+                }
+            } catch (e) {
+                console.warn('[Olimpiadas] Firebase error:', e);
+            }
+            return null;
+        };
+
+        const loadFromLocal = () => {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) return null;
+                const parsed = JSON.parse(raw);
+                return {
+                    sections: Array.isArray(parsed.sections) ? parsed.sections : DEFAULT_DATA.sections,
+                    sports: Array.isArray(parsed.sports) ? parsed.sports : DEFAULT_DATA.sports,
+                    games: Array.isArray(parsed.games) ? parsed.games : DEFAULT_DATA.games,
+                    heroStats: parsed.heroStats || DEFAULT_DATA.heroStats,
+                };
+            } catch {
+                return null;
+            }
+        };
+
+        const load = async (defaultData) => {
+            // Try Firebase first
+            const firebaseData = await loadFromFirebase();
+            if (firebaseData) {
+                console.log('[Olimpiadas] Using Firebase data');
+                return firebaseData;
+            }
+            // Fallback to localStorage
+            const localData = loadFromLocal();
+            if (localData) {
+                console.log('[Olimpiadas] Using local data');
+                return localData;
+            }
+            return defaultData;
+        };
+        const list = document.querySelector("[data-sections-list]");
+        if (!list) return;
+        list.innerHTML = sections
     const renderSections = (sections) => {
         const list = document.querySelector("[data-sections-list]");
         if (!list) return;
