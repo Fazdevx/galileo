@@ -28,6 +28,10 @@
 			"dest": "_render"
 		},
 		{
+			"src": "^/api/test/?$",
+			"dest": "_render"
+		},
+		{
 			"src": "^/404/?$",
 			"dest": "_render"
 		},
@@ -36,5 +40,19 @@
 			"dest": "_render",
 			"status": 404
 		}
-	]
+	],
+	"images": {
+		"sizes": [
+			640,
+			750,
+			828,
+			1080,
+			1200,
+			1920,
+			2048,
+			3840
+		],
+		"domains": [],
+		"remotePatterns": []
+	}
 }

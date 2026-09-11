@@ -1,22 +1,7 @@
 import { t as __exportAll } from "./rolldown-runtime_D7D4PA-g.mjs";
-import { A as ExpectedNotESMImage, H as InvalidImageService, J as MissingGetFontFileRequestUrl, L as ImageMissingAlt, O as ExpectedImage, R as IncompatibleDescriptorOptions, U as LocalImageUsedWrongly, Y as MissingImageDimension, _ as inferRemoteSize$1, _t as AstroError, b as isRemoteAllowed, c as isRemotePath, ct as RemoteImageNotAllowed, f as removeQueryString, ht as UnsupportedImageFormat, j as FontFamilyNotFound, k as ExpectedImageOptions, l as joinPaths, mt as UnsupportedImageConversion, v as fetchWithRedirects, z as InvalidComponentArgs } from "./path_Cdi6L2qr.mjs";
-import { d as addAttribute, g as unescapeHTML, l as renderTemplate, t as spreadAttributes, u as maybeRenderHead, v as createAstro } from "./server_DMMHxz2s.mjs";
+import { A as ExpectedImage, B as IncompatibleDescriptorOptions, G as LocalImageUsedWrongly, M as ExpectedNotESMImage, N as FontFamilyNotFound, S as isRemoteAllowed, V as InvalidComponentArgs, W as InvalidImageService, X as MissingGetFontFileRequestUrl, Z as MissingImageDimension, _ as inferRemoteSize$1, _t as AstroError, b as isRemoteImage, c as isRemotePath, ct as RemoteImageNotAllowed, f as removeQueryString, ht as UnsupportedImageFormat, j as ExpectedImageOptions, l as joinPaths, mt as UnsupportedImageConversion, v as fetchWithRedirects, x as resolveSrc, y as isESMImportedImage, z as ImageMissingAlt } from "./path_Ci0_Sps_.mjs";
+import { d as addAttribute, g as unescapeHTML, l as renderTemplate, t as spreadAttributes, u as maybeRenderHead, v as createAstro } from "./server_Dj7GRba3.mjs";
 import * as mime from "mrmime";
-//#region node_modules/astro/dist/assets/utils/imageKind.js
-function isESMImportedImage(src) {
-	return typeof src === "object" || typeof src === "function" && "src" in src;
-}
-function isRemoteImage(src) {
-	return typeof src === "string";
-}
-async function resolveSrc(src) {
-	if (typeof src === "object" && "then" in src) {
-		const resource = await src;
-		return resource.default ?? resource;
-	}
-	return src;
-}
-//#endregion
 //#region node_modules/astro/dist/runtime/server/astro-component.js
 function validateArgs(args) {
 	if (args.length !== 3) return false;
@@ -153,11 +138,6 @@ function resolveDefaultOutputFormat(sourceFormat) {
 function isLocalService(service) {
 	if (!service) return false;
 	return "transform" in service;
-}
-function parseQuality(quality) {
-	let result = Number.parseInt(quality);
-	if (Number.isNaN(result)) return quality;
-	return result;
 }
 var sortNumeric = (a, b) => a - b;
 function verifyOptions(options) {
@@ -342,7 +322,7 @@ var cssFitValues = [
 ];
 async function getConfiguredImageService() {
 	if (!globalThis?.astroAsset?.imageService) {
-		const { default: service } = await import("./sharp_Bp7AGuku.mjs").catch((e) => {
+		const { default: service } = await import("./build-service_Gfd-l7nK.mjs").catch((e) => {
 			const error = new AstroError(InvalidImageService);
 			error.cause = e;
 			throw error;
@@ -652,13 +632,36 @@ var assetQueryParams = void 0;
 var imageConfig = {
 	"endpoint": { "route": "/_image" },
 	"service": {
-		"entrypoint": "astro/assets/services/sharp",
-		"config": {}
+		"entrypoint": "@astrojs/vercel/build-image-service",
+		"config": {
+			"sizes": [
+				640,
+				750,
+				828,
+				1080,
+				1200,
+				1920,
+				2048,
+				3840
+			],
+			"domains": [],
+			"remotePatterns": []
+		}
 	},
 	"dangerouslyProcessSVG": false,
 	"domains": [],
 	"remotePatterns": [],
-	"responsiveStyles": false
+	"responsiveStyles": false,
+	"breakpoints": [
+		640,
+		750,
+		828,
+		1080,
+		1200,
+		1920,
+		2048,
+		3840
+	]
 };
 Object.defineProperty(imageConfig, "assetQueryParams", {
 	value: assetQueryParams,
@@ -748,4 +751,4 @@ var GET = async ({ request }) => {
 var generic___js_exports = /* @__PURE__ */ __exportAll({ page: () => page });
 var page = () => generic_exports;
 //#endregion
-export { resolveDefaultOutputFormat as i, baseService as n, page, parseQuality as r, generic___js_exports as t };
+export { baseService as n, page, generic___js_exports as t };

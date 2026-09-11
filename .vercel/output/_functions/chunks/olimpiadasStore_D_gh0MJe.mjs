@@ -1,6 +1,3 @@
-import { getApp, getApps, initializeApp } from "firebase/app";
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 var DEFAULT_DATA = {
 	sections: [],
 	sports: [],
@@ -158,67 +155,4 @@ var DEFAULT_DATA = {
 	]]
 };
 //#endregion
-//#region src/lib/firebase.ts
-var firebaseConfig = {
-	apiKey: "AIzaSyAgjrkE_Ah-mKOm8naH-aFEB7UrschO40o",
-	authDomain: "galiweb-4cc7d.firebaseapp.com",
-	projectId: "galiweb-4cc7d",
-	storageBucket: "galiweb-4cc7d.firebasestorage.app",
-	messagingSenderId: "192323726068",
-	appId: "1:192323726068:web:9cebbbd6d9e20c12ce0ca1",
-	measurementId: "G-V9WEJ4RYTG"
-};
-var app = null;
-var dbInstance = null;
-var firebaseError = null;
-try {
-	app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
-	dbInstance = getFirestore(app);
-	getAuth(app);
-} catch (error) {
-	console.error("[Firebase] Initialization error:", error);
-	firebaseError = error instanceof Error ? error : new Error(String(error));
-}
-var db = dbInstance;
-var FIREBASE_CONFIGURED = Boolean(firebaseConfig.apiKey && firebaseConfig.projectId && !firebaseError);
-//#endregion
-//#region src/data/api.ts
-var OIMPIADAS_DOC_ID = "olimpiadas-data";
-var API_CONFIGURED = FIREBASE_CONFIGURED;
-var isQuotaExhausted = false;
-async function fetchData() {
-	if (!API_CONFIGURED || !db || isQuotaExhausted) return DEFAULT_DATA;
-	try {
-		const docRef = doc(db, "olimpiadas", OIMPIADAS_DOC_ID);
-		const docSnap = await getDoc(docRef);
-		if (docSnap.exists()) {
-			const data = docSnap.data();
-			console.log("[Firebase] Datos obtenidos de Firebase:", data);
-			if (data.sections && data.sports && data.games && data.heroStats) return data;
-		}
-		console.log("[Firebase] Firebase vacío o inválido, inicializando con datos predeterminados");
-		console.log("[Firebase] Creando estructura: colección \"olimpiadas\", documento \"olimpiadas-data\"");
-		await setDoc(docRef, DEFAULT_DATA);
-		console.log("[Firebase] Datos predeterminados guardados en Firebase:", DEFAULT_DATA);
-		return DEFAULT_DATA;
-	} catch (error) {
-		console.warn("[Firebase] Error al obtener datos:", error);
-		console.log("[Firebase] Usando datos predeterminados como fallback");
-		return DEFAULT_DATA;
-	}
-}
-async function saveData(data) {
-	if (!API_CONFIGURED || !db || isQuotaExhausted) return false;
-	try {
-		const docRef = doc(db, "olimpiadas", OIMPIADAS_DOC_ID);
-		console.log("[Firebase] Guardando datos en estructura correcta: colección \"olimpiadas\", documento \"olimpiadas-data\"");
-		await setDoc(docRef, data);
-		console.log("[Firebase] Datos guardados exitosamente en Firebase:", data);
-		return true;
-	} catch (error) {
-		console.warn("[Firebase] Error al guardar datos:", error);
-		return false;
-	}
-}
-//#endregion
-export { saveData as n, DEFAULT_DATA as r, fetchData as t };
+export { DEFAULT_DATA as t };

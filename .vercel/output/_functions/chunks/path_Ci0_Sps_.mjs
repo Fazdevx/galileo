@@ -294,12 +294,6 @@ var LocalImageUsedWrongly = {
 	message: (imageFilePath) => `\`Image\`'s and \`getImage\`'s \`src\` parameter must be an imported image or a URL, it cannot be a string filepath. Received \`${imageFilePath}\`.`,
 	hint: "If you want to use an image from your `src` folder, you need to either import it or if the image is coming from a content collection, use the [image() schema helper](https://docs.astro.build/en/guides/images/#images-in-content-collections). See https://docs.astro.build/en/reference/modules/astro-assets/#src-required for more information on the `src` property."
 };
-var MissingSharp = {
-	name: "MissingSharp",
-	title: "Could not find Sharp.",
-	message: "Could not find Sharp. Please install Sharp (`sharp`) manually into your project or migrate to another image service.",
-	hint: "See Sharp's installation instructions for more information: https://sharp.pixelplumbing.com/install. If you are not relying on `astro:assets` to optimize, transform, or process any images, you can configure a passthrough image service instead of installing Sharp. See https://docs.astro.build/en/reference/errors/missing-sharp for more information.\n\nSee https://docs.astro.build/en/guides/images/#default-image-service for more information on how to migrate to another image service."
-};
 var i18nNoLocaleFoundInPath = {
 	name: "i18nNoLocaleFoundInPath",
 	title: "The path doesn't contain any locale.",
@@ -413,6 +407,21 @@ function isRemoteAllowed(src, { domains, remotePatterns }) {
 		"data:"
 	].includes(url.protocol)) return false;
 	return domains.some((domain) => matchHostname(url, domain)) || remotePatterns.some((remotePattern) => matchPattern(url, remotePattern));
+}
+//#endregion
+//#region node_modules/astro/dist/assets/utils/imageKind.js
+function isESMImportedImage(src) {
+	return typeof src === "object" || typeof src === "function" && "src" in src;
+}
+function isRemoteImage(src) {
+	return typeof src === "string";
+}
+async function resolveSrc(src) {
+	if (typeof src === "object" && "then" in src) {
+		const resource = await src;
+		return resource.default ?? resource;
+	}
+	return src;
 }
 //#endregion
 //#region node_modules/astro/dist/assets/utils/vendor/image-size/types/utils.js
@@ -1549,4 +1558,4 @@ function hasFileExtension(path) {
 	return WITH_FILE_EXT.test(path);
 }
 //#endregion
-export { NoImageMetadata as $, ExpectedNotESMImage as A, InvalidGetStaticPathsEntry as B, ActionsReturnedInvalidDataError as C, EndpointDidNotReturnAResponse as D, ClientAddressNotAvailable as E, GetStaticPathsInvalidRouteParam as F, LocalsReassigned as G, InvalidImageService as H, GetStaticPathsRequired as I, MissingGetFontFileRequestUrl as J, MiddlewareNoDataOrNextCalled as K, ImageMissingAlt as L, FontFileUrlNotFound as M, ForbiddenRewrite as N, ExpectedImage as O, GetStaticPathsExpectedParams as P, NoClientOnlyHint as Q, IncompatibleDescriptorOptions as R, ActionNotFoundError as S, CacheNotEnabled as T, LocalImageUsedWrongly as U, InvalidGetStaticPathsReturn as V, LocalsNotAnObject as W, MissingMediaQueryDirective as X, MissingImageDimension as Y, MissingSharp as Z, inferRemoteSize as _, AstroError as _t, fileExtension as a, PageNumberParamNotFound as at, isRemoteAllowed as b, isRemotePath as c, RemoteImageNotAllowed as ct, removeLeadingForwardSlash as d, RewriteWithBodyUsed as dt, NoManifestAvailable as et, removeQueryString as f, StaticClientAddressNotAvailable as ft, trimSlashes as g, i18nNoLocaleFoundInPath as gt, stripRequestBase as h, UnsupportedImageFormat as ht, collapseDuplicateTrailingSlashes as i, OnlyResponseCanBeReturned as it, FontFamilyNotFound as j, ExpectedImageOptions as k, joinPaths as l, ReservedSlotName as lt, slash as m, UnsupportedImageConversion as mt, collapseDuplicateLeadingSlashes as n, NoMatchingRenderer as nt, hasFileExtension as o, PrerenderClientAddressNotAvailable as ot, removeTrailingForwardSlash as p, UnavailableAstroGlobal as pt, MiddlewareNotAResponse as q, collapseDuplicateSlashes as r, NoMatchingStaticPathFound as rt, isInternalPath as s, PrerenderDynamicEndpointPathCollide as st, appendForwardSlash as t, NoMatchingImport as tt, prependForwardSlash as u, ResponseSentError as ut, fetchWithRedirects as v, isAstroError as vt, AstroResponseHeadersReassigned as w, matchPattern as x, detector as y, InvalidComponentArgs as z };
+export { NoClientOnlyHint as $, ExpectedImage as A, IncompatibleDescriptorOptions as B, matchPattern as C, CacheNotEnabled as D, AstroResponseHeadersReassigned as E, ForbiddenRewrite as F, LocalImageUsedWrongly as G, InvalidGetStaticPathsEntry as H, GetStaticPathsExpectedParams as I, MiddlewareNoDataOrNextCalled as J, LocalsNotAnObject as K, GetStaticPathsInvalidRouteParam as L, ExpectedNotESMImage as M, FontFamilyNotFound as N, ClientAddressNotAvailable as O, FontFileUrlNotFound as P, MissingMediaQueryDirective as Q, GetStaticPathsRequired as R, isRemoteAllowed as S, ActionsReturnedInvalidDataError as T, InvalidGetStaticPathsReturn as U, InvalidComponentArgs as V, InvalidImageService as W, MissingGetFontFileRequestUrl as X, MiddlewareNotAResponse as Y, MissingImageDimension as Z, inferRemoteSize as _, AstroError as _t, fileExtension as a, PageNumberParamNotFound as at, isRemoteImage as b, isRemotePath as c, RemoteImageNotAllowed as ct, removeLeadingForwardSlash as d, RewriteWithBodyUsed as dt, NoManifestAvailable as et, removeQueryString as f, StaticClientAddressNotAvailable as ft, trimSlashes as g, i18nNoLocaleFoundInPath as gt, stripRequestBase as h, UnsupportedImageFormat as ht, collapseDuplicateTrailingSlashes as i, OnlyResponseCanBeReturned as it, ExpectedImageOptions as j, EndpointDidNotReturnAResponse as k, joinPaths as l, ReservedSlotName as lt, slash as m, UnsupportedImageConversion as mt, collapseDuplicateLeadingSlashes as n, NoMatchingRenderer as nt, hasFileExtension as o, PrerenderClientAddressNotAvailable as ot, removeTrailingForwardSlash as p, UnavailableAstroGlobal as pt, LocalsReassigned as q, collapseDuplicateSlashes as r, NoMatchingStaticPathFound as rt, isInternalPath as s, PrerenderDynamicEndpointPathCollide as st, appendForwardSlash as t, NoMatchingImport as tt, prependForwardSlash as u, ResponseSentError as ut, fetchWithRedirects as v, isAstroError as vt, ActionNotFoundError as w, resolveSrc as x, isESMImportedImage as y, ImageMissingAlt as z };
