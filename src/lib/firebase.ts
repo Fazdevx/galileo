@@ -1,8 +1,10 @@
+// Firebase Client SDK - Solo para uso en el navegador
+// Este archivo solo debe importarse dinámicamente en el cliente
+
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
-// Firebase configuration - Client-side only
 const firebaseConfig = {
   apiKey: "AIzaSyAgjrkE_Ah-mKOm8naH-aFEB7UrschO40o",
   authDomain: "galiweb-4cc7d.firebaseapp.com",
@@ -13,19 +15,19 @@ const firebaseConfig = {
   measurementId: "G-V9WEJ4RYTG"
 };
 
-// Only initialize on client side
-let app: ReturnType<typeof initializeApp> | null = null;
-let dbInstance: ReturnType<typeof getFirestore> | null = null;
-let authInstance: ReturnType<typeof getAuth> | null = null;
+let app = null;
+let dbInstance = null;
+let authInstance = null;
 
+// Solo inicializar en el navegador
 if (typeof window !== 'undefined') {
   try {
     app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
     dbInstance = getFirestore(app);
     authInstance = getAuth(app);
-    console.log('[Firebase] Client SDK initialized');
+    console.log('[Firebase] SDK inicializado en el cliente');
   } catch (error) {
-    console.error('[Firebase] Init error:', error);
+    console.error('[Firebase] Error:', error);
   }
 }
 
