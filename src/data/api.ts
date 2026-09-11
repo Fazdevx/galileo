@@ -1,52 +1,33 @@
 import type { OlimpiadasData } from './olimpiadasStore';
 import { DEFAULT_DATA } from './olimpiadasStore';
-import { db, FIREBASE_CONFIGURED } from '../lib/firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
 
-const OIMPIADAS_DOC_ID = 'olimpiadas-data';
+// Backend API URL - Change this to your deployed backend URL
+const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
 
-export const API_CONFIGURED = FIREBASE_CONFIGURED;
-
-let isQuotaExhausted = false;
+export const API_CONFIGURED = true;
 
 export async function fetchData(): Promise<OlimpiadasData> {
-  if (!API_CONFIGURED || !db || isQuotaExhausted) return DEFAULT_DATA;
   try {
-    const docRef = doc(db, 'olimpiadas', OIMPIADAS_DOC_ID);
-    const docSnap = await getDoc(docRef);
-    
-    if (docSnap.exists()) {
-      const data = docSnap.data() as OlimpiadasData;
-      console.log('[Firebase] Datos obtenidos de Firebase:', data);
-      // Validate data structure
-      if (data.sections && data.sports && data.games && data.heroStats) {
-        return data;
-      }
-    }
-    
-    // Initialize Firebase with default data if empty or invalid
-    console.log('[Firebase] Firebase vacío o inválido, inicializando con datos predeterminados');
-    console.log('[Firebase] Creando estructura: colección "olimpiadas", documento "olimpiadas-data"');
-    await setDoc(docRef, DEFAULT_DATA);
-    console.log('[Firebase] Datos predeterminados guardados en Firebase:', DEFAULT_DATA);
-    return DEFAULT_DATA;
+    const response = await fetch(`${API_URL}/api/data`);
+    if (!response.ok) throw new Error('Failed to fetch');
+    return await response.json();
   } catch (error) {
-    console.warn('[Firebase] Error al obtener datos:', error);
-    console.log('[Firebase] Usando datos predeterminados como fallback');
+    console.warn('[API] Error fetching data:', error);
     return DEFAULT_DATA;
   }
 }
 
 export async function saveData(data: OlimpiadasData): Promise<boolean> {
-  if (!API_CONFIGURED || !db || isQuotaExhausted) return false;
   try {
-    const docRef = doc(db, 'olimpiadas', OIMPIADAS_DOC_ID);
-    console.log('[Firebase] Guardando datos en estructura correcta: colección "olimpiadas", documento "olimpiadas-data"');
-    await setDoc(docRef, data);
-    console.log('[Firebase] Datos guardados exitosamente en Firebase:', data);
-    return true;
+    const response = await fetch(`${API_URL}/api/data`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const result = await response.json();
+    return result.success === true;
   } catch (error) {
-    console.warn('[Firebase] Error al guardar datos:', error);
+    console.warn('[API] Error saving data:', error);
     return false;
   }
 }

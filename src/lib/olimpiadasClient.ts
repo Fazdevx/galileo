@@ -1,14 +1,11 @@
 import type { OlimpiadasData } from '../data/olimpiadasStore';
-import { db, FIREBASE_CONFIGURED } from './firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { fetchData, API_CONFIGURED } from '../data/api';
 
 export const STORAGE_KEY = 'galileo-olimpiadas-v2';
 
-export const API_CONFIGURED = FIREBASE_CONFIGURED;
+export { API_CONFIGURED };
 
 export let cloudDisabled = false;
-
-const OIMPIADAS_DOC_ID = 'olimpiadas-data';
 
 export function loadFromLocal(): OlimpiadasData | null {
   if (typeof window === 'undefined') return null;
@@ -30,34 +27,13 @@ export function loadFromLocal(): OlimpiadasData | null {
 export async function loadFromApi(defaultData: OlimpiadasData): Promise<OlimpiadasData | null> {
   if (!API_CONFIGURED || cloudDisabled) return null;
   try {
-    const docRef = doc(db, 'olimpiadas', OIMPIADAS_DOC_ID);
-    const docSnap = await getDoc(docRef);
-    
-    if (docSnap.exists()) {
-      const record = docSnap.data();
-      const data = {
-        sections: Array.isArray(record.sections) ? record.sections : defaultData.sections,
-        sports: Array.isArray(record.sports) ? record.sports : defaultData.sports,
-        games: Array.isArray(record.games) ? record.games : defaultData.games,
-        heroStats: record.heroStats || defaultData.heroStats,
-      };
-      
-      // If Firebase has empty data, initialize with defaults
-      if (!data.sections.length && !data.sports.length && !data.games.length) {
-        console.log('[Firebase] Datos vacíos, inicializando con defaults');
-        await setDoc(docRef, defaultData);
-        return defaultData;
-      }
-      
+    const data = await fetchData();
+    if (data && data.sections && data.sports && data.games) {
       return data;
     }
-    
-    // Initialize Firebase with default data if document doesn't exist
-    console.log('[Firebase] Documento no existe, creando con defaults');
-    await setDoc(docRef, defaultData);
-    return defaultData;
+    return null;
   } catch (error) {
-    console.warn('[Firebase] Error al cargar desde API:', error);
+    console.warn('[Client] Error loading from API:', error);
     return null;
   }
 }

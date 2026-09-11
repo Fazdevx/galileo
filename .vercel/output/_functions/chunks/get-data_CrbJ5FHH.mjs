@@ -1,3 +1,4 @@
+import { t as __exportAll } from "./rolldown-runtime_D7D4PA-g.mjs";
 var DEFAULT_DATA = {
 	sections: [],
 	sports: [],
@@ -155,4 +156,19 @@ var DEFAULT_DATA = {
 	]]
 };
 //#endregion
-export { DEFAULT_DATA as t };
+//#region src/pages/api/get-data.ts
+var get_data_exports = /* @__PURE__ */ __exportAll({
+	GET: () => GET,
+	prerender: () => false
+});
+var GET = async () => {
+	return new Response(JSON.stringify(DEFAULT_DATA), {
+		status: 200,
+		headers: { "Content-Type": "application/json" }
+	});
+};
+//#endregion
+//#region \0virtual:astro:page:src/pages/api/get-data@_@ts
+var page = () => get_data_exports;
+//#endregion
+export { page };
