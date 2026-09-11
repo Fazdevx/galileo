@@ -1,5 +1,5 @@
 import { t as __exportAll } from "./rolldown-runtime_D7D4PA-g.mjs";
-import { t as fetchData } from "./api_Blga3LSz.mjs";
+import { t as fetchData } from "./api_BAaDowp8.mjs";
 //#region src/pages/api/get-data.ts
 var get_data_exports = /* @__PURE__ */ __exportAll({
 	GET: () => GET,

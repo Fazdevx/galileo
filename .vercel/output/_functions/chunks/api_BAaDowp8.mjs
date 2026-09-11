@@ -159,7 +159,7 @@ var DEFAULT_DATA = {
 };
 //#endregion
 //#region src/lib/firebase.ts
-var app = getApps().length === 0 ? initializeApp({
+var firebaseConfig = {
 	apiKey: "AIzaSyAgjrkE_Ah-mKOm8naH-aFEB7UrschO40o",
 	authDomain: "galiweb-4cc7d.firebaseapp.com",
 	projectId: "galiweb-4cc7d",
@@ -167,10 +167,11 @@ var app = getApps().length === 0 ? initializeApp({
 	messagingSenderId: "192323726068",
 	appId: "1:192323726068:web:9cebbbd6d9e20c12ce0ca1",
 	measurementId: "G-V9WEJ4RYTG"
-}) : getApp();
+};
+var app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 var db = getFirestore(app);
 getAuth(app);
-var FIREBASE_CONFIGURED = Boolean("galiweb-4cc7d");
+var FIREBASE_CONFIGURED = Boolean(firebaseConfig.apiKey && firebaseConfig.projectId);
 //#endregion
 //#region src/data/api.ts
 var OIMPIADAS_DOC_ID = "olimpiadas-data";
