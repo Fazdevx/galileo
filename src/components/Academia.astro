@@ -1,0 +1,129 @@
+---
+const features = [
+    {
+        title: "Preparación preuniversitaria",
+        desc: "Ingreso a universidades top con ciclos intensivos y simulacros.",
+        icon: "M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z",
+    },
+    {
+        title: "Refuerzo académico",
+        desc: "Nivelación en matemática, comunicación y ciencias para todas las edades.",
+        icon: "M4 19.5A2.5 2.5 0 016.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z",
+    },
+    {
+        title: "Docentes especialistas",
+        desc: "Profesores con amplia experiencia y resultados comprobados.",
+        icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0z M12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z",
+    },
+    {
+        title: "Material actualizado",
+        desc: "Separatas, bancos de preguntas y recursos alineados al examen de admisión.",
+        icon: "M9 12h6 M9 16h6 M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z",
+    },
+    {
+        title: "Seguimiento personalizado",
+        desc: "Reportes de avance y retroalimentación constante a cada estudiante.",
+        icon: "M3 3v18h18 M7 14l3-3 4 4 5-5",
+    },
+    {
+        title: "Horarios flexibles",
+        desc: "Turnos mañana y tarde para adaptarse a la rutina del estudiante.",
+        icon: "M12 8v4l3 3 M12 22a10 10 0 100-20 10 10 0 000 20z",
+    },
+];
+---
+
+<section
+    id="academia"
+    class="bg-navy-700 py-16 text-white sm:py-20 md:py-24"
+>
+    <div class="mx-auto max-w-7xl px-4 sm:px-6">
+        <div class="mx-auto max-w-3xl text-center">
+            <h2
+                class="mt-4 text-2xl font-extrabold leading-tight sm:text-3xl md:text-5xl"
+            >
+                La academia que te lleva a la <span class="text-brand-400"
+                    >universidad</span
+                >
+            </h2>
+            <p class="mt-4 text-base text-navy-100 sm:text-lg">
+                Más de 20 años preparando a los mejores estudiantes con
+                metodología probada, docentes especializados y resultados que se
+                reflejan en cada ingreso.
+            </p>
+        </div>
+
+        <div class="mt-12 grid gap-4 sm:mt-14 sm:grid-cols-2 lg:grid-cols-3">
+            {
+                features.map((f) => (
+                    <div class="rounded-2xl bg-navy-800 p-5 ring-1 ring-white/10 transition hover:ring-brand-400 sm:p-6">
+                        <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-500 text-white sm:h-12 sm:w-12">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-5 w-5 sm:h-6 sm:w-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path d={f.icon} />
+                            </svg>
+                        </div>
+                        <h3 class="mt-4 text-base font-extrabold sm:text-lg">
+                            {f.title}
+                        </h3>
+                        <p class="mt-2 text-sm text-navy-100 sm:text-base">
+                            {f.desc}
+                        </p>
+                    </div>
+                ))
+            }
+        </div>
+
+        <div
+            class="mt-12 flex flex-col items-center justify-between gap-6 rounded-2xl bg-brand-500 p-6 shadow-lg sm:mt-14 sm:flex-row sm:p-8"
+        >
+            <div>
+                <p
+                    class="text-xs font-bold uppercase tracking-widest text-white/80"
+                >
+                    Resultados comprobados
+                </p>
+                <h3 class="mt-2 text-xl font-extrabold text-white sm:text-2xl">
+                    98% de ingresantes a universidades top
+                </h3>
+                <p class="mt-2 text-sm text-white/90 sm:text-base">
+                    Únete a la academia que marca la diferencia en tu
+                    preparación.
+                </p>
+            </div>
+            <button
+                id="btn-matriculate-academia"
+                type="button"
+                class="inline-flex shrink-0 items-center gap-2 rounded-full bg-navy-700 px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-navy-800"
+            >
+                Matricúlate
+                <svg
+                    class="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    ><path d="M5 12h14 M13 6l6 6-6 6"></path></svg
+                >
+            </button>
+        </div>
+    </div>
+</section>
+
+<script>
+    document
+        .getElementById("btn-matriculate-academia")
+        ?.addEventListener("click", () => {
+            window.dispatchEvent(new CustomEvent("open-prematricula"));
+        });
+</script>

@@ -1,0 +1,91 @@
+---
+const info = [
+  { label: 'Sede principal', value: 'Av. La Cultura 123, Lima - Perú', icon: 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z M12 13a3 3 0 100-6 3 3 0 000 6z' },
+  { label: 'Teléfono', value: '+51 999 888 777', icon: 'M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z' },
+  { label: 'Correo', value: 'admision@galileo.edu.pe', icon: 'M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6' },
+  { label: 'Horario de atención', value: 'Lun a Vie 8:00 - 17:00', icon: 'M12 22a10 10 0 100-20 10 10 0 000 20z M12 6v6l4 2' },
+];
+---
+<section id="contacto" class="bg-slate-50 py-16 sm:py-20 md:py-24">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6">
+    <div class="grid gap-6 lg:grid-cols-5 lg:gap-8">
+      <div class="space-y-4 lg:col-span-2">
+        <div class="rounded-2xl bg-navy-700 p-6 text-white shadow-xl sm:p-8">
+          <span class="text-xs font-bold uppercase tracking-widest text-brand-300">Contacto</span>
+          <h2 class="mt-2 text-2xl font-extrabold leading-tight sm:text-3xl md:text-4xl">Matricúlate o solicita información</h2>
+          <p class="mt-3 text-sm text-navy-100 sm:text-base">Completa el formulario y un asesor se pondrá en contacto contigo en menos de 24 horas.</p>
+          <div class="mt-5 flex items-center gap-3 rounded-xl bg-navy-800/60 p-3 sm:mt-6 sm:p-4">
+            <img src="/escudo.png" alt="Galileo" class="h-10 w-10 sm:h-12 sm:w-12" />
+            <div>
+              <p class="text-sm font-semibold text-brand-300">¿Prefieres atención inmediata?</p>
+              <p class="text-xs text-navy-100">Llámanos o escríbenos al WhatsApp institucional.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-2xl bg-white p-2 shadow-md ring-1 ring-slate-200">
+          {info.map((item, idx) => (
+            <div class={`flex items-center gap-3 rounded-xl p-3 transition hover:bg-brand-50 sm:gap-4 sm:p-4 ${idx !== info.length - 1 ? 'border-b border-slate-100' : ''}`}>
+              <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-500 sm:h-11 sm:w-11">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d={item.icon} />
+                </svg>
+              </div>
+              <div class="min-w-0 flex-1">
+                <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-500 sm:text-xs">{item.label}</p>
+                <p class="truncate text-sm font-semibold text-navy-700 sm:text-base">{item.value}</p>
+              </div>
+              <svg class="h-4 w-4 flex-shrink-0 text-slate-400 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <form class="rounded-2xl bg-white p-6 shadow-xl ring-1 ring-slate-200 sm:p-8 lg:col-span-3">
+        <div class="flex items-center gap-3 border-b border-slate-100 pb-5">
+          <div class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-500 text-white sm:h-10 sm:w-10">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          </div>
+          <div>
+            <h3 class="text-base font-extrabold text-navy-700 sm:text-lg">Envíanos un mensaje</h3>
+            <p class="text-xs text-slate-500 sm:text-sm">Responderemos en menos de 24 horas.</p>
+          </div>
+        </div>
+
+        <div class="mt-6 grid gap-5 sm:grid-cols-2">
+          <label class="block">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Nombre del apoderado</span>
+            <input type="text" required class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none sm:py-3" placeholder="Juan Pérez" />
+          </label>
+          <label class="block">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Teléfono</span>
+            <input type="tel" required class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none sm:py-3" placeholder="+51 999 999 999" />
+          </label>
+        </div>
+        <label class="mt-5 block">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Correo electrónico</span>
+          <input type="email" required class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none sm:py-3" placeholder="tu@correo.com" />
+        </label>
+        <label class="mt-5 block">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Nivel de interés</span>
+          <select required class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none sm:py-3">
+            <option value="">Selecciona una opción</option>
+            <option>Inicial</option>
+            <option>Primaria</option>
+            <option>Secundaria</option>
+            <option>Academia Preuniversitaria</option>
+          </select>
+        </label>
+        <label class="mt-5 block">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Mensaje</span>
+          <textarea rows="4" class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none sm:py-3" placeholder="Cuéntanos en qué podemos ayudarte"></textarea>
+        </label>
+        <button type="submit" class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-500 py-3 text-sm font-bold text-white shadow-md transition hover:bg-brand-600 hover:shadow-lg sm:py-3.5">
+          Enviar solicitud
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14 M13 6l6 6-6 6"/></svg>
+        </button>
+        <p class="mt-3 text-center text-xs text-slate-500">Al enviar aceptas nuestra política de privacidad.</p>
+      </form>
+    </div>
+  </div>
+</section>

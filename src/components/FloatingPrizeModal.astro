@@ -1,0 +1,589 @@
+---
+import { PRIZES } from '../data/olimpiadasStore';
+---
+
+<div id="prize-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
+  <div id="prize-backdrop" class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm"></div>
+  <div id="prize-card" class="relative z-10 w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl ring-1 ring-slate-200 text-center">
+    <button id="prize-close" type="button" class="absolute right-3 top-3 rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+      <i class="fas fa-times text-lg"></i>
+    </button>
+
+    <div id="prize-spinner-area" class="hidden">
+      <h3 class="text-2xl font-extrabold text-navy-700 mb-2"><i class="fas fa-dharmachakra text-brand-500"></i> Gira la Ruleta</h3>
+      <p class="text-xs text-slate-500 mb-4">¡Puedes ganar descuentos, libros y cuadernos!</p>
+      <div class="relative mx-auto" style="width: 340px; height: 340px;">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-3 z-20" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));">
+          <svg width="56" height="56" viewBox="0 0 56 56">
+            <polygon points="28,0 56,42 0,42" fill="#f04e00" stroke="#fff" stroke-width="3"/>
+            <circle cx="28" cy="30" r="10" fill="#fff" stroke="#f04e00" stroke-width="3"/>
+            <text x="28" y="34" text-anchor="middle" fill="#f04e00" font-size="12" font-weight="bold">!</text>
+          </svg>
+        </div>
+
+        <svg id="wheel-svg" viewBox="0 0 400 400" class="h-full w-full drop-shadow-xl">
+          <defs>
+            <radialGradient id="wheelCenter" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ff7d2e" />
+              <stop offset="100%" stop-color="#1b2a4e" />
+            </radialGradient>
+            <filter id="segmentShadow" x="-5%" y="-5%" width="110%" height="110%">
+              <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.3"/>
+            </filter>
+          </defs>
+          <circle cx="200" cy="200" r="195" fill="url(#wheelCenter)" stroke="#ff6b1a" stroke-width="5" />
+          <g id="wheel-segments"></g>
+          <circle cx="200" cy="200" r="60" fill="#ff6b1a" stroke="#fff" stroke-width="4" />
+          <circle cx="200" cy="200" r="52" fill="#fbbf24" stroke="#ff6b1a" stroke-width="2" />
+          <circle cx="200" cy="200" r="46" fill="#ff6b1a" />
+          <text id="center-text" x="200" y="195" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="14" font-weight="bold">GIRAR</text>
+          <text x="200" y="212" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="8" opacity="0.8">PREMIOS</text>
+        </svg>
+      </div>
+      <button id="spin-btn" type="button" class="mt-4 rounded-full bg-gradient-to-r from-brand-500 to-brand-700 px-10 py-3 text-sm font-bold text-white shadow-lg transition hover:scale-105 focus:outline-none focus:ring-4 focus:ring-brand-300">
+        <i class="fas fa-dharmachakra mr-2"></i>Girar Ruleta
+      </button>
+      <div id="countdown" class="hidden mt-4">
+        <span id="countdown-num" class="text-6xl font-extrabold text-brand-500"></span>
+      </div>
+      <div id="spin-result" class="mt-4 hidden">
+        <div class="inline-block rounded-xl bg-gradient-to-r from-brand-500 to-brand-700 px-6 py-3 text-white shadow-lg">
+          <p class="text-sm font-bold opacity-90"><i class="fas fa-trophy mr-1"></i>¡Ganaste!</p>
+          <p id="spin-result-name" class="text-2xl font-extrabold"></p>
+          <p id="spin-result-desc" class="text-sm opacity-90"></p>
+        </div>
+      </div>
+      <div id="spin-celebration" class="mt-4 hidden">
+        <div class="inline-block text-center">
+          <div id="spin-celebration-icon" class="text-6xl mb-2 inline-block"></div>
+          <p id="spin-celebration-name" class="text-2xl font-extrabold text-brand-600"></p>
+          <p class="text-xs text-slate-500 mt-1">¡Excelente premio!</p>
+        </div>
+      </div>
+      <div id="spin-win-form" class="mt-4 hidden">
+        <div class="rounded-xl bg-navy-50 p-4 border-2 border-navy-200">
+          <p class="text-sm font-bold text-navy-700 mb-3"><i class="fas fa-paper-plane mr-1"></i>Datos para enviar por WhatsApp</p>
+          <div class="mb-3">
+            <label class="block text-xs font-bold text-navy-600 mb-1">Último número de boleta</label>
+            <input id="spin-ticket-number" type="text" inputmode="numeric" maxlength="10" placeholder="Ej: 12345678" class="w-full rounded-lg border-2 border-navy-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none" />
+          </div>
+          <div class="mb-3">
+            <label class="block text-xs font-bold text-navy-600 mb-1">Nombre del padre</label>
+            <input id="spin-parent-name" type="text" placeholder="Ej: Juan Pérez" class="w-full rounded-lg border-2 border-navy-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none" />
+          </div>
+          <button id="spin-whatsapp-btn" type="button" class="w-full rounded-lg bg-green-600 px-4 py-2 text-sm font-bold text-white shadow hover:bg-green-700 transition">
+            <i class="fab fa-whatsapp mr-2"></i>Enviar por WhatsApp
+          </button>
+        </div>
+      </div>
+      <div id="confetti-container" class="fixed inset-0 pointer-events-none z-50"></div>
+    </div>
+
+    <div id="prize-deck-area" class="hidden">
+      <h3 class="text-2xl font-extrabold text-navy-700 mb-2"><i class="fas fa-book-open text-brand-500"></i> Elige tu premio</h3>
+      <p class="text-xs text-slate-500 mb-4">Selecciona una carta</p>
+      <div id="deck-grid" class="grid grid-cols-4 gap-3 max-w-sm mx-auto"></div>
+      <div id="deck-result" class="mt-4 hidden">
+        <div class="inline-block rounded-xl bg-gradient-to-r from-brand-500 to-brand-700 px-6 py-3 text-white shadow-lg">
+          <p class="text-sm font-bold opacity-90"><i class="fas fa-trophy mr-1"></i>¡Ganaste!</p>
+          <p id="deck-result-name" class="text-2xl font-extrabold"></p>
+          <p id="deck-result-desc" class="text-sm opacity-90"></p>
+        </div>
+      </div>
+      <div id="deck-celebration" class="mt-4 hidden">
+        <div class="inline-block text-center">
+          <div id="deck-celebration-icon" class="text-6xl mb-2 inline-block"></div>
+          <p id="deck-celebration-name" class="text-2xl font-extrabold text-brand-600"></p>
+          <p class="text-xs text-slate-500 mt-1">¡Excelente premio!</p>
+        </div>
+      </div>
+      <div id="deck-win-form" class="mt-4 hidden">
+        <div class="rounded-xl bg-navy-50 p-4 border-2 border-navy-200">
+          <p class="text-sm font-bold text-navy-700 mb-3"><i class="fas fa-paper-plane mr-1"></i>Datos para enviar por WhatsApp</p>
+          <div class="mb-3">
+            <label class="block text-xs font-bold text-navy-600 mb-1">Último número de boleta</label>
+            <input id="deck-ticket-number" type="text" inputmode="numeric" maxlength="10" placeholder="Ej: 12345678" class="w-full rounded-lg border-2 border-navy-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none" />
+          </div>
+          <div class="mb-3">
+            <label class="block text-xs font-bold text-navy-600 mb-1">Nombre del padre</label>
+            <input id="deck-parent-name" type="text" placeholder="Ej: Juan Pérez" class="w-full rounded-lg border-2 border-navy-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none" />
+          </div>
+          <button id="deck-whatsapp-btn" type="button" class="w-full rounded-lg bg-green-600 px-4 py-2 text-sm font-bold text-white shadow hover:bg-green-700 transition">
+            <i class="fab fa-whatsapp mr-2"></i>Enviar por WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const WHEEL_PRIZES = [
+    { id: 'w1', name: '5% Descuento', description: '5% descuento mensualidad', type: 'descuento_mensualidad', value: 5, icon: 'money' },
+    { id: 'w2', name: '10% Descuento', description: '10% descuento mensualidad', type: 'descuento_mensualidad', value: 10, icon: 'gift' },
+    { id: 'w3', name: '20% Matrícula', description: '20% descuento matrícula', type: 'descuento_matricula', value: 20, icon: 'graduation' },
+    { id: 'w4', name: '1 Libro', description: '1 libro regalo', type: 'libro', value: 1, icon: 'book' },
+    { id: 'w5', name: '2 Cuadernos', description: '2 cuadernos regalo', type: 'cuaderno', value: 2, icon: 'notebook' },
+    { id: 'w6', name: '15% Descuento', description: '15% descuento mensualidad', type: 'descuento_mensualidad', value: 15, icon: 'star' },
+  ];
+
+  const ALL_PRIZES = [
+    { id: 'p1', name: '5% Descuento', description: '5% descuento mensualidad', type: 'descuento_mensualidad', value: 5, icon: 'money' },
+    { id: 'p2', name: '10% Descuento', description: '10% descuento mensualidad', type: 'descuento_mensualidad', value: 10, icon: 'gift' },
+    { id: 'p3', name: '15% Descuento', description: '15% descuento mensualidad', type: 'descuento_mensualidad', value: 15, icon: 'star' },
+    { id: 'p4', name: '20% Matrícula', description: '20% descuento matrícula', type: 'descuento_matricula', value: 20, icon: 'graduation' },
+    { id: 'p5', name: '1 Libro', description: '1 libro regalo', type: 'libro', value: 1, icon: 'book' },
+    { id: 'p6', name: '2 Cuadernos', description: '2 cuadernos regalo', type: 'cuaderno', value: 2, icon: 'notebook' },
+    { id: 'p7', name: '5% Descuento', description: '5% descuento mensualidad', type: 'descuento_mensualidad', value: 5, icon: 'money' },
+    { id: 'p8', name: '10% Descuento', description: '10% descuento mensualidad', type: 'descuento_mensualidad', value: 10, icon: 'gift' },
+    { id: 'p9', name: '15% Descuento', description: '15% descuento mensualidad', type: 'descuento_mensualidad', value: 15, icon: 'star' },
+    { id: 'p10', name: '20% Matrícula', description: '20% descuento matrícula', type: 'descuento_matricula', value: 20, icon: 'graduation' },
+    { id: 'p11', name: '1 Libro', description: '1 libro regalo', type: 'libro', value: 1, icon: 'book' },
+    { id: 'p12', name: '2 Cuadernos', description: '2 cuadernos regalo', type: 'cuaderno', value: 2, icon: 'notebook' },
+    { id: 'p13', name: '5% Descuento', description: '5% descuento mensualidad', type: 'descuento_mensualidad', value: 5, icon: 'money' },
+    { id: 'p14', name: '10% Descuento', description: '10% descuento mensualidad', type: 'descuento_mensualidad', value: 10, icon: 'gift' },
+    { id: 'p15', name: '15% Descuento', description: '15% descuento mensualidad', type: 'descuento_mensualidad', value: 15, icon: 'star' },
+    { id: 'p16', name: '20% Matrícula', description: '20% descuento matrícula', type: 'descuento_matricula', value: 20, icon: 'graduation' },
+  ];
+
+  const SEGMENT_COLORS = ['#ff6b1a', '#1b2a4e', '#ff7d2e', '#1f2f55', '#f04e00', '#2d4173'];
+  const SEGMENT_LIGHT = ['#ff8c3a', '#2d4a7a', '#ff9d55', '#2a4570', '#ff5e1a', '#3a5a8a'];
+
+  const TOTAL = WHEEL_PRIZES.length;
+  const SEGMENT_ANGLE = 360 / TOTAL;
+  let spinning = false;
+  let deckFlipped = false;
+
+  function faIcon(name, size = 24) {
+    return `<i class="fas fa-${name}" style="font-size:${size}px"></i>`;
+  }
+
+  function launchConfetti() {
+    const container = document.getElementById('confetti-container');
+    if (!container) return;
+    container.innerHTML = '';
+    const colors = ['#ff6b1a', '#1b2a4e', '#ff7d2e', '#f04e00', '#2d4173', '#fbbf24'];
+    for (let i = 0; i < 80; i++) {
+      const piece = document.createElement('div');
+      const x = Math.random() * window.innerWidth;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const size = Math.random() * 12 + 4;
+      const shape = Math.random() > 0.5 ? '50%' : '2px';
+      piece.style.cssText = `position:fixed;left:${x}px;top:-10px;width:${size}px;height:${size}px;background:${color};border-radius:${shape};z-index:9999;pointer-events:none;`;
+      container.appendChild(piece);
+      const anim = piece.animate([
+        { transform: `translate(0, 0) rotate(0deg) scale(1)`, opacity: 1 },
+        { transform: `translate(${Math.random() * 200 - 100}px, ${window.innerHeight + 50}px) rotate(${Math.random() * 1080}deg) scale(0.3)`, opacity: 0 }
+      ], {
+        duration: Math.random() * 2000 + 1500,
+        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        delay: Math.random() * 800,
+      });
+      anim.onfinish = () => piece.remove();
+    }
+  }
+
+  function buildWheelSegments() {
+    const container = document.getElementById('wheel-segments');
+    if (!container) return;
+    container.innerHTML = '';
+
+    WHEEL_PRIZES.forEach((prize, i) => {
+      const startAngle = i * SEGMENT_ANGLE;
+      const endAngle = startAngle + SEGMENT_ANGLE;
+      const startRad = (startAngle - 90) * Math.PI / 180;
+      const endRad = (endAngle - 90) * Math.PI / 180;
+      const x1 = 200 + 195 * Math.cos(startRad);
+      const y1 = 200 + 195 * Math.sin(startRad);
+      const x2 = 200 + 195 * Math.cos(endRad);
+      const y2 = 200 + 195 * Math.sin(endRad);
+      const largeArc = SEGMENT_ANGLE > 180 ? 1 : 0;
+      const midAngle = (startAngle + endAngle) / 2 - 90;
+      const labelR = 130;
+      const lx = 200 + labelR * Math.cos(midAngle * Math.PI / 180);
+      const ly = 200 + labelR * Math.sin(midAngle * Math.PI / 180);
+      const color = SEGMENT_COLORS[i % SEGMENT_COLORS.length];
+      const lightColor = SEGMENT_LIGHT[i % SEGMENT_LIGHT.length];
+
+      const gradId = `segGrad${i}`;
+      const defs = document.querySelector('defs');
+      if (defs) {
+        const grad = document.createElementNS('http://www.w3.org/2000/svg', 'radialGradient');
+        grad.setAttribute('id', gradId);
+        grad.setAttribute('cx', '50%');
+        grad.setAttribute('cy', '50%');
+        grad.setAttribute('r', '50%');
+        const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+        stop1.setAttribute('offset', '0%');
+        stop1.setAttribute('stop-color', lightColor);
+        const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+        stop2.setAttribute('offset', '100%');
+        stop2.setAttribute('stop-color', color);
+        grad.appendChild(stop1);
+        grad.appendChild(stop2);
+        defs.appendChild(grad);
+      }
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', `M200,200 L${x1},${y1} A195,195 0 ${largeArc},1 ${x2},${y2} Z`);
+      path.setAttribute('fill', `url(#${gradId})`);
+      path.setAttribute('stroke', '#fff');
+      path.setAttribute('stroke-width', '2.5');
+      path.setAttribute('filter', 'url(#segmentShadow)');
+
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.setAttribute('x', String(lx));
+      text.setAttribute('y', String(ly - 8));
+      text.setAttribute('text-anchor', 'middle');
+      text.setAttribute('dominant-baseline', 'central');
+      text.setAttribute('fill', '#fff');
+      text.setAttribute('font-size', '16');
+      text.setAttribute('font-weight', 'bold');
+      text.setAttribute('transform', `rotate(${midAngle + 90}, ${lx}, ${ly})`);
+      text.textContent = String(i + 1);
+
+      const subText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      subText.setAttribute('x', String(lx));
+      subText.setAttribute('y', String(ly + 12));
+      subText.setAttribute('text-anchor', 'middle');
+      subText.setAttribute('dominant-baseline', 'central');
+      subText.setAttribute('fill', '#fff');
+      subText.setAttribute('font-size', '9');
+      subText.setAttribute('opacity', '0.9');
+      subText.setAttribute('transform', `rotate(${midAngle + 90}, ${lx}, ${ly})`);
+      subText.textContent = prize.name.length > 12 ? prize.name.substring(0, 11) + '…' : prize.name;
+
+      container.appendChild(path);
+      container.appendChild(text);
+      container.appendChild(subText);
+    });
+  }
+
+  function pickRandomPrize() {
+    return WHEEL_PRIZES[Math.floor(Math.random() * WHEEL_PRIZES.length)];
+  }
+
+  function showCountdown(onComplete) {
+    const cdEl = document.getElementById('countdown');
+    const numEl = document.getElementById('countdown-num');
+    const spinBtn = document.getElementById('spin-btn');
+    if (!cdEl || !numEl) { onComplete(); return; }
+
+    cdEl.classList.remove('hidden');
+    if (spinBtn) spinBtn.classList.add('hidden');
+
+    let count = 3;
+    numEl.textContent = String(count);
+    numEl.style.transition = 'none';
+    numEl.style.transform = 'scale(1.5)';
+    numEl.style.opacity = '1';
+
+    const interval = setInterval(() => {
+      count--;
+      if (count <= 0) {
+        clearInterval(interval);
+        numEl.style.transition = 'all 0.3s ease';
+        numEl.style.transform = 'scale(0.5)';
+        numEl.style.opacity = '0';
+        setTimeout(() => {
+          cdEl.classList.add('hidden');
+          if (spinBtn) spinBtn.classList.remove('hidden');
+          onComplete();
+        }, 300);
+      } else {
+        numEl.textContent = String(count);
+        numEl.style.transition = 'none';
+        numEl.style.transform = 'scale(1.5)';
+        requestAnimationFrame(() => {
+          numEl.style.transition = 'all 0.3s ease';
+          numEl.style.transform = 'scale(1)';
+        });
+      }
+    }, 800);
+  }
+
+  function showModal() {
+    const today = new Date().toISOString().slice(0, 10);
+    const lastSeen = localStorage.getItem('galileo-prize-date');
+    if (lastSeen === today) return;
+
+    const modal = document.getElementById('prize-modal');
+    const card = document.getElementById('prize-card');
+    const spinnerArea = document.getElementById('prize-spinner-area');
+    const deckArea = document.getElementById('prize-deck-area');
+
+    if (!modal || !card) return;
+
+    const useWheel = Math.random() > 0.5;
+    if (spinnerArea) spinnerArea.classList.toggle('hidden', !useWheel);
+    if (deckArea) deckArea.classList.toggle('hidden', useWheel);
+
+    const spinResult = document.getElementById('spin-result');
+    const spinWinForm = document.getElementById('spin-win-form');
+    const spinCelebration = document.getElementById('spin-celebration');
+    const deckResult = document.getElementById('deck-result');
+    const deckWinForm = document.getElementById('deck-win-form');
+    const deckCelebration = document.getElementById('deck-celebration');
+    if (spinResult) spinResult.classList.add('hidden');
+    if (spinWinForm) spinWinForm.classList.add('hidden');
+    if (spinCelebration) spinCelebration.classList.add('hidden');
+    if (deckResult) deckResult.classList.add('hidden');
+    if (deckWinForm) deckWinForm.classList.add('hidden');
+    if (deckCelebration) deckCelebration.classList.add('hidden');
+
+    if (useWheel) {
+      buildWheelSegments();
+      spinning = false;
+      deckFlipped = false;
+      const centerText = document.getElementById('center-text');
+      if (centerText) {
+        centerText.textContent = 'GIRAR';
+        centerText.setAttribute('font-size', '14');
+      }
+      const spinBtn = document.getElementById('spin-btn');
+      const spinResult = document.getElementById('spin-result');
+      const spinResultName = document.getElementById('spin-result-name');
+      const spinResultDesc = document.getElementById('spin-result-desc');
+      const wheelSvg = document.getElementById('wheel-svg');
+
+      if (spinBtn) spinBtn.disabled = false;
+      if (spinResult) spinResult.classList.add('hidden');
+      if (wheelSvg) {
+        wheelSvg.style.transition = 'none';
+        wheelSvg.style.transform = 'rotate(0deg)';
+      }
+
+      if (spinBtn) {
+        spinBtn.onclick = () => {
+          if (spinning) return;
+          spinning = true;
+          spinBtn.disabled = true;
+
+          showCountdown(() => {
+            spinBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Girando...';
+            const prize = pickRandomPrize();
+            const prizeIndex = WHEEL_PRIZES.findIndex(p => p.id === prize.id);
+            const targetAngle = 360 * 8 + (360 - (prizeIndex * SEGMENT_ANGLE + SEGMENT_ANGLE / 2));
+            if (wheelSvg) {
+              wheelSvg.style.transition = 'transform 6s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+              wheelSvg.style.transform = `rotate(${targetAngle}deg)`;
+            }
+setTimeout(() => {
+              if (spinResultName) spinResultName.textContent = prize.name;
+              if (spinResultDesc) spinResultDesc.textContent = prize.description;
+              if (spinResult) {
+                spinResult.classList.remove('hidden');
+                const resultDiv = spinResult.querySelector('div');
+                if (resultDiv) resultDiv.classList.add('celebrate-anim');
+              }
+              if (centerText) {
+                centerText.textContent = prize.name;
+                centerText.setAttribute('font-size', '11');
+              }
+              if (spinBtn) spinBtn.innerHTML = '<i class="fas fa-dharmachakra mr-2"></i>Girar Ruleta';
+              spinning = false;
+              saveWinner(prize);
+              launchConfetti();
+              setTimeout(() => {
+                if (spinResult) spinResult.classList.add('hidden');
+                showCelebration(prize, 'spin');
+              }, 1500);
+            }, 6200);
+          });
+        };
+      }
+    } else {
+      deckFlipped = false;
+      const deckGrid = document.getElementById('deck-grid');
+      const deckResult = document.getElementById('deck-result');
+      const deckResultName = document.getElementById('deck-result-name');
+      const deckResultDesc = document.getElementById('deck-result-desc');
+
+      if (deckGrid) {
+        deckGrid.innerHTML = '';
+        const shuffled = [...ALL_PRIZES].sort(() => Math.random() - 0.5).slice(0, 8);
+        shuffled.forEach((prize) => {
+          const cardEl = document.createElement('div');
+          cardEl.className = 'flip-card cursor-pointer h-32';
+          cardEl.innerHTML = `
+            <div class="relative h-full w-full preserve-3d transition-all duration-500" style="transform-style: preserve-3d;">
+              <div class="flip-front absolute inset-0 flex flex-col items-center justify-center rounded-xl bg-navy-800 shadow-lg border-2 border-navy-600" style="backface-visibility: hidden; transform: rotateY(0deg);">
+                <div class="absolute inset-0 rounded-xl overflow-hidden opacity-10">
+                  <svg width="100%" height="100%"><pattern id="diag${prize.id}" patternUnits="userSpaceOnUse" width="12" height="12" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="12" stroke="white" stroke-width="1.5"/></pattern></svg>
+                  <rect width="100%" height="100%" fill="url(#diag${prize.id})" />
+                </div>
+                <i class="fas fa-question text-3xl text-slate-400 relative z-10"></i>
+                <span class="mt-2 text-xs font-bold text-slate-400 relative z-10">CLICK</span>
+              </div>
+              <div class="flip-back absolute inset-0 flex flex-col items-center justify-center rounded-xl shadow-lg border-2 border-brand-500" style="backface-visibility: hidden; transform: rotateY(180deg); background: linear-gradient(135deg, #1b2a4e, #2d4173);">
+                <span class="text-white">${faIcon(prize.icon, 36)}</span>
+                <span class="mt-2 text-xs font-bold text-brand-300 relative z-10">${prize.name}</span>
+              </div>
+            </div>
+          `;
+          cardEl.addEventListener('click', () => {
+            if (deckFlipped) return;
+            deckFlipped = true;
+            const inner = cardEl.querySelector('.preserve-3d');
+            if (inner) inner.style.transform = 'rotateY(180deg)';
+            if (deckResultName) deckResultName.textContent = prize.name;
+            if (deckResultDesc) deckResultDesc.textContent = prize.description;
+            if (deckResult) {
+              deckResult.classList.remove('hidden');
+              const resultDiv = deckResult.querySelector('div');
+              if (resultDiv) resultDiv.classList.add('celebrate-anim');
+            }
+            saveWinner(prize);
+            launchConfetti();
+            setTimeout(() => {
+              if (deckResult) deckResult.classList.add('hidden');
+              showCelebration(prize, 'deck');
+            }, 1500);
+          });
+          deckGrid.appendChild(cardEl);
+        });
+      }
+    }
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+
+    requestAnimationFrame(() => {
+      card.style.opacity = '0';
+      card.style.transform = 'scale(0.9) translateY(20px)';
+      requestAnimationFrame(() => {
+        card.style.transition = 'all 0.4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+        card.style.opacity = '1';
+        card.style.transform = 'scale(1) translateY(0)';
+      });
+    });
+
+    function hideModal() {
+      card.style.opacity = '0';
+      card.style.transform = 'scale(0.9) translateY(20px)';
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        localStorage.setItem('galileo-prize-date', today);
+      }, 300);
+    }
+
+    const closeBtn = document.getElementById('prize-close');
+    const backdrop = document.getElementById('prize-backdrop');
+    if (closeBtn) closeBtn.onclick = hideModal;
+    if (backdrop) backdrop.onclick = hideModal;
+  }
+
+  function saveWinner(prize) {
+    const winners = JSON.parse(localStorage.getItem('galileo-winners') || '[]');
+    winners.push({ prizeId: prize.id, timestamp: Date.now() });
+    localStorage.setItem('galileo-winners', JSON.stringify(winners));
+  }
+
+  function showWinForm(prize, mode) {
+    const prefix = mode === 'wheel' ? 'spin' : 'deck';
+    const form = document.getElementById(`${prefix}-win-form`);
+    const ticketInput = document.getElementById(`${prefix}-ticket-number`);
+    const nameInput = document.getElementById(`${prefix}-parent-name`);
+    const whatsappBtn = document.getElementById(`${prefix}-whatsapp-btn`);
+
+    if (!form) return;
+    form.classList.remove('hidden');
+
+    if (ticketInput) ticketInput.value = '';
+    if (nameInput) nameInput.value = '';
+
+    if (whatsappBtn) {
+      whatsappBtn.onclick = () => {
+        const ticket = ticketInput?.value.trim() || '';
+        const name = nameInput?.value.trim() || '';
+        if (!ticket || !name) {
+          alert('Completa ambos campos para enviar por WhatsApp.');
+          return;
+        }
+        const message = `🎉 ¡Ganaste: ${prize.name}!
+📦 ${prize.description}
+🎫 Boleta: ${ticket}
+👤 Padre/Madre: ${name}`;
+        const encodedMessage = encodeURIComponent(message);
+        window.open(`https://wa.me/51997394157?text=${encodedMessage}`, '_blank');
+      };
+    }
+  }
+
+  function showCelebration(prize, mode) {
+    const prefix = mode === 'wheel' ? 'spin' : 'deck';
+    const celebration = document.getElementById(`${prefix}-celebration`);
+    const icon = document.getElementById(`${prefix}-celebration-icon`);
+    const name = document.getElementById(`${prefix}-celebration-name`);
+
+    if (!celebration) return;
+
+    if (icon) icon.innerHTML = faIcon(prize.icon, 64);
+    if (name) name.textContent = prize.name;
+
+    celebration.classList.remove('hidden');
+    launchConfetti();
+
+    const iconEl = icon?.querySelector('i');
+    if (iconEl) {
+      iconEl.style.transition = 'none';
+      iconEl.style.transform = 'scale(0)';
+      iconEl.classList.add('bounce-icon');
+      requestAnimationFrame(() => {
+        iconEl.style.transition = 'all 0.5s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+        iconEl.style.transform = 'scale(1)';
+      });
+    }
+
+    setTimeout(() => {
+      if (celebration) celebration.classList.add('hidden');
+      showWinForm(prize, mode);
+    }, 2500);
+  }
+
+  document.addEventListener('DOMContentLoaded', showModal);
+</script>
+
+<style>
+  .flip-card {
+    perspective: 1000px;
+  }
+  .flip-card:hover .flip-front {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+  }
+  .flip-card:hover .flip-back {
+    transform: rotateY(180deg) translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+  }
+  .flip-front {
+    backface-visibility: hidden;
+  }
+  @keyframes pulse-glow {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(255, 107, 26, 0.4)); }
+    50% { filter: drop-shadow(0 0 24px rgba(255, 107, 26, 0.7)); }
+  }
+  #wheel-svg {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+  #countdown-num {
+    text-shadow: 0 0 20px rgba(255, 107, 26, 0.5);
+  }
+  @keyframes celebrate {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes bounce-icon {
+    0% { transform: scale(0); }
+    60% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+  .celebrate-anim {
+    animation: celebrate 0.6s cubic-bezier(0.17, 0.67, 0.12, 0.99) forwards;
+  }
+  .bounce-icon {
+    animation: bounce-icon 0.6s cubic-bezier(0.17, 0.67, 0.12, 0.99) forwards;
+  }
+</style>

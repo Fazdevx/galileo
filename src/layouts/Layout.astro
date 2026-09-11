@@ -1,0 +1,24 @@
+---
+import '../styles/global.css';
+import WhatsappFloat from '../components/WhatsappFloat.astro';
+import LivePopup from '../components/LivePopup.astro';
+interface Props { title?: string; description?: string }
+const { title = 'Colegio y Academia Galileo - Educación de excelencia', description = 'Colegio y academia con más de 20 años formando estudiantes con valores y excelencia académica.' } = Astro.props;
+---
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  </head>
+  <body class="bg-white text-slate-800 antialiased">
+    <slot />
+    <WhatsappFloat />
+    <LivePopup />
+  </body>
+</html>

@@ -1,0 +1,108 @@
+---
+const niveles = ['Inicial', 'Primaria', 'Secundaria', 'Academia Preuniversitaria'];
+const turnos = ['Mañana', 'Tarde'];
+const nivelesOptions = niveles.map(n => `<option value="${n}">${n}</option>`).join('');
+const turnosOptions = turnos.map(t => `<option value="${t}">${t}</option>`).join('');
+---
+
+<div id="prematricula-modal" class="fixed inset-0 z-50 hidden items-end justify-center bg-slate-900/60 p-0 sm:items-center sm:p-4">
+  <div class="w-full max-w-lg overflow-hidden rounded-t-2xl bg-white shadow-2xl ring-1 ring-slate-200 sm:rounded-2xl">
+    <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+      <div>
+        <h3 class="text-base font-extrabold text-navy-700 sm:text-lg">Pre-matrícula 2026</h3>
+        <p class="text-xs text-slate-500 sm:text-sm">Completa el formulario y reserva tu día.</p>
+      </div>
+      <button id="premat-close" type="button" class="rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12 M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <form id="premat-form" class="max-h-[80vh] overflow-y-auto p-5 space-y-4">
+      <div class="grid gap-4 sm:grid-cols-2">
+        <label class="block">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Nombre del estudiante</span>
+          <input name="estudiante" required class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none" placeholder="Nombre completo" />
+        </label>
+        <label class="block">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Nivel de interés</span>
+          <select name="nivel" required class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none">
+            <option value="">Selecciona</option>
+            <Fragment set:html={nivelesOptions} />
+          </select>
+        </label>
+        <label class="block">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Apoderado / Padre</span>
+          <input name="apoderado" required class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none" placeholder="Nombre del apoderado" />
+        </label>
+        <label class="block">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Teléfono</span>
+          <input name="telefono" type="tel" required class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none" placeholder="+51 999 999 999" />
+        </label>
+        <label class="block sm:col-span-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Correo electrónico</span>
+          <input name="correo" type="email" required class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none" placeholder="tu@correo.com" />
+        </label>
+        <label class="block">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Fecha preferida</span>
+          <input name="fecha" type="date" required class="mt-2 w-full w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none" />
+        </label>
+        <label class="block">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Turno preferido</span>
+          <select name="turno" required class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none">
+            <option value="">Selecciona</option>
+            <Fragment set:html={turnosOptions} />
+          </select>
+        </label>
+      </div>
+      <div class="flex justify-end gap-2 pt-2">
+        <button type="button" id="premat-cancel" class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">Cancelar</button>
+        <button type="submit" class="rounded-xl bg-brand-500 px-4 py-2 text-sm font-bold text-white shadow-md hover:bg-brand-600">Reservar cita</button>
+      </div>
+      <p class="text-center text-xs text-slate-500">Al enviar, un asesor te confirmará la cita por correo o teléfono.</p>
+    </form>
+  </div>
+</div>
+
+<script>
+  (() => {
+    const modal = document.getElementById('prematricula-modal');
+    const form = document.getElementById('premat-form');
+    const open = () => {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    };
+    const close = () => {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    };
+    document.getElementById('premat-close')?.addEventListener('click', close);
+    document.getElementById('premat-cancel')?.addEventListener('click', close);
+    modal?.addEventListener('click', (e) => { if (e.target === modal) close(); });
+
+    const btn = document.getElementById('btn-matriculate-hero');
+    if (btn) btn.addEventListener('click', (e) => { e.preventDefault(); open(); });
+
+    window.addEventListener('open-prematricula', open);
+
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const data = Object.fromEntries(fd.entries());
+      const isAcademia = data.nivel === 'Academia Preuniversitaria';
+      const phone = isAcademia ? '51967540629' : '51997394157';
+      const msg = encodeURIComponent(
+        `Hola, soy ${data.apoderado}, quiero reservar una cita de pre-matrícula.\n\n` +
+        `*Estudiante:* ${data.estudiante}\n` +
+        `*Nivel:* ${data.nivel}\n` +
+        `*Apoderado:* ${data.apoderado}\n` +
+        `*Teléfono:* ${data.telefono}\n` +
+        `*Correo:* ${data.correo}\n` +
+        `*Fecha preferida:* ${data.fecha}\n` +
+        `*Turno:* ${data.turno}\n\n` +
+        `Quedo atento(a) a la confirmación. ¡Gracias!`
+      );
+      window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+      form.reset();
+      close();
+    });
+  })();
+</script>
