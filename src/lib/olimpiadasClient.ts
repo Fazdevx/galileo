@@ -76,46 +76,6 @@ export async function save(data: OlimpiadasData): Promise<boolean> {
   return ok;
 }
 
-export async function load(defaultData: OlimpiadasData): Promise<OlimpiadasData> {
-  const remote = await loadFromApi(defaultData);
-  const local = remote ? null : loadFromLocal();
-  const source = remote || local || defaultData;
-  return {
-    sections: source.sections || defaultData.sections,
-    sports: source.sports || defaultData.sports,
-    games: source.games || defaultData.games,
-    heroStats: source.heroStats || defaultData.heroStats,
-  };
-}
-
-export function saveToLocal(data: OlimpiadasData) {
-  if (typeof window === 'undefined') return;
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    window.dispatchEvent(new CustomEvent('galileo-data-changed'));
-  } catch (e) {
-    console.error('Error al guardar localmente:', e);
-  }
-}
-
-export async function saveToApi(data: OlimpiadasData): Promise<boolean> {
-  if (!API_CONFIGURED || cloudDisabled) return false;
-  try {
-    const docRef = doc(db, 'olimpiadas', OIMPIADAS_DOC_ID);
-    await setDoc(docRef, data);
-    return true;
-  } catch (error) {
-    console.warn('[Firebase] Error al guardar en API:', error);
-    return false;
-  }
-}
-
-export async function save(data: OlimpiadasData): Promise<boolean> {
-  saveToLocal(data);
-  const ok = await saveToApi(data);
-  return ok;
-}
-
 export function calculateStandings(games: OlimpiadasData['games'], sections: OlimpiadasData['sections']) {
   const stats = sections.map((s) => ({
     id: s.id,

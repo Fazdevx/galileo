@@ -196,7 +196,7 @@ const adminPassword = ADMIN_PASSWORD;
       const firebaseFirestore = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
       
       const { initializeApp, getApps, getApp } = firebaseApp;
-      const { getFirestore, doc, getDoc, setDoc } = firebaseFirestore;
+      const { getFirestore, doc, getDoc, setDoc, initializeFirestore, experimentalForceLongPolling } = firebaseFirestore;
       
       const firebaseConfig = {
         apiKey: "AIzaSyAgjrkE_Ah-mKOm8naH-aFEB7UrschO40o",
@@ -208,10 +208,16 @@ const adminPassword = ADMIN_PASSWORD;
       };
       
       const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
-      firebaseDb = getFirestore(app);
+      
+      // Use REST/long polling to avoid ad blockers
+      firebaseDb = initializeFirestore(app, {
+        experimentalForceLongPolling: true,
+        experimentalAutoDetectLongPolling: true
+      });
+      
       firebaseFuncs = { doc, getDoc, setDoc };
       firebaseReady = true;
-      console.log('[Firebase] Initialized');
+      console.log('[Firebase] Initialized with REST mode');
       return firebaseFuncs;
     } catch (error) {
       console.error('[Firebase] Init error:', error);
@@ -237,25 +243,31 @@ const adminPassword = ADMIN_PASSWORD;
   }
 
   async function loadFromCloud() {
-    // Load from Firebase directly
     try {
       const funcs = await initFirebase();
-      if (!funcs) return null;
-      
+      if (!funcs) {
+        console.warn('[Firebase] init failed');
+        return null;
+      }
       const docRef = funcs.doc(firebaseDb, 'olimpiadas', 'olimpiadas-data');
       const docSnap = await funcs.getDoc(docRef);
-      
       if (docSnap.exists()) {
-        const firebaseData = docSnap.data();
-        if (firebaseData && firebaseData.sections && firebaseData.sports && firebaseData.games) {
-          console.log('[Firebase] Data loaded');
-          return firebaseData;
+        const fb = docSnap.data();
+        console.log('[Firebase] loaded:', fb);
+        if (fb && fb.sections && fb.sports && fb.games) {
+          return {
+            sections: fb.sections || [],
+            sports: fb.sports || [],
+            games: fb.games || [],
+            heroStats: fb.heroStats || { secciones: 0, disciplinas: 0, dias: 0 },
+            prizes: fb.prizes || []
+          };
         }
       }
     } catch (e) {
-      console.warn('[Firebase] Load error:', e);
+      console.warn('[Firebase] error:', e);
     }
-    return loadLocal();
+    return null;
   }
 
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -571,13 +583,19 @@ const adminPassword = ADMIN_PASSWORD;
   }
 
   async function initData() {
+    console.log('[Admin] initData started');
     const cloud = await loadFromCloud();
     const local = loadLocal();
+    console.log('[Admin]:', { hasCloud: !!cloud, hasLocal: !!local });
     if (cloud) {
       data = cloud;
       saveLocal();
+      console.log('[Admin] using cloud data');
     } else if (local) {
       data = local;
+      console.log('[Admin] using local data');
+    } else {
+      console.log('[Admin] using default data');
     }
     if (isAuthed) { showPanel(); renderAll(); } else { showLogin(); }
   }
