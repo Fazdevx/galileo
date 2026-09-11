@@ -1,33 +1,53 @@
 import type { OlimpiadasData } from './olimpiadasStore';
 import { DEFAULT_DATA } from './olimpiadasStore';
+import { db, FIREBASE_CONFIGURED } from '../lib/firebase';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
-// Backend API URL - Change this to your deployed backend URL
-const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:3001';
+const OIMPIADAS_DOC_ID = 'olimpiadas-data';
 
-export const API_CONFIGURED = true;
+export const API_CONFIGURED = FIREBASE_CONFIGURED;
+
+let isQuotaExhausted = false;
 
 export async function fetchData(): Promise<OlimpiadasData> {
+  // Only work on client side
+  if (typeof window === 'undefined' || !API_CONFIGURED || !db || isQuotaExhausted) {
+    return DEFAULT_DATA;
+  }
   try {
-    const response = await fetch(`${API_URL}/api/data`);
-    if (!response.ok) throw new Error('Failed to fetch');
-    return await response.json();
+    const docRef = doc(db, 'olimpiadas', OIMPIADAS_DOC_ID);
+    const docSnap = await getDoc(docRef);
+    
+    if (docSnap.exists()) {
+      const data = docSnap.data() as OlimpiadasData;
+      console.log('[Firebase] Data retrieved:', data);
+      if (data.sections && data.sports && data.games && data.heroStats) {
+        return data;
+      }
+    }
+    
+    // Initialize with default data if empty
+    console.log('[Firebase] Initializing with default data');
+    await setDoc(docRef, DEFAULT_DATA);
+    return DEFAULT_DATA;
   } catch (error) {
-    console.warn('[API] Error fetching data:', error);
+    console.warn('[Firebase] Error:', error);
     return DEFAULT_DATA;
   }
 }
 
 export async function saveData(data: OlimpiadasData): Promise<boolean> {
+  // Only work on client side
+  if (typeof window === 'undefined' || !API_CONFIGURED || !db || isQuotaExhausted) {
+    return false;
+  }
   try {
-    const response = await fetch(`${API_URL}/api/data`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    const result = await response.json();
-    return result.success === true;
+    const docRef = doc(db, 'olimpiadas', OIMPIADAS_DOC_ID);
+    await setDoc(docRef, data);
+    console.log('[Firebase] Data saved');
+    return true;
   } catch (error) {
-    console.warn('[API] Error saving data:', error);
+    console.warn('[Firebase] Save error:', error);
     return false;
   }
 }

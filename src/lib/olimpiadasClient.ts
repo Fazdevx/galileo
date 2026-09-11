@@ -1,5 +1,5 @@
 import type { OlimpiadasData } from '../data/olimpiadasStore';
-import { fetchData, API_CONFIGURED } from '../data/api';
+import { fetchData, saveData, API_CONFIGURED } from '../data/api';
 
 export const STORAGE_KEY = 'galileo-olimpiadas-v2';
 

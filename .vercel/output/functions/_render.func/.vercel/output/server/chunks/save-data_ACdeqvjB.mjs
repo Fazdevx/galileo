@@ -4,10 +4,10 @@ var save_data_exports = /* @__PURE__ */ __exportAll({
 	POST: () => POST,
 	prerender: () => false
 });
-var POST = async ({ request }) => {
+var POST = async () => {
 	return new Response(JSON.stringify({
 		success: false,
-		error: "Cloud save is disabled"
+		error: "Use client-side Firebase"
 	}), {
 		status: 200,
 		headers: { "Content-Type": "application/json" }
