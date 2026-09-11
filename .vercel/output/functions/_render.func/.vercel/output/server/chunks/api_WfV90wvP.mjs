@@ -168,17 +168,26 @@ var firebaseConfig = {
 	appId: "1:192323726068:web:9cebbbd6d9e20c12ce0ca1",
 	measurementId: "G-V9WEJ4RYTG"
 };
-var app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
-var db = getFirestore(app);
-getAuth(app);
-var FIREBASE_CONFIGURED = Boolean(firebaseConfig.apiKey && firebaseConfig.projectId);
+var app = null;
+var dbInstance = null;
+var firebaseError = null;
+try {
+	app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+	dbInstance = getFirestore(app);
+	getAuth(app);
+} catch (error) {
+	console.error("[Firebase] Initialization error:", error);
+	firebaseError = error instanceof Error ? error : new Error(String(error));
+}
+var db = dbInstance;
+var FIREBASE_CONFIGURED = Boolean(firebaseConfig.apiKey && firebaseConfig.projectId && !firebaseError);
 //#endregion
 //#region src/data/api.ts
 var OIMPIADAS_DOC_ID = "olimpiadas-data";
 var API_CONFIGURED = FIREBASE_CONFIGURED;
 var isQuotaExhausted = false;
 async function fetchData() {
-	if (!API_CONFIGURED || isQuotaExhausted) return DEFAULT_DATA;
+	if (!API_CONFIGURED || !db || isQuotaExhausted) return DEFAULT_DATA;
 	try {
 		const docRef = doc(db, "olimpiadas", OIMPIADAS_DOC_ID);
 		const docSnap = await getDoc(docRef);
@@ -199,7 +208,7 @@ async function fetchData() {
 	}
 }
 async function saveData(data) {
-	if (!API_CONFIGURED || isQuotaExhausted) return false;
+	if (!API_CONFIGURED || !db || isQuotaExhausted) return false;
 	try {
 		const docRef = doc(db, "olimpiadas", OIMPIADAS_DOC_ID);
 		console.log("[Firebase] Guardando datos en estructura correcta: colección \"olimpiadas\", documento \"olimpiadas-data\"");
@@ -212,4 +221,4 @@ async function saveData(data) {
 	}
 }
 //#endregion
-export { saveData as n, fetchData as t };
+export { saveData as n, DEFAULT_DATA as r, fetchData as t };

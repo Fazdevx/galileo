@@ -10,7 +10,7 @@ export const API_CONFIGURED = FIREBASE_CONFIGURED;
 let isQuotaExhausted = false;
 
 export async function fetchData(): Promise<OlimpiadasData> {
-  if (!API_CONFIGURED || isQuotaExhausted) return DEFAULT_DATA;
+  if (!API_CONFIGURED || !db || isQuotaExhausted) return DEFAULT_DATA;
   try {
     const docRef = doc(db, 'olimpiadas', OIMPIADAS_DOC_ID);
     const docSnap = await getDoc(docRef);
@@ -38,7 +38,7 @@ export async function fetchData(): Promise<OlimpiadasData> {
 }
 
 export async function saveData(data: OlimpiadasData): Promise<boolean> {
-  if (!API_CONFIGURED || isQuotaExhausted) return false;
+  if (!API_CONFIGURED || !db || isQuotaExhausted) return false;
   try {
     const docRef = doc(db, 'olimpiadas', OIMPIADAS_DOC_ID);
     console.log('[Firebase] Guardando datos en estructura correcta: colección "olimpiadas", documento "olimpiadas-data"');

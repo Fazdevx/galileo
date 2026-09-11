@@ -1,5 +1,5 @@
 import { t as __exportAll } from "./rolldown-runtime_D7D4PA-g.mjs";
-import { t as fetchData } from "./api_BAaDowp8.mjs";
+import { r as DEFAULT_DATA, t as fetchData } from "./api_WfV90wvP.mjs";
 //#region src/pages/api/get-data.ts
 var get_data_exports = /* @__PURE__ */ __exportAll({
 	GET: () => GET,
@@ -14,8 +14,8 @@ var GET = async () => {
 		});
 	} catch (error) {
 		console.error("[API] Error fetching data:", error);
-		return new Response(JSON.stringify({ error: "Failed to fetch data" }), {
-			status: 500,
+		return new Response(JSON.stringify(DEFAULT_DATA), {
+			status: 200,
 			headers: { "Content-Type": "application/json" }
 		});
 	}

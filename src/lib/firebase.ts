@@ -12,11 +12,23 @@ const firebaseConfig = {
   measurementId: import.meta.env.PUBLIC_FIREBASE_MEASUREMENT_ID || "G-V9WEJ4RYTG"
 };
 
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+let app: ReturnType<typeof initializeApp> | null = null;
+let dbInstance: ReturnType<typeof getFirestore> | null = null;
+let authInstance: ReturnType<typeof getAuth> | null = null;
+let firebaseError: Error | null = null;
 
-export const db = getFirestore(app);
-export const auth = getAuth(app);
+try {
+  app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+  dbInstance = getFirestore(app);
+  authInstance = getAuth(app);
+} catch (error) {
+  console.error('[Firebase] Initialization error:', error);
+  firebaseError = error instanceof Error ? error : new Error(String(error));
+}
+
+export const db = dbInstance;
+export const auth = authInstance;
 
 export const FIREBASE_CONFIGURED = Boolean(
-  firebaseConfig.apiKey && firebaseConfig.projectId
+  firebaseConfig.apiKey && firebaseConfig.projectId && !firebaseError
 );

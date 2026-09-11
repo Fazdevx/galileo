@@ -1,4 +1,5 @@
-import { fetchData } from '../../data/api';
+import { fetchData, API_CONFIGURED } from '../../data/api';
+import { DEFAULT_DATA } from '../../data/olimpiadasStore';
 import type { APIRoute } from 'astro';
 
 export const prerender = false;
@@ -12,8 +13,9 @@ export const GET: APIRoute = async () => {
     });
   } catch (error) {
     console.error('[API] Error fetching data:', error);
-    return new Response(JSON.stringify({ error: 'Failed to fetch data' }), {
-      status: 500,
+    // Return default data instead of error to prevent UI breakage
+    return new Response(JSON.stringify(DEFAULT_DATA), {
+      status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
   }
