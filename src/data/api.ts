@@ -24,6 +24,10 @@ async function initFirebase() {
 // Solo disponible en el cliente
 export const API_CONFIGURED = typeof window !== 'undefined';
 
+// Estructura en Firebase: colección "olimpiadas" / documento "olimpiadas-data"
+const COLLECTION_NAME = 'olimpiadas';
+const DOCUMENT_ID = 'olimpiadas-data';
+
 export async function fetchData(): Promise<OlimpiadasData> {
   // Solo funciona en el navegador
   if (typeof window === 'undefined') return DEFAULT_DATA;
@@ -34,7 +38,7 @@ export async function fetchData(): Promise<OlimpiadasData> {
     
     const { doc, getDoc, setDoc } = await import('firebase/firestore');
     
-    const docRef = doc(db, 'olimpiadas', 'olimpiadas-data');
+    const docRef = doc(db, COLLECTION_NAME, DOCUMENT_ID);
     const docSnap = await getDoc(docRef);
     
     if (docSnap.exists()) {
@@ -65,7 +69,7 @@ export async function saveData(data: OlimpiadasData): Promise<boolean> {
     
     const { doc, setDoc } = await import('firebase/firestore');
     
-    const docRef = doc(db, 'olimpiadas', 'olimpiadas-data');
+    const docRef = doc(db, COLLECTION_NAME, DOCUMENT_ID);
     await setDoc(docRef, data);
     console.log('[Firebase] Datos guardados');
     return true;
