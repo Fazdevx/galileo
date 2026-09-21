@@ -28,7 +28,7 @@ export type Prize = {
   id: string;
   name: string;
   description: string;
-  type: 'descuento_mensualidad' | 'descuento_matricula' | 'libro' | 'cuaderno' | 'bonus';
+  type: 'descuento_souvenirs' | 'test_vocacional' | 'descuento_academia' | 'entrevista_psicologica' | 'reclama_oficina';
   value: number;
   color: string;
   icon: string;
@@ -41,22 +41,22 @@ export type Winner = {
 };
 
 export const PRIZES: Prize[] = [
-  { id: 'p1', name: '5% Descuento', description: '5% de descuento en tu próxima mensualidad', type: 'descuento_mensualidad', value: 5, color: 'bg-emerald-500', icon: 'money' },
-  { id: 'p2', name: '10% Descuento', description: '10% de descuento en tu próxima mensualidad', type: 'descuento_mensualidad', value: 10, color: 'bg-brand-500', icon: 'gift' },
-  { id: 'p3', name: '15% Descuento', description: '15% de descuento en tu próxima mensualidad', type: 'descuento_mensualidad', value: 15, color: 'bg-purple-500', icon: 'star' },
-  { id: 'p4', name: '20% Matrícula', description: '20% de descuento en matrícula de tu hijo', type: 'descuento_matricula', value: 20, color: 'bg-rose-500', icon: 'graduation' },
-  { id: 'p5', name: '1 Libro', description: '1 libro de regalo para tu hijo', type: 'libro', value: 1, color: 'bg-sky-500', icon: 'book' },
-  { id: 'p6', name: '2 Cuadernos', description: '2 cuadernos de regalo', type: 'cuaderno', value: 2, color: 'bg-amber-500', icon: 'notebook' },
-  { id: 'p7', name: '5% Descuento', description: '5% de descuento en tu próxima mensualidad', type: 'descuento_mensualidad', value: 5, color: 'bg-emerald-500', icon: 'money' },
-  { id: 'p8', name: '10% Descuento', description: '10% de descuento en tu próxima mensualidad', type: 'descuento_mensualidad', value: 10, color: 'bg-brand-500', icon: 'gift' },
-  { id: 'p9', name: '15% Descuento', description: '15% de descuento en tu próxima mensualidad', type: 'descuento_mensualidad', value: 15, color: 'bg-purple-500', icon: 'star' },
-  { id: 'p10', name: '20% Matrícula', description: '20% de descuento en matrícula de tu hijo', type: 'descuento_matricula', value: 20, color: 'bg-rose-500', icon: 'graduation' },
-  { id: 'p11', name: '1 Libro', description: '1 libro de regalo para tu hijo', type: 'libro', value: 1, color: 'bg-sky-500', icon: 'book' },
-  { id: 'p12', name: '2 Cuadernos', description: '2 cuadernos de regalo', type: 'cuaderno', value: 2, color: 'bg-amber-500', icon: 'notebook' },
-  { id: 'p13', name: '5% Descuento', description: '5% de descuento en tu próxima mensualidad', type: 'descuento_mensualidad', value: 5, color: 'bg-emerald-500', icon: 'money' },
-  { id: 'p14', name: '10% Descuento', description: '10% de descuento en tu próxima mensualidad', type: 'descuento_mensualidad', value: 10, color: 'bg-brand-500', icon: 'gift' },
-  { id: 'p15', name: '15% Descuento', description: '15% de descuento en tu próxima mensualidad', type: 'descuento_mensualidad', value: 15, color: 'bg-purple-500', icon: 'star' },
-  { id: 'p16', name: '20% Matrícula', description: '20% de descuento en matrícula de tu hijo', type: 'descuento_matricula', value: 20, color: 'bg-rose-500', icon: 'graduation' },
+  { id: 'p1', name: '5% Souvenirs', description: '5% de descuento en souvenirs', type: 'descuento_souvenirs', value: 5, color: 'bg-emerald-500', icon: 'shopping-bag' },
+  { id: 'p2', name: 'Test Vocacional', description: 'Test vocacional gratis', type: 'test_vocacional', value: 0, color: 'bg-brand-500', icon: 'clipboard-check' },
+  { id: 'p3', name: '15% Academia', description: '15% de descuento en Academia Galileo', type: 'descuento_academia', value: 15, color: 'bg-purple-500', icon: 'graduation-cap' },
+  { id: 'p4', name: 'Entrevista Psicológica', description: 'Entrevista psicológica gratis', type: 'entrevista_psicologica', value: 0, color: 'bg-rose-500', icon: 'brain' },
+  { id: 'p5', name: 'Reclama tu Premio', description: 'Reclama tu premio en oficina', type: 'reclama_oficina', value: 0, color: 'bg-sky-500', icon: 'gift' },
+  { id: 'p6', name: '5% Souvenirs', description: '5% de descuento en souvenirs', type: 'descuento_souvenirs', value: 5, color: 'bg-emerald-500', icon: 'shopping-bag' },
+  { id: 'p7', name: 'Test Vocacional', description: 'Test vocacional gratis', type: 'test_vocacional', value: 0, color: 'bg-brand-500', icon: 'clipboard-check' },
+  { id: 'p8', name: '15% Academia', description: '15% de descuento en Academia Galileo', type: 'descuento_academia', value: 15, color: 'bg-purple-500', icon: 'graduation-cap' },
+  { id: 'p9', name: 'Entrevista Psicológica', description: 'Entrevista psicológica gratis', type: 'entrevista_psicologica', value: 0, color: 'bg-rose-500', icon: 'brain' },
+  { id: 'p10', name: 'Reclama tu Premio', description: 'Reclama tu premio en oficina', type: 'reclama_oficina', value: 0, color: 'bg-sky-500', icon: 'gift' },
+  { id: 'p11', name: '5% Souvenirs', description: '5% de descuento en souvenirs', type: 'descuento_souvenirs', value: 5, color: 'bg-emerald-500', icon: 'shopping-bag' },
+  { id: 'p12', name: 'Test Vocacional', description: 'Test vocacional gratis', type: 'test_vocacional', value: 0, color: 'bg-brand-500', icon: 'clipboard-check' },
+  { id: 'p13', name: '15% Academia', description: '15% de descuento en Academia Galileo', type: 'descuento_academia', value: 15, color: 'bg-purple-500', icon: 'graduation-cap' },
+  { id: 'p14', name: 'Entrevista Psicológica', description: 'Entrevista psicológica gratis', type: 'entrevista_psicologica', value: 0, color: 'bg-rose-500', icon: 'brain' },
+  { id: 'p15', name: 'Reclama tu Premio', description: 'Reclama tu premio en oficina', type: 'reclama_oficina', value: 0, color: 'bg-sky-500', icon: 'gift' },
+  { id: 'p16', name: '5% Souvenirs', description: '5% de descuento en souvenirs', type: 'descuento_souvenirs', value: 5, color: 'bg-emerald-500', icon: 'shopping-bag' },
 ];
 
 export const DEFAULT_DATA: OlimpiadasData = {

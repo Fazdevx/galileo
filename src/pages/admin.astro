@@ -211,8 +211,7 @@ const adminPassword = ADMIN_PASSWORD;
       
       // Use REST/long polling to avoid ad blockers
       firebaseDb = initializeFirestore(app, {
-        experimentalForceLongPolling: true,
-        experimentalAutoDetectLongPolling: true
+        experimentalForceLongPolling: true
       });
       
       firebaseFuncs = { doc, getDoc, setDoc };

@@ -57,40 +57,84 @@
         }
     }
     function calculateStandings(games, sections) {
+        console.log('[Olimpiadas] Calculando standings con', games.length, 'partidos y', sections.length, 'secciones');
         var stats = {};
         sections.forEach(function(s) {
             stats[s.id] = { id: s.id, name: s.name, color: s.color, initial: s.initial, pj: 0, g: 0, e: 0, p: 0, pts: 0 };
         });
+
+        // Crear mapa de nombres a IDs
+        var nameToId = {};
+        sections.forEach(function(s) {
+            nameToId[s.name.toLowerCase()] = s.id;
+            nameToId[s.name] = s.id;
+        });
+        console.log('[Olimpiadas] Mapa de nombres a IDs:', nameToId);
+
         games.forEach(function(game) {
-            if (!game.localId || !game.visitId || game.localScore == null || game.visitScore == null) return;
-            var local = stats[game.localId];
-            var visit = stats[game.visitId];
-            if (!local || !visit) return;
+            console.log('[Olimpiadas] Procesando partido:', game);
+            var localScore = game.localScore;
+            var visitScore = game.visitScore;
+            var localName = game.local;
+            var visitName = game.visit;
+
+            if (!localName || !visitName || localScore == null || visitScore == null) {
+                console.log('[Olimpiadas] Partido ignorado - faltan datos. localName:', localName, 'visitName:', visitName, 'localScore:', localScore, 'visitScore:', visitScore);
+                return;
+            }
+
+            var localId = nameToId[localName.toLowerCase()] || nameToId[localName];
+            var visitId = nameToId[visitName.toLowerCase()] || nameToId[visitName];
+
+            if (!localId || !visitId) {
+                console.log('[Olimpiadas] No se pudo mapear nombre a ID. localName:', localName, 'visitName:', visitName, 'localId:', localId, 'visitId:', visitId);
+                return;
+            }
+
+            var local = stats[localId];
+            var visit = stats[visitId];
+            if (!local || !visit) {
+                console.log('[Olimpiadas] Sección no encontrada:', localId, visitId);
+                return;
+            }
+
             local.pj++;
             visit.pj++;
-            if (game.localScore > game.visitScore) { local.g++; local.pts += 3; visit.p++; }
-            else if (game.localScore < game.visitScore) { visit.g++; visit.pts += 3; local.p++; }
+            if (localScore > visitScore) { local.g++; local.pts += 3; visit.p++; }
+            else if (localScore < visitScore) { visit.g++; visit.pts += 3; local.p++; }
             else { local.e++; visit.e++; local.pts++; visit.pts++; }
+            console.log('[Olimpiadas] Partido procesado. local:', local.name, 'visit:', visit.name, 'score:', localScore, '-', visitScore, 'pts local:', local.pts, 'pts visit:', visit.pts);
         });
-        return Object.values(stats).sort(function(a, b) {
+        var result = Object.values(stats).sort(function(a, b) {
             if (b.pts !== a.pts) return b.pts - a.pts;
             if (b.g !== a.g) return b.g - a.g;
             return a.p - b.p;
         });
+        console.log('[Olimpiadas] Standings calculados:', result);
+        return result;
     }
 
     function updateStandings(data) {
+        console.log('[Olimpiadas] Actualizando standings con datos:', data);
         var standingsBody = document.querySelector('[data-standings-body]');
         var standingsLoading = document.getElementById('standings-loading');
-        if (!standingsBody || !standingsLoading) return;
-        standingsLoading.remove();
+        if (!standingsBody) {
+            console.log('[Olimpiadas] No se encontró standings-body');
+            return;
+        }
+        // Solo remover loading si existe (en actualizaciones posteriores ya no estará)
+        if (standingsLoading) {
+            standingsLoading.remove();
+        }
         var standings = calculateStandings(data.games || [], data.sections || []);
         if (standings.length > 0) {
             standingsBody.innerHTML = standings.map(function(s, idx) {
-                return '<tr class="' + (idx === 0 ? 'bg-brand-500/10' : '') + ' hover:bg-navy-800/50 transition-colors"><td class="px-4 py-3 text-center font-bold ' + (idx === 0 ? 'text-brand-400' : 'text-slate-400') + ' sm:px-6">' + (idx + 1) + '</td><td class="px-4 py-3 sm:px-6"><div class="flex items-center gap-3"><span class="flex h-8 w-8 items-center justify-center rounded-full ' + s.color + ' text-xs font-extrabold text-white sm:h-8 sm:w-8">' + s.initial + '</span><span class="font-semibold text-navy-100">' + s.name + '</span></div></td><td class="px-4 py-3 text-center text-slate-300 sm:px-6">' + s.pj + '</td><td class="px-4 py-3 text-center text-emerald-400 sm:px-6">' + s.g + '</td><td class="px-4 py-3 text-center text-slate-400 sm:px-6">' + s.e + '</td><td class="px-4 py-3 text-center text-red-400 sm:px-6">' + s.p + '</td><td class="px-4 py-3 text-center font-bold text-navy-100 sm:px-6">' + s.pts + '</td></tr>';
+                return '<tr class="' + (idx === 0 ? 'bg-brand-500/10' : '') + ' hover:bg-navy-800/50 transition-colors"><td class="px-2 py-2 text-center font-bold ' + (idx === 0 ? 'text-brand-400' : 'text-slate-400') + ' sm:px-4 sm:py-3">' + (idx + 1) + '</td><td class="px-2 py-2 sm:px-4 sm:py-3"><div class="flex items-center gap-2 sm:gap-3"><span class="flex h-6 w-6 items-center justify-center rounded-full ' + s.color + ' text-[10px] font-extrabold text-white sm:h-8 sm:w-8 sm:text-xs">' + s.initial + '</span><span class="font-semibold text-navy-100 text-xs sm:text-sm">' + s.name + '</span></div></td><td class="px-2 py-2 text-center text-slate-300 sm:px-4 sm:py-3">' + s.pj + '</td><td class="px-2 py-2 text-center text-emerald-400 sm:px-4 sm:py-3">' + s.g + '</td><td class="px-2 py-2 text-center text-slate-400 sm:px-4 sm:py-3">' + s.e + '</td><td class="px-2 py-2 text-center text-red-400 sm:px-4 sm:py-3">' + s.p + '</td><td class="px-2 py-2 text-center font-bold text-navy-100 sm:px-4 sm:py-3">' + s.pts + '</td></tr>';
             }).join('');
+            console.log('[Olimpiadas] Tabla actualizada con', standings.length, 'filas');
         } else {
-            standingsBody.innerHTML = '<tr><td class="px-4 py-3 text-center text-slate-500" colspan="7">No hay datos disponibles</td></tr>';
+            standingsBody.innerHTML = '<tr><td class="px-2 py-2 text-center text-slate-500 sm:px-4 sm:py-3" colspan="7">No hay datos disponibles</td></tr>';
+            console.log('[Olimpiadas] No hay standings para mostrar');
         }
     }
 
