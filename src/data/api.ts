@@ -1,15 +1,16 @@
 import type { OlimpiadasData } from './olimpiadasStore';
 import { DEFAULT_DATA } from './olimpiadasStore';
+import type { Firestore } from 'firebase/firestore';
 
 // Firebase se inicializa solo en el cliente
 // Este módulo es seguro para importar en el servidor porque
 // solo usa Firebase cuando window está definido
 let firebaseReady = false;
-let firebaseDb = null;
+let firebaseDb: Firestore | null = null;
 
-async function initFirebase() {
+export async function initFirebase(): Promise<Firestore | null> {
   if (firebaseReady) return firebaseDb;
-  
+
   try {
     const { db } = await import('../lib/firebase');
     firebaseDb = db;
@@ -25,8 +26,8 @@ async function initFirebase() {
 export const API_CONFIGURED = typeof window !== 'undefined';
 
 // Estructura en Firebase: colección "olimpiadas" / documento "olimpiadas-data"
-const COLLECTION_NAME = 'olimpiadas';
-const DOCUMENT_ID = 'olimpiadas-data';
+export const COLLECTION_NAME = 'olimpiadas';
+export const DOCUMENT_ID = 'olimpiadas-data';
 
 export async function fetchData(): Promise<OlimpiadasData> {
   // Solo funciona en el navegador
@@ -43,14 +44,12 @@ export async function fetchData(): Promise<OlimpiadasData> {
     
     if (docSnap.exists()) {
       const data = docSnap.data() as OlimpiadasData;
-      console.log('[Firebase] Datos obtenidos:', data);
       if (data.sections && data.sports && data.games && data.heroStats) {
         return data;
       }
     }
-    
+
     // Inicializar con datos por defecto si está vacío
-    console.log('[Firebase] Inicializando con datos por defecto');
     await setDoc(docRef, DEFAULT_DATA);
     return DEFAULT_DATA;
   } catch (error) {
@@ -71,7 +70,6 @@ export async function saveData(data: OlimpiadasData): Promise<boolean> {
     
     const docRef = doc(db, COLLECTION_NAME, DOCUMENT_ID);
     await setDoc(docRef, data);
-    console.log('[Firebase] Datos guardados');
     return true;
   } catch (error) {
     console.warn('[Firebase] Error al guardar:', error);

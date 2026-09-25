@@ -166,7 +166,7 @@ import { PRIZES } from '../data/olimpiadasStore';
   let spinning = false;
   let deckFlipped = false;
 
-  function faIcon(name, size = 24) {
+  function faIcon(name: string, size = 24) {
     return `<i class="fas fa-${name}" style="font-size:${size}px"></i>`;
   }
 
@@ -282,10 +282,10 @@ import { PRIZES } from '../data/olimpiadasStore';
     return WHEEL_PRIZES[Math.floor(Math.random() * WHEEL_PRIZES.length)];
   }
 
-  function showCountdown(onComplete) {
+  function showCountdown(onComplete: () => void) {
     const cdEl = document.getElementById('countdown');
     const numEl = document.getElementById('countdown-num');
-    const spinBtn = document.getElementById('spin-btn');
+    const spinBtn = document.getElementById('spin-btn') as HTMLButtonElement | null;
     if (!cdEl || !numEl) { onComplete(); return; }
 
     cdEl.classList.remove('hidden');
@@ -359,7 +359,7 @@ import { PRIZES } from '../data/olimpiadasStore';
         centerText.textContent = 'GIRAR';
         centerText.setAttribute('font-size', '14');
       }
-      const spinBtn = document.getElementById('spin-btn');
+      const spinBtn = document.getElementById('spin-btn') as HTMLButtonElement | null;
       const spinResult = document.getElementById('spin-result');
       const spinResultName = document.getElementById('spin-result-name');
       const spinResultDesc = document.getElementById('spin-result-desc');
@@ -443,7 +443,7 @@ setTimeout(() => {
           cardEl.addEventListener('click', () => {
             if (deckFlipped) return;
             deckFlipped = true;
-            const inner = cardEl.querySelector('.preserve-3d');
+            const inner = cardEl.querySelector<HTMLElement>('.preserve-3d');
             if (inner) inner.style.transform = 'rotateY(180deg)';
             if (deckResultName) deckResultName.textContent = prize.name;
             if (deckResultDesc) deckResultDesc.textContent = prize.description;
@@ -478,6 +478,7 @@ setTimeout(() => {
     });
 
     function hideModal() {
+      if (!modal || !card) return;
       card.style.opacity = '0';
       card.style.transform = 'scale(0.9) translateY(20px)';
       setTimeout(() => {
@@ -493,7 +494,7 @@ setTimeout(() => {
     if (backdrop) backdrop.onclick = hideModal;
   }
 
-  function saveWinner(prize) {
+  function saveWinner(prize: { id: string; name: string; description: string; icon: string }) {
     const winners = JSON.parse(localStorage.getItem('galileo-winners') || '[]');
     winners.push({ prizeId: prize.id, timestamp: Date.now() });
     localStorage.setItem('galileo-winners', JSON.stringify(winners));
@@ -514,11 +515,11 @@ setTimeout(() => {
     }
   }
 
-  function showWinForm(prize, mode) {
-    const prefix = mode === 'wheel' ? 'spin' : 'deck';
+  function showWinForm(prize: { id: string; name: string; description: string; icon: string }, mode: 'spin' | 'deck') {
+    const prefix = mode;
     const form = document.getElementById(`${prefix}-win-form`);
-    const ticketInput = document.getElementById(`${prefix}-ticket-number`);
-    const nameInput = document.getElementById(`${prefix}-parent-name`);
+    const ticketInput = document.getElementById(`${prefix}-ticket-number`) as HTMLInputElement | null;
+    const nameInput = document.getElementById(`${prefix}-parent-name`) as HTMLInputElement | null;
     const whatsappBtn = document.getElementById(`${prefix}-whatsapp-btn`);
 
     if (!form) return;
@@ -562,8 +563,8 @@ setTimeout(() => {
     }, 2000);
   }
 
-  function showCelebration(prize, mode) {
-    const prefix = mode === 'wheel' ? 'spin' : 'deck';
+  function showCelebration(prize: { id: string; name: string; description: string; icon: string }, mode: 'spin' | 'deck') {
+    const prefix = mode;
     const celebration = document.getElementById(`${prefix}-celebration`);
     const icon = document.getElementById(`${prefix}-celebration-icon`);
     const name = document.getElementById(`${prefix}-celebration-name`);

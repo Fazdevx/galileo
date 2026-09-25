@@ -1,43 +1,50 @@
-# Astro Starter Kit: Minimal
+# Colegio y Academia Galileo · Web
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Sitio web institucional del Colegio y Academia Galileo (Huacho, Perú). Incluye la landing institucional, páginas de admisión, galería, nosotros y la sección de **Olimpiadas Internas 2026** con marcadores en vivo y panel de administración.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Stack
 
-## 🚀 Project Structure
+- [Astro](https://astro.build) 7 + Tailwind CSS 4
+- Despliegue en [Vercel](https://vercel.com) (`@astrojs/vercel`)
+- [Firebase / Firestore](https://firebase.google.com) (SDK de cliente) para los datos de las olimpiadas
+- Sitemap generado con `@astrojs/sitemap`
 
-Inside of your Astro project, you'll see the following folders and files:
+## Estructura
 
 ```text
 /
-├── public/
+├── public/              # Assets estáticos (logo, escudo, favicon, JS generado)
+├── scripts/
+│   └── gen-wa-chat.mjs  # Genera public/js/whatsapp-chat.js (prebuild)
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── assets/          # Imágenes optimizables por Astro (src/assets)
+│   ├── components/      # Secciones y componentes UI
+│   ├── data/            # Estado y acceso a datos de olimpiadas
+│   ├── layouts/         # Layout base (SEO, OG, WhatsApp, modales)
+│   ├── lib/             # Cliente Firebase y utilidades
+│   ├── pages/           # Rutas: index, nosotros, admision, galeria, olimpiadas, admin, 404
+│   └── styles/          # global.css (tema Tailwind)
+└── astro.config.mjs
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Comandos
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+| Comando            | Acción                                   |
+| :----------------- | :--------------------------------------- |
+| `npm run dev`      | Servidor de desarrollo en `localhost:4321` |
+| `npm run build`    | Build de producción en `./dist/`          |
+| `npm run preview`  | Previsualizar el build                    |
+| `npm run check`    | Revisión de tipos (`astro check`)        |
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Olimpiadas
 
-## 🧞 Commands
+- La página `/olimpiadas` muestra calendario, marcadores y tabla de posiciones en vivo.
+- Los datos se leen de Firestore (`olimpiadas/olimpiadas-data`) y se sincronizan con `onSnapshot`; además hay respaldo en `localStorage` y data por defecto.
+- El panel `/admin` permite gestionar secciones, disciplinas, partidos y premios. El acceso usa una contraseña definida en `src/data/olimpiadasStore.ts`.
+- Todo el acceso a Firebase del cliente vive en un solo módulo: `src/lib/firebase.ts` + `src/data/api.ts` + `src/lib/olimpiadasClient.ts`.
 
-All commands are run from the root of the project, from a terminal:
+## Configuración
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+- La URL pública del sitio se resuelve automáticamente desde `VERCEL_PROJECT_PRODUCTION_URL` en el build de Vercel. Para override local o en otros entornos define `PUBLIC_SITE_URL`.
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+> ⚠️ **Pendientes de seguridad** (no implementados): las reglas de Firestore (`firestore.rules`) están abiertas (`allow read, write: if true`) y la contraseña del admin se valida en el cliente. Antes de producción conviene restringir escrituras y mover la autenticación al servidor.

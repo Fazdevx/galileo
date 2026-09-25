@@ -2,7 +2,7 @@
 // Este archivo solo debe importarse dinámicamente en el cliente
 
 import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { initializeFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -23,9 +23,11 @@ let authInstance = null;
 if (typeof window !== 'undefined') {
   try {
     app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
-    dbInstance = getFirestore(app);
+    // Long polling para evitar bloqueos por ad-blockers
+    dbInstance = initializeFirestore(app, {
+      experimentalForceLongPolling: true,
+    });
     authInstance = getAuth(app);
-    console.log('[Firebase] SDK inicializado en el cliente');
   } catch (error) {
     console.error('[Firebase] Error:', error);
   }

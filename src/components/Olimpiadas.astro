@@ -1,4 +1,8 @@
 ---
+import { Image } from 'astro:assets';
+import campoGrass from '../assets/campo-grass.png';
+import copas from '../assets/copas.png';
+import deporte1 from '../assets/deporte-1.png';
 ---
 
 <section id="olimpiadas" class="bg-brand-500 py-16 text-white sm:py-20 md:py-24">
@@ -9,9 +13,9 @@
                     <span class="h-2 w-2 rounded-full bg-navy-800 animate-pulse"></span>
                     Olimpiadas Internas · 2026
                 </span>
-                <h2 class="mt-4 text-xl font-extrabold leading-tight sm:text-2xl md:text-3xl lg:text-5xl">
+                <h1 class="mt-4 text-xl font-extrabold leading-tight sm:text-2xl md:text-3xl lg:text-5xl">
                     La competencia entre <span class="text-navy-800">secciones</span>
-                </h2>
+                </h1>
                 <p class="mt-4 text-sm text-white sm:text-base md:text-lg">
                     La gran jornada deportiva interna donde las cuatro secciones
                     del colegio compiten por la gloria. Fútbol y vóley,
@@ -96,10 +100,14 @@
 <!-- Galería de escenarios y copas -->
         <div class="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-3">
             <div class="relative group overflow-hidden rounded-2xl shadow-xl">
-                <img
-                    src="/CAMPO DE GRASS.png"
+                <Image
+                    src={campoGrass}
                     alt="Campo de grass - Deporte 1"
+                    widths={[480, 800, 1200]}
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     class="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-110 sm:h-56"
+                    loading="lazy"
+                    decoding="async"
                 />
                 <div class="absolute inset-0 bg-gradient-to-t from-navy-900/80 via-transparent to-transparent"></div>
                 <div class="absolute bottom-0 left-0 right-0 p-4">
@@ -108,10 +116,14 @@
                 </div>
             </div>
             <div class="relative group overflow-hidden rounded-2xl shadow-xl">
-                <img
-                    src="/copas olimpiadas.png"
+                <Image
+                    src={copas}
                     alt="Copas Olímpicas"
+                    widths={[480, 800, 1200]}
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     class="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-110 sm:h-56"
+                    loading="lazy"
+                    decoding="async"
                 />
                 <div class="absolute inset-0 bg-gradient-to-t from-navy-900/80 via-transparent to-transparent"></div>
                 <div class="absolute bottom-0 left-0 right-0 p-4">
@@ -120,10 +132,14 @@
                 </div>
             </div>
             <div class="relative group overflow-hidden rounded-2xl shadow-xl">
-                <img
-                    src="/deporte (1).png"
+                <Image
+                    src={deporte1}
                     alt="Deporte - Espíritu competitivo"
+                    widths={[480, 800, 1200]}
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     class="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-110 sm:h-56"
+                    loading="lazy"
+                    decoding="async"
                 />
                 <div class="absolute inset-0 bg-gradient-to-t from-navy-900/80 via-transparent to-transparent"></div>
                 <div class="absolute bottom-0 left-0 right-0 p-4">
@@ -135,4 +151,7 @@
     </div>
 </section>
 
-<script src="/js/olimpiadas.js" is:inline></script>
+<script>
+  import { initOlimpiadas } from './olimpiadasClient';
+  initOlimpiadas();
+</script>

@@ -1,5 +1,12 @@
 import type { OlimpiadasData } from '../data/olimpiadasStore';
-import { fetchData, saveData, API_CONFIGURED } from '../data/api';
+import {
+  fetchData,
+  saveData,
+  initFirebase,
+  API_CONFIGURED,
+  COLLECTION_NAME,
+  DOCUMENT_ID,
+} from '../data/api';
 
 export const STORAGE_KEY = 'galileo-olimpiadas-v2';
 
@@ -18,6 +25,7 @@ export function loadFromLocal(): OlimpiadasData | null {
       sports: Array.isArray(parsed.sports) ? parsed.sports : [],
       games: Array.isArray(parsed.games) ? parsed.games : [],
       heroStats: parsed.heroStats || { secciones: 0, disciplinas: 0, dias: 0 },
+      prizes: Array.isArray(parsed.prizes) ? parsed.prizes : [],
     };
   } catch {
     return null;
@@ -47,6 +55,7 @@ export async function load(defaultData: OlimpiadasData): Promise<OlimpiadasData>
     sports: source.sports || defaultData.sports,
     games: source.games || defaultData.games,
     heroStats: source.heroStats || defaultData.heroStats,
+    prizes: source.prizes || defaultData.prizes,
   };
 }
 
@@ -74,6 +83,37 @@ export async function save(data: OlimpiadasData): Promise<boolean> {
   saveToLocal(data);
   const ok = await saveToApi(data);
   return ok;
+}
+
+// Subscripción en tiempo real a los cambios en Firestore
+export async function subscribeToData(callback: (data: OlimpiadasData) => void): Promise<() => void> {
+  const noop = () => {};
+  if (!API_CONFIGURED || cloudDisabled) return noop;
+  try {
+    const db = await initFirebase();
+    if (!db) return noop;
+    const { doc, onSnapshot } = await import('firebase/firestore');
+    const docRef = doc(db, COLLECTION_NAME, DOCUMENT_ID);
+    return onSnapshot(
+      docRef,
+      (snap) => {
+        if (!snap.exists()) return;
+        const d = snap.data() as Partial<OlimpiadasData>;
+        if (!d.sections || !d.sports || !d.games) return;
+        callback({
+          sections: d.sections,
+          sports: d.sports,
+          games: d.games,
+          heroStats: d.heroStats || { secciones: 0, disciplinas: 0, dias: 0 },
+          prizes: Array.isArray(d.prizes) ? d.prizes : [],
+        });
+      },
+      () => {},
+    );
+  } catch (error) {
+    console.warn('[Client] Error subscribing:', error);
+    return noop;
+  }
 }
 
 export function calculateStandings(games: OlimpiadasData['games'], sections: OlimpiadasData['sections']) {

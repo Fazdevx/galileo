@@ -2,8 +2,12 @@
 import '../styles/global.css';
 import WhatsappFloat from '../components/WhatsappFloat.astro';
 import LivePopup from '../components/LivePopup.astro';
-interface Props { title?: string; description?: string }
+import ModalPreMatricula from '../components/ModalPreMatricula.astro';
+interface Props { title?: string; description?: string; canonical?: string }
 const { title = 'Colegio y Academia Galileo - Educación de excelencia', description = 'Colegio y academia con más de 20 años formando estudiantes con valores y excelencia académica.' } = Astro.props;
+const site = new URL(Astro.site?.toString() || 'http://localhost:4321');
+const canonical = new URL(Astro.url.pathname, site).toString();
+const ogImage = new URL('/logo.png', site).toString();
 ---
 <html lang="es">
   <head>
@@ -13,6 +17,19 @@ const { title = 'Colegio y Academia Galileo - Educación de excelencia', descrip
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_PE" />
+    <meta property="og:site_name" content="Colegio y Academia Galileo" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="theme-color" content="#1b2a4e" />
     <title>{title}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   </head>
@@ -20,5 +37,28 @@ const { title = 'Colegio y Academia Galileo - Educación de excelencia', descrip
     <slot />
     <WhatsappFloat />
     <LivePopup />
+    <ModalPreMatricula />
+    <script>
+      (() => {
+        const SECRET = 'admin';
+        const buffer: string[] = [];
+        const MAX_BUFFER = 12;
+        const isTyping = (el: EventTarget | null) => {
+          if (!el || !(el instanceof HTMLElement)) return false;
+          const tag = el.tagName;
+          return tag === 'INPUT' || tag === 'TEXTAREA' || el.isContentEditable;
+        };
+        document.addEventListener('keydown', (e) => {
+          if (isTyping(e.target)) return;
+          if (e.metaKey || e.ctrlKey || e.altKey) return;
+          if (e.key.length !== 1) return;
+          buffer.push(e.key.toLowerCase());
+          if (buffer.length > MAX_BUFFER) buffer.shift();
+          if (buffer.join('').endsWith(SECRET)) {
+            window.location.href = '/admin';
+          }
+        });
+      })();
+    </script>
   </body>
 </html>

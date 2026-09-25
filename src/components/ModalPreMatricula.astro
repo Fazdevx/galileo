@@ -64,13 +64,15 @@ const turnosOptions = turnos.map(t => `<option value="${t}">${t}</option>`).join
 
 <script>
   (() => {
-    const modal = document.getElementById('prematricula-modal');
-    const form = document.getElementById('premat-form');
+    const modal = document.getElementById('prematricula-modal') as HTMLDivElement | null;
+    const form = document.getElementById('premat-form') as HTMLFormElement | null;
     const open = () => {
+      if (!modal) return;
       modal.classList.remove('hidden');
       modal.classList.add('flex');
     };
     const close = () => {
+      if (!modal) return;
       modal.classList.add('hidden');
       modal.classList.remove('flex');
     };

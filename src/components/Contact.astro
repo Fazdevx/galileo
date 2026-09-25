@@ -33,11 +33,33 @@ const info = [
               </div>
               <div class="min-w-0 flex-1">
                 <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-500 sm:text-xs">{item.label}</p>
-                <p class="truncate text-sm font-semibold text-navy-700 sm:text-base">{item.value}</p>
+                <p class="break-words text-sm font-semibold text-navy-700 sm:text-base">{item.value}</p>
               </div>
               <svg class="h-4 w-4 flex-shrink-0 text-slate-400 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
             </div>
           ))}
+        </div>
+
+        <div class="overflow-hidden rounded-2xl bg-white p-2 shadow-md ring-1 ring-slate-200">
+          <div class="overflow-hidden rounded-xl">
+            <iframe
+              title="Ubicación del Colegio y Academia Galileo"
+              src="https://www.google.com/maps?q=Av.%20T%C3%BApac%20Amaru%20123%2C%20Huacho%2C%20Per%C3%BA&output=embed"
+              class="h-56 w-full border-0 sm:h-64"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Av.%20T%C3%BApac%20Amaru%20123%2C%20Huacho%2C%20Per%C3%BA"
+            target="_blank"
+            rel="noopener"
+            class="mt-2 flex items-center justify-center gap-2 rounded-xl bg-slate-50 px-4 py-2.5 text-xs font-bold text-navy-700 transition hover:bg-brand-50 hover:text-brand-600 sm:text-sm"
+          >
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10a8 8 0 10-16 0c0 6 8 10 8 10z M12 15a3 3 0 100-6 3 3 0 000 6z" /></svg>
+            Abrir en Google Maps
+          </a>
         </div>
       </div>
 

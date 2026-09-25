@@ -1,0 +1,55 @@
+---
+const links = [
+  {
+    href: '/nosotros',
+    title: 'Nosotros',
+    desc: 'Nuestra historia, misión, visión y lo que nos distingue.',
+    icon: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2 M9 11a4 4 0 100-8 4 4 0 000 8 M23 21v-2a4 4 0 00-3-3.87 M16 3.13a4 4 0 010 7.75',
+  },
+  {
+    href: '/admision',
+    title: 'Admisión y matrícula',
+    desc: 'Proceso en 4 pasos, pensiones y becas, y las dudas más frecuentes.',
+    icon: 'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z M14 2v6h6 M9 12l2 2 4-4',
+  },
+  {
+    href: '/olimpiadas',
+    title: 'Olimpiadas 2026',
+    desc: 'Marcadores en vivo, calendario de partidos y tabla de posiciones.',
+    icon: 'M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z',
+  },
+  {
+    href: '/galeria',
+    title: 'Galería',
+    desc: 'Fotos de la vida escolar: instalaciones, deporte y desfiles.',
+    icon: 'M14.5 4h-5L7 7H4a2 2 0 00-2 2v9a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2h-3l-2.5-3z M8.5 13.5a2.5 2.5 0 105 0 2.5 2.5 0 00-5 0z',
+  },
+];
+---
+<section class="bg-slate-50 py-16 sm:py-20 md:py-24">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6">
+    <div class="mx-auto max-w-2xl text-center">
+      <span class="text-sm font-bold uppercase tracking-wider text-brand-500">Explora</span>
+      <h2 class="mt-3 text-2xl font-extrabold text-navy-700 sm:text-3xl md:text-4xl">Conoce más sobre Galileo</h2>
+      <p class="mt-4 text-base text-slate-600 sm:text-lg">Descubre nuestra institución, el proceso de admisión, las olimpiadas y la vida escolar.</p>
+    </div>
+
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {links.map(link => (
+        <a href={link.href} class="group rounded-2xl bg-white p-6 ring-1 ring-slate-200 transition-all hover:-translate-y-1 hover:shadow-xl hover:ring-brand-300">
+          <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-brand-50 text-brand-500 transition-colors group-hover:bg-brand-500 group-hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d={link.icon} />
+            </svg>
+          </div>
+          <h3 class="mt-5 text-lg font-extrabold text-navy-700">{link.title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">{link.desc}</p>
+          <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-500 transition-all group-hover:gap-2">
+            Ver más
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7" /></svg>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

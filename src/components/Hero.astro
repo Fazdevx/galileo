@@ -1,4 +1,10 @@
 ---
+import { getImage } from 'astro:assets';
+import aniversarioImg from '../assets/aniversario.jpg';
+
+const aniversarioUrl = (await getImage({ src: aniversarioImg, widths: [480, 800, 1200, 1600], formats: ['webp', 'avif'] })).src;
+
+const waFelicitaciones = `https://wa.me/51997394157?text=${encodeURIComponent('¡Feliz aniversario, Colegio Galileo! 🎉 Te deseamos todo lo mejor en este día especial.')}`;
 const slides = [
     {
         id: "colegio",
@@ -16,13 +22,13 @@ const slides = [
         },
         secondaryCta: {
             label: "Conoce la academia",
-            href: "#nosotros",
+            href: "/nosotros",
             style: "border-2 border-white hover:bg-white hover:text-brand-600",
         },
         bg: "from-brand-500 via-brand-600 to-brand-700",
         badge: {
             text: "Olimpiadas Internas 2026",
-            href: "#olimpiadas",
+            href: "/olimpiadas",
             live: true,
         },
         floating: {
@@ -36,7 +42,7 @@ const slides = [
             icon: "trophy",
             title: "Olimpiadas 2026",
             live: true,
-            href: "#olimpiadas",
+            href: "/olimpiadas",
         },
         stats: [
             { value: "20+", label: "Años" },
@@ -55,16 +61,16 @@ const slides = [
             "Las cuatro secciones del colegio compiten en fútbol y vóley por la gloria deportiva. ¡Sigue los marcadores en vivo!",
         primaryCta: {
             label: "Ver resultados en vivo",
-            href: "#scorer",
+            href: "/olimpiadas",
             style: "bg-brand-500 hover:bg-brand-600",
         },
         secondaryCta: {
             label: "Inscribe tu sección",
-            href: "#contacto",
+            href: "/#contacto",
             style: "border-2 border-white hover:bg-white hover:text-navy-700",
         },
         bg: "from-navy-700 via-navy-800 to-brand-700",
-        badge: { text: "Sección A vs Sección C", href: "#scorer", live: true },
+        badge: { text: "Sección A vs Sección C", href: "/olimpiadas", live: true },
         floating: {
             side: "left",
             label: "En vivo ahora",
@@ -76,7 +82,7 @@ const slides = [
             icon: "soccer",
             title: "Marcador en vivo",
             live: true,
-            href: "#scorer",
+            href: "/olimpiadas",
         },
         stats: [
             { value: "4", label: "Secciones" },
@@ -84,6 +90,53 @@ const slides = [
             { value: "15", label: "Días" },
         ],
         image: "/escudo.png",
+    },
+    {
+        id: "aniversario",
+        eyebrow: "Aniversario del colegio",
+        title: "Cuenta regresiva para",
+        titleAccent: "el gran día",
+        accentClass: "text-brand-300",
+        description:
+            "El 1 de octubre celebramos nuestro aniversario institucional. ¡Falta muy poco para festejarlo juntos!",
+        countdown: true,
+        target: "2026-10-01T08:00:00",
+        primaryCta: {
+            label: "Envía tus felicitaciones",
+            href: waFelicitaciones,
+            style: "bg-brand-500 hover:bg-brand-600",
+        },
+        secondaryCta: {
+            label: "Conoce nuestra historia",
+            href: "/nosotros",
+            style: "border-2 border-white hover:bg-white hover:text-brand-600",
+        },
+        image: aniversarioUrl,
+        imageFill: true,
+        bg: "from-navy-700 via-navy-800 to-brand-600",
+        badge: {
+            text: "Próximo: 1 de Octubre",
+            href: "/nosotros",
+            live: false,
+        },
+        floating: {
+            side: "left",
+            label: "Fecha",
+            value: "1 Octubre",
+            style: "bg-brand-500 text-white",
+        },
+        card: {
+            side: "right",
+            icon: "cake",
+            title: "Aniversario 2026",
+            live: false,
+            href: "/nosotros",
+        },
+        stats: [
+            { value: "1", label: "Octubre" },
+            { value: "8", label: "AM" },
+            { value: "¡", label: "Únete" },
+        ],
     },
 ];
 ---
@@ -101,6 +154,7 @@ const slides = [
                                 : "opacity-0 z-0 pointer-events-none",
                         ]}
                         data-slide={idx}
+                        aria-hidden={idx !== 0}
                     >
                         <div class:list={["bg-gradient-to-br", slide.bg]}>
                             <div class="relative">
@@ -204,6 +258,48 @@ const slides = [
                                         <p class="mt-6 text-base text-white/90 sm:text-lg md:text-xl">
                                             {slide.description}
                                         </p>
+
+                                        {slide.countdown && (
+                                            <div class="mt-6 sm:mt-8">
+                                                <div
+                                                    data-hero-countdown
+                                                    data-target={slide.target}
+                                                    class="grid w-full max-w-md grid-cols-4 gap-2 sm:gap-3"
+                                                >
+                                                    <div class="rounded-2xl bg-white/10 p-2.5 text-center backdrop-blur sm:p-4">
+                                                        <p data-count-days class="text-2xl font-black tabular-nums text-white sm:text-4xl">0</p>
+                                                        <p class="mt-1 text-[10px] font-bold uppercase tracking-wider text-white/80 sm:text-xs">Días</p>
+                                                    </div>
+                                                    <div class="rounded-2xl bg-white/10 p-2.5 text-center backdrop-blur sm:p-4">
+                                                        <p data-count-hours class="text-2xl font-black tabular-nums text-white sm:text-4xl">0</p>
+                                                        <p class="mt-1 text-[10px] font-bold uppercase tracking-wider text-white/80 sm:text-xs">Horas</p>
+                                                    </div>
+                                                    <div class="rounded-2xl bg-white/10 p-2.5 text-center backdrop-blur sm:p-4">
+                                                        <p data-count-minutes class="text-2xl font-black tabular-nums text-white sm:text-4xl">0</p>
+                                                        <p class="mt-1 text-[10px] font-bold uppercase tracking-wider text-white/80 sm:text-xs">Min</p>
+                                                    </div>
+                                                    <div class="rounded-2xl bg-white/10 p-2.5 text-center backdrop-blur sm:p-4">
+                                                        <p data-count-seconds class="text-2xl font-black tabular-nums text-white sm:text-4xl">0</p>
+                                                        <p class="mt-1 text-[10px] font-bold uppercase tracking-wider text-white/80 sm:text-xs">Seg</p>
+                                                    </div>
+                                                </div>
+
+                                                <div data-count-celebrate class="hidden">
+                                                    <p class="text-2xl font-black text-white sm:text-3xl">¡Feliz Aniversario, Galileo! 🎉</p>
+                                                    <p class="mt-2 max-w-md text-sm text-white/90 sm:text-base">
+                                                        Hoy celebramos otro año formando grandes personas. ¡Gracias por ser parte de nuestra familia!
+                                                    </p>
+                                                    <button
+                                                        data-count-replay
+                                                        type="button"
+                                                        class="mt-4 rounded-full bg-white px-5 py-2.5 text-sm font-bold text-brand-600 transition hover:bg-navy-100"
+                                                    >
+                                                        ¡Celebrar nuevamente! 🎊
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+
                                         <div class="mt-8 flex flex-wrap gap-3 sm:gap-4">
                                             {slide.primaryCta.openModal ? (
                                                 <button id="btn-matriculate-hero" type="button" class:list={[
@@ -233,26 +329,39 @@ const slides = [
                                                 {slide.secondaryCta.label}
                                             </a>
                                         </div>
-                                        <div class="mt-8 grid grid-cols-3 gap-3 border-t border-white/20 pt-6 sm:mt-10 sm:gap-6 sm:pt-8">
-                                            {slide.stats.map((stat) => (
-                                                <div>
-                                                    <p class="text-2xl font-bold text-navy-100 sm:text-3xl">
-                                                        {stat.value}
-                                                    </p>
-                                                    <p class="text-xs text-white/90 sm:text-sm">
-                                                        {stat.label}
-                                                    </p>
-                                                </div>
-                                            ))}
-                                        </div>
+                                        {!slide.countdown && (
+                                            <div class="mt-8 grid grid-cols-3 gap-3 border-t border-white/20 pt-6 sm:mt-10 sm:gap-6 sm:pt-8">
+                                                {slide.stats.map((stat) => (
+                                                    <div>
+                                                        <p class="text-2xl font-bold text-navy-100 sm:text-3xl">
+                                                            {stat.value}
+                                                        </p>
+                                                        <p class="text-xs text-white/90 sm:text-sm">
+                                                            {stat.label}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
 
                                     <div class="relative mx-auto w-full max-w-sm md:max-w-none">
-                                        <div class="aspect-square overflow-hidden rounded-3xl bg-white/95 shadow-2xl backdrop-blur flex items-center justify-center p-6 sm:p-8">
+                                        <div
+                                            class:list={[
+                                                "aspect-square overflow-hidden rounded-3xl bg-white/95 shadow-2xl backdrop-blur flex items-center justify-center",
+                                                slide.imageFill
+                                                    ? ""
+                                                    : "p-6 sm:p-8",
+                                            ]}
+                                        >
                                             <img
                                                 src={slide.image}
                                                 alt={slide.eyebrow}
-                                                class="w-full h-auto"
+                                                class:list={[
+                                                    "w-full h-auto",
+                                                    slide.imageFill &&
+                                                        "h-full w-full object-cover",
+                                                ]}
                                             />
                                         </div>
 
@@ -310,6 +419,21 @@ const slides = [
                                                             r="10"
                                                         />
                                                         <path d="M12 2l3 7h7 M12 22l-3-7h-7 M2 12l7-3 M22 12l-7 3" />
+                                                    </svg>
+                                                )}
+                                                {slide.card.icon ===
+                                                    "cake" && (
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        class="h-4 w-4 sm:h-5 sm:w-5"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                        stroke-width="2"
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                    >
+                                                        <path d="M20 12v10H4V12 M2 7h20v5H2z M12 22V7 M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z" />
                                                     </svg>
                                                 )}
                                             </span>
@@ -397,10 +521,11 @@ const slides = [
     const prevBtn = document.getElementById("hero-prev");
     const nextBtn = document.getElementById("hero-next");
     let current = 0;
-    let timer;
+    let timer: ReturnType<typeof setInterval> | null = null;
 
-    const show = (idx) => {
+    const show = (idx: number) => {
         slides.forEach((s, i) => {
+            s.setAttribute("aria-hidden", String(i !== idx));
             if (i === idx) {
                 s.classList.remove("opacity-0", "z-0", "pointer-events-none");
                 s.classList.add("opacity-100", "z-10");
@@ -444,4 +569,86 @@ const slides = [
         timer = setInterval(next, 6000);
     };
     restart();
+
+    (() => {
+        const countdown = document.querySelector("[data-hero-countdown]") as HTMLElement | null;
+        const celebrate = document.querySelector("[data-count-celebrate]");
+        const replayBtn = document.querySelector("[data-count-replay]");
+        if (!countdown) return;
+
+        const target = new Date(countdown.dataset.target || "2026-10-01T08:00:00");
+        const daysEl = document.querySelector("[data-count-days]");
+        const hoursEl = document.querySelector("[data-count-hours]");
+        const minutesEl = document.querySelector("[data-count-minutes]");
+        const secondsEl = document.querySelector("[data-count-seconds]");
+
+        const pad = (n: number) => String(n).padStart(2, "0");
+
+        const style = document.createElement("style");
+        style.textContent =
+            "@keyframes hero-confetti-fall{0%{transform:translateY(-4vh) rotate(0)}100%{transform:translateY(110vh) rotate(720deg)}}";
+        document.head.appendChild(style);
+
+        const COLORS = ["#ff6b1a", "#f04e00", "#ffa05c", "#ffc89b", "#ffffff", "#2d4173", "#1b2a4e", "#10b981", "#0ea5e9", "#f59e0b", "#ec4899"];
+
+        const fireConfetti = (pieces: number) => {
+            const layer = document.createElement("div");
+            layer.className = "pointer-events-none fixed inset-0 z-[999] overflow-hidden";
+            document.body.appendChild(layer);
+            for (let i = 0; i < pieces; i++) {
+                const p = document.createElement("span");
+                const size = 6 + Math.random() * 8;
+                p.style.cssText = [
+                    "position:absolute",
+                    "top:-24px",
+                    `left:${Math.random() * 100}%`,
+                    `width:${size}px`,
+                    `height:${size * (0.5 + Math.random() * 0.4)}px`,
+                    `background:${COLORS[Math.floor(Math.random() * COLORS.length)]}`,
+                    "border-radius:2px",
+                    `opacity:${0.6 + Math.random() * 0.4}`,
+                    `animation:hero-confetti-fall ${2.4 + Math.random() * 2.2}s linear ${Math.random() * 0.8}s forwards`,
+                ].join(";");
+                layer.appendChild(p);
+            }
+            setTimeout(() => layer.remove(), 6000);
+        };
+
+        const celebrateToday = () => {
+            const KEY = "galileo-aniversario-day";
+            const today = new Date().toDateString();
+            if (localStorage.getItem(KEY) === today) return;
+            localStorage.setItem(KEY, today);
+            fireConfetti(160);
+        };
+
+        const startCelebration = () => {
+            if (countdown) countdown.classList.add("hidden");
+            celebrate?.classList.remove("hidden");
+            celebrateToday();
+        };
+
+        replayBtn?.addEventListener("click", () => fireConfetti(120));
+
+        let iv: ReturnType<typeof setInterval> | null = null;
+        const tick = () => {
+            const diff = target.getTime() - Date.now();
+            if (diff <= 0) {
+                if (iv) clearInterval(iv);
+                startCelebration();
+                return;
+            }
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor(diff / 3600000) % 24;
+            const m = Math.floor(diff / 60000) % 60;
+            const s = Math.floor(diff / 1000) % 60;
+            if (daysEl) daysEl.textContent = pad(d);
+            if (hoursEl) hoursEl.textContent = pad(h);
+            if (minutesEl) minutesEl.textContent = pad(m);
+            if (secondsEl) secondsEl.textContent = pad(s);
+        };
+
+        tick();
+        iv = setInterval(tick, 1000);
+    })();
 </script>

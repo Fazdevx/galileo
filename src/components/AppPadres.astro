@@ -1,12 +1,14 @@
 ---
 const features = [
-  { title: 'Asistencia en tiempo real', desc: 'Recibe notificaciones cada vez que tu hijo ingresa o sale del colegio.', icon: 'M9 12l2 2 4-4 M12 22a10 10 0 100-20 10 10 0 000 20z' },
-  { title: 'Calificaciones al instante', desc: 'Consulta notas, tareas y rendimiento académico desde cualquier lugar.', icon: 'M4 19.5A2.5 2.5 0 016.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z' },
-  { title: 'Comunicación directa', desc: 'Chat con docentes y directivos sin intermediarios.', icon: 'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z' },
+  { title: 'Asistencia en tiempo real', desc: 'Recibirás notificaciones cada vez que tu hijo ingrese o salga del colegio.', icon: 'M9 12l2 2 4-4 M12 22a10 10 0 100-20 10 10 0 000 20z' },
+  { title: 'Calificaciones al instante', desc: 'Podrás consultar notas, tareas y rendimiento académico desde cualquier lugar.', icon: 'M4 19.5A2.5 2.5 0 016.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z' },
+  { title: 'Comunicación directa', desc: 'Podrás conversar con docentes y directivos sin intermediarios.', icon: 'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z' },
   { title: 'Calendario de actividades', desc: 'Eventos, evaluaciones y reuniones siempre a la mano.', icon: 'M19 4H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2z M16 2v4 M8 2v4 M3 10h18' },
-  { title: 'Pagos y trámites', desc: 'Realiza pagos de pensión y solicita documentos en línea.', icon: 'M3 10h18 M5 6h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2z' },
-  { title: 'Geolocalización segura', desc: 'Verifica la ruta y ubicación del transporte escolar.', icon: 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z M12 13a3 3 0 100-6 3 3 0 000 6z' },
+  { title: 'Pagos y trámites', desc: 'Podrás realizar pagos de pensión y solicitar documentos en línea.', icon: 'M3 10h18 M5 6h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2z' },
+  { title: 'Geolocalización segura', desc: 'Podrás verificar la ruta y ubicación del transporte escolar.', icon: 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z M12 13a3 3 0 100-6 3 3 0 000 6z' },
 ];
+
+const waLink = `https://wa.me/51997394157?text=${encodeURIComponent('Hola, quisiera ser de los primeros en conocer la app Galileo Connect cuando esté lista.')}`;
 ---
 <section id="app-padres" class="bg-white py-16 sm:py-20 md:py-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
@@ -14,8 +16,12 @@ const features = [
       <div class="order-2 lg:order-1">
         <span class="text-sm font-bold uppercase tracking-wider text-brand-500">App para padres</span>
         <h2 class="mt-3 text-2xl font-extrabold text-navy-700 sm:text-3xl md:text-4xl">Galileo Connect · Tu colegio en el bolsillo</h2>
+        <div class="mt-4 inline-flex items-center gap-2 rounded-full bg-emerald-100 px-4 py-1.5 text-xs font-bold text-emerald-700">
+          <span class="h-2 w-2 animate-pulse rounded-full bg-emerald-500"></span>
+          En desarrollo · disponible próximamente
+        </div>
         <p class="mt-4 text-base text-slate-600 sm:text-lg">
-          Aplicación móvil desarrollada por el Colegio Galileo para que las familias estén conectadas con la educación y bienestar de sus hijos en todo momento.
+          Estamos desarrollando Galileo Connect, una aplicación web del Colegio Galileo para que las familias estén conectadas con la educación y bienestar de sus hijos en todo momento. Muy pronto compartiremos su lanzamiento.
         </p>
 
         <div class="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2">
@@ -34,21 +40,12 @@ const features = [
           ))}
         </div>
 
-        <div class="mt-6 flex flex-wrap gap-3 sm:mt-8">
-          <a href="#" class="inline-flex items-center gap-3 rounded-xl bg-navy-700 px-4 py-2.5 text-white transition hover:bg-navy-800 sm:px-5 sm:py-3">
-            <svg class="h-6 w-6 sm:h-7 sm:w-7" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-            <div class="text-left">
-              <p class="text-[9px] uppercase tracking-wider text-navy-200 sm:text-[10px]">Descargar en</p>
-              <p class="text-sm font-bold sm:text-base">App Store</p>
-            </div>
+        <div class="mt-6 flex flex-wrap items-center gap-3 sm:mt-8">
+          <a href={waLink} target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full bg-brand-500 px-5 py-2.5 text-sm font-bold text-white shadow-md transition hover:bg-brand-600 sm:px-6 sm:py-3">
+            Notifícame cuando esté lista
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.05 4.91A9.82 9.82 0 0012.04 2C6.58 2 2.13 6.46 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.98 9.98 0 004.79 1.22h.01c5.46 0 9.9-4.46 9.9-9.91 0-2.65-1.03-5.14-2.9-7.02zM12.05 20.15h-.01a8.3 8.3 0 01-4.23-1.16l-.3-.18-3.12.82.83-3.04-.2-.31a8.21 8.21 0 01-1.26-4.38c0-4.55 3.71-8.25 8.25-8.25 2.21 0 4.28.86 5.84 2.42a8.2 8.2 0 012.42 5.84c0 4.53-3.7 8.24-8.25 8.24zM15.88 14.4c-.2-.1-1.17-.58-1.35-.64-.18-.06-.31-.1-.44.1-.13.2-.51.64-.63.77-.11.13-.23.15-.43.05-.2-.1-.84-.31-1.6-.99-.59-.52-.98-1.17-1.1-1.37-.11-.2-.01-.31.09-.41.09-.09.2-.23.29-.35.1-.12.13-.2.2-.33.07-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.39-.32-.33-.44-.34h-.38c-.13 0-.34.05-.52.24-.18.2-.68.67-.68 1.63s.7 1.89.8 2.02c.1.13 1.38 2.11 3.35 2.96.47.2.83.32 1.12.41.47.15.9.13 1.24.08.38-.06 1.17-.48 1.34-.94.16-.46.16-.85.11-.94-.05-.09-.18-.14-.38-.24z"/></svg>
           </a>
-          <a href="#" class="inline-flex items-center gap-3 rounded-xl bg-navy-700 px-4 py-2.5 text-white transition hover:bg-navy-800 sm:px-5 sm:py-3">
-            <svg class="h-6 w-6 sm:h-7 sm:w-7" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.67c.4.22.85.33 1.32.33h14.99c.47 0 .93-.11 1.32-.33L12 14.04 3.18 23.67zm-2.49-1.85L11.93 13 2.91 3.99a1.99 1.99 0 00-.22.98v17.03c0 .32.07.63.18.91zm20.6 0c.11-.28.18-.59.18-.91V4.97c0-.34-.07-.67-.22-.98L13.07 13l8.22 8.82zM19.99 2.86c-.4-.22-.85-.34-1.32-.34H3.68c-.47 0-.93.12-1.32.34L12 11.04l7.99-8.18z"/></svg>
-            <div class="text-left">
-              <p class="text-[9px] uppercase tracking-wider text-navy-200 sm:text-[10px]">Descargar en</p>
-              <p class="text-sm font-bold sm:text-base">Google Play</p>
-            </div>
-          </a>
+          <span class="text-xs text-slate-500 sm:text-sm">Sin descargas · se abrirá desde el navegador</span>
         </div>
       </div>
 
@@ -57,6 +54,9 @@ const features = [
           <div class="absolute -inset-8 rounded-full bg-brand-200 opacity-30 blur-3xl"></div>
           <div class="relative mx-auto h-[480px] w-[240px] rounded-[3rem] bg-navy-700 p-3 shadow-2xl sm:h-[560px] sm:w-[280px]">
             <div class="absolute left-1/2 top-3 z-10 h-6 w-32 -translate-x-1/2 rounded-full bg-navy-900"></div>
+            <span class="absolute bottom-5 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-navy-900/80 px-3 py-1 text-[9px] font-bold uppercase tracking-wider text-brand-300 backdrop-blur">
+              En desarrollo
+            </span>
             <div class="h-full w-full overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-brand-50 to-navy-50 p-4 pt-10 sm:p-5">
               <div class="flex items-center gap-2">
                 <img src="/escudo.png" alt="Galileo" class="h-7 w-7 sm:h-8 sm:w-8" />
@@ -106,6 +106,7 @@ const features = [
               </div>
             </div>
           </div>
+          <p class="mt-4 text-center text-xs font-semibold uppercase tracking-wider text-slate-400">Vista previa del diseño · sujeto a cambios</p>
         </div>
       </div>
     </div>

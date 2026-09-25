@@ -1,0 +1,62 @@
+---
+const faqs = [
+  {
+    q: '¿Desde qué edad reciben estudiantes?',
+    a: 'Iniciamos en el nivel Inicial desde los 3 años y acompañamos a los estudiantes hasta Secundaria y la Academia Preuniversitaria.',
+  },
+  {
+    q: '¿Qué documentos necesito para la matrícula?',
+    a: 'DNI del estudiante y del apoderado, certificado de estudios del nivel anterior (si aplica) y fotos recientes. Al hacer la pre-matrícula, un asesor te confirmará la lista completa.',
+  },
+  {
+    q: '¿Cuentan con turnos mañana y tarde?',
+    a: 'Sí, ofrecemos turnos mañana y tarde según el nivel. Durante la pre-matrícula podrás indicar tu turno preferido.',
+  },
+  {
+    q: '¿Cómo puedo conocer las pensiones y becas?',
+    a: 'Escríbenos por WhatsApp o al correo y te enviamos la información actualizada de pensiones, descuentos por familia y becas disponibles.',
+  },
+  {
+    q: '¿La Academia Preuniversitaria es solo para los estudiantes del colegio?',
+    a: 'No, la Academia está abierta a todos los estudiantes que quieran prepararse para el ingreso a la universidad.',
+  },
+  {
+    q: '¿El colegio ofrece formación en inglés?',
+    a: 'Sí, contamos con un programa bilingüe desde Inicial, con certificación internacional.',
+  },
+  {
+    q: '¿Cómo reservo mi vacante?',
+    a: 'Usa el botón Matricúlate, completa la pre-matrícula y un asesor se pondrá en contacto contigo para confirmar el proceso.',
+  },
+];
+---
+<section id="faq" class="bg-white py-16 sm:py-20 md:py-24">
+  <div class="mx-auto max-w-3xl px-4 sm:px-6">
+    <div class="mx-auto max-w-2xl text-center">
+      <span class="text-sm font-bold uppercase tracking-wider text-brand-500">Preguntas frecuentes</span>
+      <h2 class="mt-3 text-2xl font-extrabold text-navy-700 sm:text-3xl md:text-4xl">Resolvemos tus dudas</h2>
+      <p class="mt-4 text-base text-slate-600 sm:text-lg">Las preguntas que más nos hacen las familias que quieren matricularse con nosotros.</p>
+    </div>
+
+    <div class="mt-10 space-y-3 sm:mt-12">
+      {faqs.map(f => (
+        <details class="group overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200 transition shadow-sm hover:ring-brand-300 open:shadow-md open:ring-brand-300">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 sm:px-6">
+            <span class="text-sm font-bold text-navy-700 sm:text-base">{f.q}</span>
+            <span class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-500 transition-transform duration-300 group-open:rotate-45">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14 M5 12h14"/></svg>
+            </span>
+          </summary>
+          <div class="border-t border-slate-100 px-5 pb-5 pt-3 sm:px-6">
+            <p class="text-sm leading-relaxed text-slate-600 sm:text-base">{f.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+
+    <p class="mt-8 text-center text-sm text-slate-500 sm:text-base">
+      ¿Tienes otra pregunta?
+      <a href="/#contacto" class="font-bold text-brand-500 transition hover:text-brand-600">Escríbenos aquí</a>
+    </p>
+  </div>
+</section>

@@ -3,17 +3,15 @@ import Layout from "../layouts/Layout.astro";
 import Loader from "../components/Loader.astro";
 import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
-import About from "../components/About.astro";
 import Programs from "../components/Programs.astro";
 import Academia from "../components/Academia.astro";
 import WhyUs from "../components/WhyUs.astro";
-import Olimpiadas from "../components/Olimpiadas.astro";
+import Explora from "../components/Explora.astro";
 import Desfile from "../components/Desfile.astro";
 import AppPadres from "../components/AppPadres.astro";
 import Testimonials from "../components/Testimonials.astro";
 import Contact from "../components/Contact.astro";
 import Footer from "../components/Footer.astro";
-import ModalPreMatricula from "../components/ModalPreMatricula.astro";
 import FloatingPrizeModal from "../components/FloatingPrizeModal.astro";
 ---
 
@@ -23,39 +21,14 @@ import FloatingPrizeModal from "../components/FloatingPrizeModal.astro";
     <main>
         <Hero />
         <FloatingPrizeModal />
-        <About />
         <Programs />
         <Academia />
         <WhyUs />
-        <Olimpiadas />
+        <Explora />
         <Desfile />
         <AppPadres />
         <Testimonials />
         <Contact />
     </main>
     <Footer />
-    <ModalPreMatricula />
 </Layout>
-
-<script>
-    (() => {
-        const SECRET = 'admin';
-        const buffer = [];
-        const MAX_BUFFER = 12;
-        const isTyping = (el) => {
-            if (!el) return false;
-            const tag = el.tagName;
-            return tag === 'INPUT' || tag === 'TEXTAREA' || el.isContentEditable;
-        };
-        document.addEventListener('keydown', (e) => {
-            if (isTyping(e.target)) return;
-            if (e.metaKey || e.ctrlKey || e.altKey) return;
-            if (e.key.length !== 1) return;
-            buffer.push(e.key.toLowerCase());
-            if (buffer.length > MAX_BUFFER) buffer.shift();
-            if (buffer.join('').endsWith(SECRET)) {
-                window.location.href = '/admin';
-            }
-        });
-    })();
-</script>
