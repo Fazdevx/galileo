@@ -1,34 +1,74 @@
 ---
+import Logo from './Logo.astro';
+import { waLink as buildWaLink } from '../data/site';
+
 const features = [
-  { title: 'Asistencia en tiempo real', desc: 'Recibirás notificaciones cada vez que tu hijo ingrese o salga del colegio.', icon: 'M9 12l2 2 4-4 M12 22a10 10 0 100-20 10 10 0 000 20z' },
-  { title: 'Calificaciones al instante', desc: 'Podrás consultar notas, tareas y rendimiento académico desde cualquier lugar.', icon: 'M4 19.5A2.5 2.5 0 016.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z' },
-  { title: 'Comunicación directa', desc: 'Podrás conversar con docentes y directivos sin intermediarios.', icon: 'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z' },
-  { title: 'Calendario de actividades', desc: 'Eventos, evaluaciones y reuniones siempre a la mano.', icon: 'M19 4H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2z M16 2v4 M8 2v4 M3 10h18' },
-  { title: 'Pagos y trámites', desc: 'Podrás realizar pagos de pensión y solicitar documentos en línea.', icon: 'M3 10h18 M5 6h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2z' },
-  { title: 'Geolocalización segura', desc: 'Podrás verificar la ruta y ubicación del transporte escolar.', icon: 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z M12 13a3 3 0 100-6 3 3 0 000 6z' },
+  {
+    title: 'Asistencia en tiempo real',
+    desc: 'Recibirás notificaciones cada vez que tu hijo ingrese o salga del colegio.',
+    icon: 'M9 12l2 2 4-4 M12 22a10 10 0 100-20 10 10 0 000 20z',
+  },
+  {
+    title: 'Calificaciones al instante',
+    desc: 'Podrás consultar notas, tareas y rendimiento académico desde cualquier lugar.',
+    icon: 'M4 19.5A2.5 2.5 0 016.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z',
+  },
+  {
+    title: 'Comunicación directa',
+    desc: 'Podrás conversar con docentes y directivos sin intermediarios.',
+    icon: 'M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z',
+  },
+  {
+    title: 'Calendario de actividades',
+    desc: 'Eventos, evaluaciones y reuniones siempre a la mano.',
+    icon: 'M19 4H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2z M16 2v4 M8 2v4 M3 10h18',
+  },
+  {
+    title: 'Pagos y trámites',
+    desc: 'Podrás realizar pagos de pensión y solicitar documentos en línea.',
+    icon: 'M3 10h18 M5 6h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2z',
+  },
+  {
+    title: 'Geolocalización segura',
+    desc: 'Podrás verificar la ruta y ubicación del transporte escolar.',
+    icon: 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z M12 13a3 3 0 100-6 3 3 0 000 6z',
+  },
 ];
 
-const waLink = `https://wa.me/51997394157?text=${encodeURIComponent('Hola, quisiera ser de los primeros en conocer la app Galileo Connect cuando esté lista.')}`;
+const waHref = buildWaLink('Hola, quisiera ser de los primeros en conocer la app Galileo Connect cuando esté lista.');
 ---
+
 <section id="app-padres" class="bg-white py-16 sm:py-20 md:py-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
     <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
       <div class="order-2 lg:order-1">
         <span class="text-sm font-bold uppercase tracking-wider text-brand-500">App para padres</span>
-        <h2 class="mt-3 text-2xl font-extrabold text-navy-700 sm:text-3xl md:text-4xl">Galileo Connect · Tu colegio en el bolsillo</h2>
+        <h2 class="mt-3 text-2xl font-extrabold text-navy-700 sm:text-3xl md:text-4xl">
+          Galileo Connect · Tu colegio en el bolsillo
+        </h2>
         <div class="mt-4 inline-flex items-center gap-2 rounded-full bg-emerald-100 px-4 py-1.5 text-xs font-bold text-emerald-700">
           <span class="h-2 w-2 animate-pulse rounded-full bg-emerald-500"></span>
           En desarrollo · disponible próximamente
         </div>
         <p class="mt-4 text-base text-slate-600 sm:text-lg">
-          Estamos desarrollando Galileo Connect, una aplicación web del Colegio Galileo para que las familias estén conectadas con la educación y bienestar de sus hijos en todo momento. Muy pronto compartiremos su lanzamiento.
+          Estamos desarrollando Galileo Connect, una aplicación web del Colegio Galileo para que las familias estén
+          conectadas con la educación y bienestar de sus hijos en todo momento. Muy pronto compartiremos su lanzamiento.
         </p>
 
         <div class="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2">
-          {features.map(f => (
+          {features.map((f) => (
             <div class="flex items-start gap-3 rounded-xl bg-slate-50 p-4 transition hover:bg-brand-50">
               <div class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-brand-500 text-white sm:h-10 sm:w-10">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 sm:h-5 sm:w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
                   <path d={f.icon} />
                 </svg>
               </div>
@@ -41,9 +81,16 @@ const waLink = `https://wa.me/51997394157?text=${encodeURIComponent('Hola, quisi
         </div>
 
         <div class="mt-6 flex flex-wrap items-center gap-3 sm:mt-8">
-          <a href={waLink} target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full bg-brand-500 px-5 py-2.5 text-sm font-bold text-white shadow-md transition hover:bg-brand-600 sm:px-6 sm:py-3">
+          <a
+            href={waHref}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center gap-2 rounded-full bg-brand-500 px-5 py-2.5 text-sm font-bold text-white shadow-md transition hover:bg-brand-600 sm:px-6 sm:py-3"
+          >
             Notifícame cuando esté lista
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.05 4.91A9.82 9.82 0 0012.04 2C6.58 2 2.13 6.46 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.98 9.98 0 004.79 1.22h.01c5.46 0 9.9-4.46 9.9-9.91 0-2.65-1.03-5.14-2.9-7.02zM12.05 20.15h-.01a8.3 8.3 0 01-4.23-1.16l-.3-.18-3.12.82.83-3.04-.2-.31a8.21 8.21 0 01-1.26-4.38c0-4.55 3.71-8.25 8.25-8.25 2.21 0 4.28.86 5.84 2.42a8.2 8.2 0 012.42 5.84c0 4.53-3.7 8.24-8.25 8.24zM15.88 14.4c-.2-.1-1.17-.58-1.35-.64-.18-.06-.31-.1-.44.1-.13.2-.51.64-.63.77-.11.13-.23.15-.43.05-.2-.1-.84-.31-1.6-.99-.59-.52-.98-1.17-1.1-1.37-.11-.2-.01-.31.09-.41.09-.09.2-.23.29-.35.1-.12.13-.2.2-.33.07-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.39-.32-.33-.44-.34h-.38c-.13 0-.34.05-.52.24-.18.2-.68.67-.68 1.63s.7 1.89.8 2.02c.1.13 1.38 2.11 3.35 2.96.47.2.83.32 1.12.41.47.15.9.13 1.24.08.38-.06 1.17-.48 1.34-.94.16-.46.16-.85.11-.94-.05-.09-.18-.14-.38-.24z"/></svg>
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19.05 4.91A9.82 9.82 0 0012.04 2C6.58 2 2.13 6.46 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.98 9.98 0 004.79 1.22h.01c5.46 0 9.9-4.46 9.9-9.91 0-2.65-1.03-5.14-2.9-7.02zM12.05 20.15h-.01a8.3 8.3 0 01-4.23-1.16l-.3-.18-3.12.82.83-3.04-.2-.31a8.21 8.21 0 01-1.26-4.38c0-4.55 3.71-8.25 8.25-8.25 2.21 0 4.28.86 5.84 2.42a8.2 8.2 0 012.42 5.84c0 4.53-3.7 8.24-8.25 8.24zM15.88 14.4c-.2-.1-1.17-.58-1.35-.64-.18-.06-.31-.1-.44.1-.13.2-.51.64-.63.77-.11.13-.23.15-.43.05-.2-.1-.84-.31-1.6-.99-.59-.52-.98-1.17-1.1-1.37-.11-.2-.01-.31.09-.41.09-.09.2-.23.29-.35.1-.12.13-.2.2-.33.07-.13.03-.24-.02-.34-.05-.1-.44-1.06-.6-1.45-.16-.39-.32-.33-.44-.34h-.38c-.13 0-.34.05-.52.24-.18.2-.68.67-.68 1.63s.7 1.89.8 2.02c.1.13 1.38 2.11 3.35 2.96.47.2.83.32 1.12.41.47.15.9.13 1.24.08.38-.06 1.17-.48 1.34-.94.16-.46.16-.85.11-.94-.05-.09-.18-.14-.38-.24z" />
+            </svg>
           </a>
           <span class="text-xs text-slate-500 sm:text-sm">Sin descargas · se abrirá desde el navegador</span>
         </div>
@@ -59,7 +106,7 @@ const waLink = `https://wa.me/51997394157?text=${encodeURIComponent('Hola, quisi
             </span>
             <div class="h-full w-full overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-brand-50 to-navy-50 p-4 pt-10 sm:p-5">
               <div class="flex items-center gap-2">
-                <img src="/escudo.png" alt="Galileo" class="h-7 w-7 sm:h-8 sm:w-8" />
+                <Logo mark="escudo" alt="" size="32px" class="h-7 w-7 sm:h-8 sm:w-8" loading="lazy" />
                 <p class="text-sm font-extrabold text-navy-700">Galileo Connect</p>
               </div>
 
@@ -72,10 +119,14 @@ const waLink = `https://wa.me/51997394157?text=${encodeURIComponent('Hola, quisi
               <div class="mt-3 rounded-2xl bg-white p-3 shadow-sm sm:mt-4 sm:p-4">
                 <div class="flex items-center justify-between">
                   <p class="text-[10px] font-bold text-slate-500 sm:text-xs">ASISTENCIA · HOY</p>
-                  <span class="rounded-full bg-emerald-100 px-2 py-0.5 text-[9px] font-bold text-emerald-700 sm:text-[10px]">A tiempo</span>
+                  <span class="rounded-full bg-emerald-100 px-2 py-0.5 text-[9px] font-bold text-emerald-700 sm:text-[10px]">
+                    A tiempo
+                  </span>
                 </div>
                 <div class="mt-3 flex items-center gap-3">
-                  <div class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-sm font-bold text-brand-600 sm:h-10 sm:w-10">JM</div>
+                  <div class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-sm font-bold text-brand-600 sm:h-10 sm:w-10">
+                    JM
+                  </div>
                   <div class="flex-1 min-w-0">
                     <p class="text-sm font-bold text-navy-700">Juan Méndez</p>
                     <p class="text-[10px] text-slate-500 sm:text-xs">Ingresó 7:42 AM · 5° Primaria</p>
@@ -106,7 +157,9 @@ const waLink = `https://wa.me/51997394157?text=${encodeURIComponent('Hola, quisi
               </div>
             </div>
           </div>
-          <p class="mt-4 text-center text-xs font-semibold uppercase tracking-wider text-slate-400">Vista previa del diseño · sujeto a cambios</p>
+          <p class="mt-4 text-center text-xs font-semibold uppercase tracking-wider text-slate-400">
+            Vista previa del diseño · sujeto a cambios
+          </p>
         </div>
       </div>
     </div>

@@ -3,47 +3,65 @@ const programs = [
   {
     title: 'Inicial',
     short: 'Estimulación temprana y desarrollo integral en un entorno seguro y afectivo.',
-    detail: 'Acompañamos a los más pequeños en sus primeros aprendizajes con juegos, arte, música y psicomotricidad. Docentes especializadas y aulas diseñadas para su seguridad y curiosidad.',
+    detail:
+      'Acompañamos a los más pequeños en sus primeros aprendizajes con juegos, arte, música y psicomotricidad. Docentes especializadas y aulas diseñadas para su seguridad y curiosidad.',
     icon: 'M12 3v10 M5 12l7 7 7-7 M5 21h14',
     badge: '3 - 5 años',
   },
   {
     title: 'Primaria',
     short: 'Bases sólidas en lectura, matemáticas, ciencia e inglés con metodologías activas.',
-    detail: 'Programa bilingüe con enfoque por competencias, proyectos integradores y uso de tecnología. Acompañamiento socioemocional y refuerzos personalizados para cada estudiante.',
+    detail:
+      'Programa bilingüe con enfoque por competencias, proyectos integradores y uso de tecnología. Acompañamiento socioemocional y refuerzos personalizados para cada estudiante.',
     icon: 'M4 19.5A2.5 2.5 0 016.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z',
     badge: '6 - 11 años',
   },
   {
     title: 'Secundaria',
     short: 'Formación académica rigurosa con enfoque crítico y creativo que prepara para el futuro.',
-    detail: 'Plan curricular alineado con el MINEDU, talleres de ciencia, robótica, arte y deportes. Preparación constante para olimpiadas académicas y admisión a universidades.',
+    detail:
+      'Plan curricular alineado con el MINEDU, talleres de ciencia, robótica, arte y deportes. Preparación constante para olimpiadas académicas y admisión a universidades.',
     icon: 'M22 10v6 M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5',
     badge: '12 - 16 años',
   },
   {
     title: 'Academia Preuniversitaria',
     short: 'Preparación intensiva para ingreso a universidades top con simulacros y refuerzo constante.',
-    detail: 'Ciclos regulares e intensivos, simulacros tipo examen de admisión, docentes especialistas por materia, material actualizado y seguimiento personalizado del avance.',
+    detail:
+      'Ciclos regulares e intensivos, simulacros tipo examen de admisión, docentes especialistas por materia, material actualizado y seguimiento personalizado del avance.',
     icon: 'M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z',
     badge: '17+ años',
   },
 ];
 ---
+
 <section id="programas" class="bg-white py-16 sm:py-20 md:py-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
     <div class="mx-auto max-w-2xl text-center">
       <span class="text-sm font-bold uppercase tracking-wider text-brand-500">Nuestros programas</span>
       <h2 class="mt-3 text-2xl font-extrabold text-navy-700 sm:text-3xl md:text-4xl">Una educación para cada etapa</h2>
-      <p class="mt-4 text-base text-slate-600 sm:text-lg">Acompañamos a nuestros estudiantes desde sus primeros pasos hasta su ingreso a la universidad.</p>
+      <p class="mt-4 text-base text-slate-600 sm:text-lg">
+        Acompañamos a nuestros estudiantes desde sus primeros pasos hasta su ingreso a la universidad.
+      </p>
     </div>
 
     <div class="mt-12 grid gap-6 sm:mt-14 sm:grid-cols-2">
-      {programs.map(p => (
+      {programs.map((p) => (
         <article class="group relative overflow-hidden rounded-2xl bg-white p-6 ring-1 ring-slate-200 transition-all hover:-translate-y-1 hover:shadow-xl hover:ring-brand-300 sm:p-7">
-          <span class="absolute right-4 top-4 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-600 sm:right-5 sm:top-5">{p.badge}</span>
+          <span class="absolute right-4 top-4 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-600 sm:right-5 sm:top-5">
+            {p.badge}
+          </span>
           <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-brand-50 text-brand-500 transition-colors group-hover:bg-brand-500 group-hover:text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-7 w-7"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <path d={p.icon} />
             </svg>
           </div>
@@ -56,9 +74,22 @@ const programs = [
             </div>
           </div>
 
-          <a href="#contacto" class="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-brand-500 transition-all group-hover:gap-2">
+          <a
+            href="#contacto"
+            class="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-brand-500 transition-all group-hover:gap-2"
+          >
             Más información
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+            <svg
+              class="h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M9 5l7 7-7 7" />
+            </svg>
           </a>
         </article>
       ))}
@@ -67,11 +98,26 @@ const programs = [
     <div class="mt-12 overflow-hidden rounded-2xl bg-navy-700 px-6 py-8 sm:mt-14 sm:px-8 sm:py-10 md:flex md:items-center md:justify-between">
       <div class="text-white">
         <h3 class="text-xl font-extrabold sm:text-2xl md:text-3xl">¿No encuentras el programa ideal?</h3>
-        <p class="mt-2 text-sm text-navy-100 sm:text-base">Contáctanos y diseñamos una propuesta personalizada para tu hijo.</p>
+        <p class="mt-2 text-sm text-navy-100 sm:text-base">
+          Contáctanos y diseñamos una propuesta personalizada para tu hijo.
+        </p>
       </div>
-      <a href="#contacto" class="mt-5 inline-flex items-center gap-2 rounded-full bg-brand-500 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600 sm:px-6 sm:py-3 md:mt-0">
+      <a
+        href="#contacto"
+        class="mt-5 inline-flex items-center gap-2 rounded-full bg-brand-500 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-600 sm:px-6 sm:py-3 md:mt-0"
+      >
         Hablar con un asesor
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14 M13 6l6 6-6 6"/></svg>
+        <svg
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M5 12h14 M13 6l6 6-6 6" />
+        </svg>
       </a>
     </div>
   </div>

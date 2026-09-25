@@ -40,23 +40,58 @@ export type Winner = {
   timestamp: number;
 };
 
+/**
+ * The five prizes on the wheel. Previously this list repeated the same five
+ * entries three times (16 items, one orphan), which rendered as duplicate cards.
+ * Colours stick to the brand/navy palette; `icon` keys must exist in
+ * public/js/icons.js.
+ */
 export const PRIZES: Prize[] = [
-  { id: 'p1', name: '5% Souvenirs', description: '5% de descuento en souvenirs', type: 'descuento_souvenirs', value: 5, color: 'bg-emerald-500', icon: 'shopping-bag' },
-  { id: 'p2', name: 'Test Vocacional', description: 'Test vocacional gratis', type: 'test_vocacional', value: 0, color: 'bg-brand-500', icon: 'clipboard-check' },
-  { id: 'p3', name: '15% Academia', description: '15% de descuento en Academia Galileo', type: 'descuento_academia', value: 15, color: 'bg-purple-500', icon: 'graduation-cap' },
-  { id: 'p4', name: 'Entrevista Psicológica', description: 'Entrevista psicológica gratis', type: 'entrevista_psicologica', value: 0, color: 'bg-rose-500', icon: 'brain' },
-  { id: 'p5', name: 'Reclama tu Premio', description: 'Reclama tu premio en oficina', type: 'reclama_oficina', value: 0, color: 'bg-sky-500', icon: 'gift' },
-  { id: 'p6', name: '5% Souvenirs', description: '5% de descuento en souvenirs', type: 'descuento_souvenirs', value: 5, color: 'bg-emerald-500', icon: 'shopping-bag' },
-  { id: 'p7', name: 'Test Vocacional', description: 'Test vocacional gratis', type: 'test_vocacional', value: 0, color: 'bg-brand-500', icon: 'clipboard-check' },
-  { id: 'p8', name: '15% Academia', description: '15% de descuento en Academia Galileo', type: 'descuento_academia', value: 15, color: 'bg-purple-500', icon: 'graduation-cap' },
-  { id: 'p9', name: 'Entrevista Psicológica', description: 'Entrevista psicológica gratis', type: 'entrevista_psicologica', value: 0, color: 'bg-rose-500', icon: 'brain' },
-  { id: 'p10', name: 'Reclama tu Premio', description: 'Reclama tu premio en oficina', type: 'reclama_oficina', value: 0, color: 'bg-sky-500', icon: 'gift' },
-  { id: 'p11', name: '5% Souvenirs', description: '5% de descuento en souvenirs', type: 'descuento_souvenirs', value: 5, color: 'bg-emerald-500', icon: 'shopping-bag' },
-  { id: 'p12', name: 'Test Vocacional', description: 'Test vocacional gratis', type: 'test_vocacional', value: 0, color: 'bg-brand-500', icon: 'clipboard-check' },
-  { id: 'p13', name: '15% Academia', description: '15% de descuento en Academia Galileo', type: 'descuento_academia', value: 15, color: 'bg-purple-500', icon: 'graduation-cap' },
-  { id: 'p14', name: 'Entrevista Psicológica', description: 'Entrevista psicológica gratis', type: 'entrevista_psicologica', value: 0, color: 'bg-rose-500', icon: 'brain' },
-  { id: 'p15', name: 'Reclama tu Premio', description: 'Reclama tu premio en oficina', type: 'reclama_oficina', value: 0, color: 'bg-sky-500', icon: 'gift' },
-  { id: 'p16', name: '5% Souvenirs', description: '5% de descuento en souvenirs', type: 'descuento_souvenirs', value: 5, color: 'bg-emerald-500', icon: 'shopping-bag' },
+  {
+    id: 'p1',
+    name: '5% Souvenirs',
+    description: '5% de descuento en souvenirs',
+    type: 'descuento_souvenirs',
+    value: 5,
+    color: 'bg-navy-500',
+    icon: 'shopping-bag',
+  },
+  {
+    id: 'p2',
+    name: 'Test Vocacional',
+    description: 'Test vocacional gratis',
+    type: 'test_vocacional',
+    value: 0,
+    color: 'bg-brand-500',
+    icon: 'clipboard-check',
+  },
+  {
+    id: 'p3',
+    name: '15% Academia',
+    description: '15% de descuento en Academia Galileo',
+    type: 'descuento_academia',
+    value: 15,
+    color: 'bg-navy-700',
+    icon: 'graduation-cap',
+  },
+  {
+    id: 'p4',
+    name: 'Entrevista Psicológica',
+    description: 'Entrevista psicológica gratis',
+    type: 'entrevista_psicologica',
+    value: 0,
+    color: 'bg-brand-700',
+    icon: 'brain',
+  },
+  {
+    id: 'p5',
+    name: 'Reclama tu Premio',
+    description: 'Reclama tu premio en oficina',
+    type: 'reclama_oficina',
+    value: 0,
+    color: 'bg-navy-600',
+    icon: 'gift',
+  },
 ];
 
 export const DEFAULT_DATA: OlimpiadasData = {

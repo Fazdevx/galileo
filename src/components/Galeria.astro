@@ -1,5 +1,5 @@
 ---
-import { getImage } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import frontis from '../assets/frontis.png';
 import campoGrass from '../assets/campo-grass.png';
 import desfileImg from '../assets/desfile.jpg';
@@ -9,7 +9,7 @@ import deporte2 from '../assets/deporte-2.png';
 import copas from '../assets/copas.png';
 import ingresantes from '../assets/ingresantes.png';
 
-const base = [
+const fotos = [
   { src: frontis, alt: 'Frontis del comedor y aulas del colegio Galileo', caption: 'Nuestras instalaciones' },
   { src: campoGrass, alt: 'Campo de grass del colegio Galileo', caption: 'Campo deportivo' },
   { src: desfileImg, alt: 'Desfile escolar del colegio Galileo', caption: 'Desfile cívico escolar' },
@@ -17,14 +17,34 @@ const base = [
   { src: deporte1, alt: 'Estudiantes participando en las olimpiadas internas', caption: 'Olimpiadas internas' },
   { src: deporte2, alt: 'Estudiantes durante las competencias deportivas', caption: 'Competencias deportivas' },
   { src: copas, alt: 'Copas de las olimpiadas internas', caption: 'Nuestras olimpiadas' },
-  { src: ingresantes, alt: 'Foto grupal de los cachimbos que ingresaron a la universidad', caption: 'Cachimbos ingresantes a la universidad' },
+  {
+    src: ingresantes,
+    alt: 'Foto grupal de los cachimbos que ingresaron a la universidad',
+    caption: 'Cachimbos ingresantes a la universidad',
+  },
 ];
 
-const fotos = await Promise.all(base.map(async (f) => ({
-  ...f,
-  src: (await getImage({ src: f.src, widths: [320, 640, 960, 1200], formats: ['webp', 'avif'] })).src,
-})));
+/**
+ * Plain-object copy for the lightbox script.
+ *
+ * The grid below uses <Image>, which emits a responsive srcset. A lightbox
+ * shows exactly one full-width image, so a srcset buys nothing there, and the
+ * raw `src` would point at the unprocessed 2-3 MB PNG. Resolving it through
+ * getImage routes the URL through the same optimizer the grid uses.
+ *
+ * Note: with the Vercel adapter the actual format is negotiated from the
+ * Accept header, so passing `format` here has no effect and the width is
+ * snapped to the service's presets. The call is here to get an optimized URL
+ * rather than a guaranteed WebP.
+ */
+const lightbox = await Promise.all(
+  fotos.map(async (f) => {
+    const optimized = await getImage({ src: f.src, width: 1600 });
+    return { src: optimized.src, alt: f.alt, caption: f.caption };
+  }),
+);
 ---
+
 <section id="galeria" class="bg-slate-50 py-16 sm:py-20 md:py-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
     <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-navy-700 to-navy-800 px-6 py-10 text-center shadow-xl sm:px-12 sm:py-14 md:py-16">
@@ -34,8 +54,12 @@ const fotos = await Promise.all(base.map(async (f) => ({
         <span class="h-1.5 w-1.5 rounded-full bg-brand-400"></span>
         Galería
       </span>
-      <h1 class="relative mx-auto mt-3 max-w-2xl text-2xl font-extrabold text-white sm:text-3xl md:text-4xl">La vida en Galileo</h1>
-      <p class="relative mx-auto mt-4 max-w-2xl text-base text-navy-100 sm:text-lg">Infraestructura, deporte y tradiciones que forman parte de nuestra comunidad educativa.</p>
+      <h1 class="relative mx-auto mt-3 max-w-2xl text-2xl font-extrabold text-white sm:text-3xl md:text-4xl">
+        La vida en Galileo
+      </h1>
+      <p class="relative mx-auto mt-4 max-w-2xl text-base text-navy-100 sm:text-lg">
+        Infraestructura, deporte y tradiciones que forman parte de nuestra comunidad educativa.
+      </p>
     </div>
 
     <div class="mt-12 grid grid-cols-2 gap-4 sm:mt-14 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
@@ -45,10 +69,13 @@ const fotos = await Promise.all(base.map(async (f) => ({
           data-galeria-index={i}
           class="group relative overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-xl hover:ring-brand-300"
         >
-          <img
+          <Image
             src={f.src}
             alt={f.alt}
+            widths={[320, 640, 960, 1200]}
+            sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
             loading="lazy"
+            decoding="async"
             class="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
           <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy-900/85 via-navy-900/30 to-transparent px-4 pb-3 pt-10 text-left text-xs font-bold text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:text-sm">
@@ -67,14 +94,59 @@ const fotos = await Promise.all(base.map(async (f) => ({
   aria-modal="true"
   aria-label="Vista ampliada de la galería"
 >
-  <button id="galeria-lb-close" type="button" aria-label="Cerrar galería" class="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20">
-    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12 M18 6L6 18"/></svg>
+  <button
+    id="galeria-lb-close"
+    type="button"
+    aria-label="Cerrar galería"
+    class="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+  >
+    <svg
+      class="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M6 6l12 12 M18 6L6 18" />
+    </svg>
   </button>
-  <button id="galeria-lb-prev" type="button" aria-label="Imagen anterior" class="absolute left-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 sm:left-6">
-    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  <button
+    id="galeria-lb-prev"
+    type="button"
+    aria-label="Imagen anterior"
+    class="absolute left-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 sm:left-6"
+  >
+    <svg
+      class="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M15 18l-6-6 6-6" />
+    </svg>
   </button>
-  <button id="galeria-lb-next" type="button" aria-label="Imagen siguiente" class="absolute right-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 sm:right-6">
-    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+  <button
+    id="galeria-lb-next"
+    type="button"
+    aria-label="Imagen siguiente"
+    class="absolute right-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 sm:right-6"
+  >
+    <svg
+      class="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M9 5l7 7-7 7" />
+    </svg>
   </button>
   <figure class="max-w-4xl px-14">
     <img id="galeria-lb-img" class="mx-auto max-h-[75vh] w-auto rounded-xl shadow-2xl" src="" alt="" />
@@ -82,12 +154,12 @@ const fotos = await Promise.all(base.map(async (f) => ({
   </figure>
 </div>
 
-<script define:vars={{ fotos }}>
+<script define:vars={{ lightbox }}>
   (() => {
-    const lightbox = document.getElementById('galeria-lightbox');
+    const lb = document.getElementById('galeria-lightbox');
     const img = document.getElementById('galeria-lb-img');
     const caption = document.getElementById('galeria-lb-caption');
-    if (!lightbox || !img || !caption) return;
+    if (!lb || !img || !caption) return;
 
     let index = 0;
     let lastFocus = null;
@@ -102,14 +174,14 @@ const fotos = await Promise.all(base.map(async (f) => ({
     const open = (i, trigger) => {
       lastFocus = trigger || null;
       show(i);
-      lightbox.classList.remove('hidden');
-      lightbox.classList.add('flex');
+      lb.classList.remove('hidden');
+      lb.classList.add('flex');
       document.body.style.overflow = 'hidden';
       document.getElementById('galeria-lb-close')?.focus();
     };
     const close = () => {
-      lightbox.classList.add('hidden');
-      lightbox.classList.remove('flex');
+      lb.classList.add('hidden');
+      lb.classList.remove('flex');
       document.body.style.overflow = '';
       lastFocus?.focus();
     };
@@ -123,15 +195,36 @@ const fotos = await Promise.all(base.map(async (f) => ({
     document.getElementById('galeria-lb-close')?.addEventListener('click', close);
     document.getElementById('galeria-lb-prev')?.addEventListener('click', () => show(index - 1));
     document.getElementById('galeria-lb-next')?.addEventListener('click', () => show(index + 1));
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) close();
+    lb.addEventListener('click', (e) => {
+      if (e.target === lb) close();
     });
 
+    const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
     document.addEventListener('keydown', (e) => {
-      if (lightbox.classList.contains('hidden')) return;
+      if (lb.classList.contains('hidden')) return;
       if (e.key === 'Escape') close();
       if (e.key === 'ArrowLeft') show(index - 1);
       if (e.key === 'ArrowRight') show(index + 1);
+
+      // Keep Tab inside the lightbox. Done here rather than via the shared
+      // createDialog helper because that one stops propagation on Escape,
+      // which would also swallow the arrow keys handled above.
+      if (e.key === 'Tab') {
+        const items = Array.from(lb.querySelectorAll < HTMLElement > FOCUSABLE).filter(
+          (el) => el.offsetParent !== null,
+        );
+        if (!items.length) return;
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     });
   })();
 </script>

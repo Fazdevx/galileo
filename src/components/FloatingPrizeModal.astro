@@ -1,24 +1,71 @@
 ---
-import { PRIZES } from '../data/olimpiadasStore';
 ---
 
-<div id="prize-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+<div
+  id="prize-modal"
+  class="fixed inset-0 z-50 hidden items-center justify-center p-4"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="prize-title"
+>
   <div id="prize-backdrop" class="absolute inset-0 bg-navy-900/80 backdrop-blur-sm"></div>
   <div id="confetti-container" class="fixed inset-0 pointer-events-none z-51"></div>
-  <div id="prize-card" class="relative z-10 w-full max-w-lg rounded-2xl bg-navy-900/40 backdrop-blur-md p-4 sm:p-6 shadow-2xl ring-1 ring-brand-500/50 text-center max-h-[90vh] overflow-y-auto border border-brand-500/20">
-    <button id="prize-close" type="button" class="absolute right-3 top-3 rounded-full p-1 text-white hover:bg-brand-500/50 hover:text-white transition-colors">
-      <i class="fas fa-times text-lg"></i>
+  <div
+    id="prize-card"
+    class="relative z-10 w-full max-w-lg rounded-2xl bg-navy-900/40 backdrop-blur-md p-4 sm:p-6 shadow-2xl ring-1 ring-brand-500/50 text-center max-h-[90vh] overflow-y-auto border border-brand-500/20"
+  >
+    <h2 id="prize-title" class="sr-only">
+      PromociÃ³n de premios Galileo
+    </h2>
+    <button
+      id="prize-close"
+      type="button"
+      aria-label="Cerrar"
+      class="absolute right-3 top-3 rounded-full p-1 text-white hover:bg-brand-500/50 hover:text-white transition-colors"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        class="h-5 w-5"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        aria-hidden="true"
+      >
+        <path d="M18 6 6 18M6 6l12 12" />
+      </svg>
     </button>
 
     <div id="prize-spinner-area" class="hidden">
-      <h3 class="text-2xl font-extrabold text-white mb-2"><i class="fas fa-dharmachakra text-brand-400"></i> Gira la Ruleta</h3>
-      <p class="text-xs text-white/80 mb-4">¡Puedes ganar descuentos en souvenirs, test vocacional y más!</p>
+      <h3 class="text-2xl font-extrabold text-white mb-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          class="inline h-6 w-6 text-brand-400"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="8.5" />
+          <path d="M12 3.5v17M3.5 12h17M6 6l12 12M18 6 6 18" />
+        </svg>{' '}
+        Gira la Ruleta
+      </h3>
+      <p class="text-xs text-white/80 mb-4">Â¡Puedes ganar descuentos en souvenirs, test vocacional y mÃ¡s!</p>
       <div class="relative mx-auto" style="width: 280px; height: 280px; max-width: 340px; max-height: 340px;">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-3 z-20" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));">
+        <div
+          class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-3 z-20"
+          style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));"
+        >
           <svg width="46" height="46" viewBox="0 0 56 56">
-            <polygon points="28,0 56,42 0,42" fill="#f04e00" stroke="#fff" stroke-width="3"/>
-            <circle cx="28" cy="30" r="10" fill="#fff" stroke="#f04e00" stroke-width="3"/>
-            <text x="28" y="34" text-anchor="middle" fill="#f04e00" font-size="12" font-weight="bold">!</text>
+            <polygon points="28,0 56,42 0,42" fill="#f04e00" stroke="#fff" stroke-width="3" />
+            <circle cx="28" cy="30" r="10" fill="#fff" stroke="#f04e00" stroke-width="3" />
+            <text x="28" y="34" text-anchor="middle" fill="#f04e00" font-size="12" font-weight="bold">
+              !
+            </text>
           </svg>
         </div>
 
@@ -29,7 +76,7 @@ import { PRIZES } from '../data/olimpiadasStore';
               <stop offset="100%" stop-color="#0f172a" />
             </radialGradient>
             <filter id="segmentShadow" x="-5%" y="-5%" width="110%" height="110%">
-              <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.3"/>
+              <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.3" />
             </filter>
           </defs>
           <circle cx="200" cy="200" r="195" fill="url(#wheelCenter)" stroke="#1b2a4e" stroke-width="5" />
@@ -37,19 +84,77 @@ import { PRIZES } from '../data/olimpiadasStore';
           <circle cx="200" cy="200" r="60" fill="#0f172a" stroke="#f97316" stroke-width="4" />
           <circle cx="200" cy="200" r="52" fill="#1b2a4e" stroke="#f97316" stroke-width="2" />
           <circle cx="200" cy="200" r="46" fill="#0f172a" />
-          <text id="center-text" x="200" y="195" text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="14" font-weight="bold">GIRAR</text>
-          <text x="200" y="212" text-anchor="middle" dominant-baseline="central" fill="#f97316" font-size="8" opacity="0.8">PREMIOS</text>
+          <text
+            id="center-text"
+            x="200"
+            y="195"
+            text-anchor="middle"
+            dominant-baseline="central"
+            fill="#fff"
+            font-size="14"
+            font-weight="bold"
+          >
+            GIRAR
+          </text>
+          <text
+            x="200"
+            y="212"
+            text-anchor="middle"
+            dominant-baseline="central"
+            fill="#f97316"
+            font-size="8"
+            opacity="0.8"
+          >
+            PREMIOS
+          </text>
         </svg>
       </div>
-      <button id="spin-btn" type="button" class="mt-4 rounded-full bg-gradient-to-r from-brand-500 to-brand-700 px-10 py-3 text-sm font-bold text-white shadow-lg transition hover:scale-105 focus:outline-none focus:ring-4 focus:ring-brand-300">
-        <i class="fas fa-dharmachakra mr-2"></i>Girar Ruleta
+      <button
+        id="spin-btn"
+        type="button"
+        class="mt-4 rounded-full bg-gradient-to-r from-brand-500 to-brand-700 px-10 py-3 text-sm font-bold text-white shadow-lg transition hover:scale-105 focus:outline-none focus:ring-4 focus:ring-brand-300"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          class="mr-2 inline h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="8.5" />
+          <path d="M12 3.5v17M3.5 12h17M6 6l12 12M18 6 6 18" />
+        </svg>
+        Girar Ruleta
       </button>
       <div id="countdown" class="hidden mt-4">
         <span id="countdown-num" class="text-6xl font-extrabold text-brand-500"></span>
       </div>
       <div id="spin-result" class="mt-4 hidden">
         <div class="inline-block rounded-xl bg-gradient-to-r from-brand-500 to-brand-700 px-6 py-3 text-white shadow-lg">
-          <p class="text-sm font-bold opacity-90"><i class="fas fa-trophy mr-1"></i>¡Ganaste!</p>
+          <p class="text-sm font-bold opacity-90">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              class="mr-1 inline h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+              <path d="M4 22h16" />
+              <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+              <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+              <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+            </svg>
+            Â¡Ganaste!
+          </p>
           <p id="spin-result-name" class="text-2xl font-extrabold"></p>
           <p id="spin-result-desc" class="text-sm opacity-90"></p>
         </div>
@@ -58,26 +163,70 @@ import { PRIZES } from '../data/olimpiadasStore';
         <div class="inline-block text-center">
           <div id="spin-celebration-icon" class="text-6xl mb-2 inline-block"></div>
           <p id="spin-celebration-name" class="text-2xl font-extrabold text-brand-600"></p>
-          <p class="text-xs text-slate-500 mt-1">¡Excelente premio!</p>
+          <p class="text-xs text-slate-500 mt-1">Â¡Excelente premio!</p>
         </div>
       </div>
       <div id="spin-win-form" class="mt-4 hidden">
         <div class="rounded-xl bg-navy-900/20 backdrop-blur-sm p-4 border-2 border-brand-500/30">
-          <p class="text-sm font-bold text-white mb-2"><i class="fas fa-paper-plane mr-1 text-brand-400"></i>Datos para enviar por WhatsApp</p>
-          <p class="text-sm font-bold text-brand-400 mb-4">¡Reclama tu premio en oficina!</p>
+          <p class="text-sm font-bold text-white mb-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              class="mr-1 inline h-4 w-4 text-brand-400"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M22 2 11 13" />
+              <path d="M22 2l-7 20-4-9-9-4z" />
+            </svg>
+            Datos para enviar por WhatsApp
+          </p>
+          <p class="text-sm font-bold text-brand-400 mb-4">Â¡Reclama tu premio en oficina!</p>
           <div class="mb-3">
-            <label class="block text-xs font-bold text-white/80 mb-1">Último número de boleta</label>
-            <input id="spin-ticket-number" type="text" inputmode="numeric" maxlength="10" placeholder="Ej: 12345678" class="w-full rounded-lg border-2 border-brand-500/50 bg-navy-900/30 backdrop-blur-sm px-3 py-2 text-sm text-white focus:border-brand-500 focus:outline-none" />
+            <label class="block text-xs font-bold text-white/80 mb-1">Ãšltimo nÃºmero de boleta</label>
+            <input
+              id="spin-ticket-number"
+              type="text"
+              inputmode="numeric"
+              maxlength="10"
+              placeholder="Ej: 12345678"
+              class="w-full rounded-lg border-2 border-brand-500/50 bg-navy-900/30 backdrop-blur-sm px-3 py-2 text-sm text-white focus:border-brand-500 focus:outline-none"
+            />
           </div>
           <div class="mb-3">
             <label class="block text-xs font-bold text-white/80 mb-1">Nombre del padre</label>
-            <input id="spin-parent-name" type="text" placeholder="Ej: Juan Pérez" class="w-full rounded-lg border-2 border-brand-500/50 bg-navy-900/30 backdrop-blur-sm px-3 py-2 text-sm text-white focus:border-brand-500 focus:outline-none" />
+            <input
+              id="spin-parent-name"
+              type="text"
+              placeholder="Ej: Juan PÃ©rez"
+              class="w-full rounded-lg border-2 border-brand-500/50 bg-navy-900/30 backdrop-blur-sm px-3 py-2 text-sm text-white focus:border-brand-500 focus:outline-none"
+            />
           </div>
           <div class="flex gap-2">
-            <button id="spin-whatsapp-btn" type="button" class="flex-1 rounded-lg bg-green-600 px-4 py-2 text-sm font-bold text-white hover:bg-green-700 transition">
-              <i class="fab fa-whatsapp mr-2"></i>Enviar
+            <button
+              id="spin-whatsapp-btn"
+              type="button"
+              class="flex-1 rounded-lg bg-green-600 px-4 py-2 text-sm font-bold text-white hover:bg-green-700 transition"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 32 32"
+                class="mr-2 inline h-5 w-5 fill-current"
+                aria-hidden="true"
+              >
+                <path d="M16 .4C7.4.4.4 7.4.4 16c0 2.8.7 5.4 2.1 7.8L0 32l8.4-2.4c2.3 1.3 4.9 2 7.6 2 8.6 0 15.6-7 15.6-15.6S24.6.4 16 .4zm0 28.4c-2.4 0-4.7-.6-6.7-1.8l-.5-.3-5 1.4 1.4-4.9-.3-.5C3.7 21 3 18.5 3 16 3 8.3 8.3 3 16 3s13 5.3 13 13-5.8 12.8-13 12.8zm7.2-9.7c-.4-.2-2.3-1.1-2.6-1.2-.4-.1-.6-.2-.9.2-.3.4-1 1.2-1.3 1.4-.2.3-.5.3-.9.1-.4-.2-1.6-.6-3.1-1.9-1.1-1-1.9-2.3-2.1-2.7-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.3-.4.4-.6.1-.2 0-.5-.1-.7-.1-.2-.9-2.2-1.3-3-.3-.8-.7-.7-.9-.7h-.8c-.3 0-.7.1-1.1.5-.4.4-1.4 1.4-1.4 3.4s1.5 4 1.7 4.3c.2.3 2.9 4.5 7.1 6.3 1 .4 1.8.7 2.4.8 1 .3 1.9.3 2.6.2.8-.1 2.3-.9 2.7-1.8.3-.9.3-1.7.2-1.8-.1-.2-.4-.3-.8-.5z" />
+              </svg>
+              Enviar
             </button>
-            <button id="spin-close-btn" type="button" class="rounded-lg bg-navy-600 px-4 py-2 text-sm font-bold text-white hover:bg-navy-700 transition">
+            <button
+              id="spin-close-btn"
+              type="button"
+              class="rounded-lg bg-navy-600 px-4 py-2 text-sm font-bold text-white hover:bg-navy-700 transition"
+            >
               Cerrar
             </button>
           </div>
@@ -86,12 +235,48 @@ import { PRIZES } from '../data/olimpiadasStore';
     </div>
 
     <div id="prize-deck-area" class="hidden">
-      <h3 class="text-2xl font-extrabold text-white mb-2"><i class="fas fa-book-open text-brand-400"></i> Elige tu premio</h3>
+      <h3 class="text-2xl font-extrabold text-white mb-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          class="inline h-6 w-6 text-brand-400"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M12 7v14" />
+          <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" />
+        </svg>{' '}
+        Elige tu premio
+      </h3>
       <p class="text-xs text-white/80 mb-4">Selecciona una carta</p>
       <div id="deck-grid" class="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3 max-w-sm mx-auto"></div>
       <div id="deck-result" class="mt-4 hidden">
         <div class="inline-block rounded-xl bg-gradient-to-r from-brand-500 to-brand-700 px-6 py-3 text-white shadow-lg">
-          <p class="text-sm font-bold opacity-90"><i class="fas fa-trophy mr-1"></i>¡Ganaste!</p>
+          <p class="text-sm font-bold opacity-90">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              class="mr-1 inline h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+              <path d="M4 22h16" />
+              <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+              <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+              <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+            </svg>
+            Â¡Ganaste!
+          </p>
           <p id="deck-result-name" class="text-2xl font-extrabold"></p>
           <p id="deck-result-desc" class="text-sm opacity-90"></p>
         </div>
@@ -100,26 +285,70 @@ import { PRIZES } from '../data/olimpiadasStore';
         <div class="inline-block text-center">
           <div id="deck-celebration-icon" class="text-6xl mb-2 inline-block"></div>
           <p id="deck-celebration-name" class="text-2xl font-extrabold text-brand-600"></p>
-          <p class="text-xs text-slate-500 mt-1">¡Excelente premio!</p>
+          <p class="text-xs text-slate-500 mt-1">Â¡Excelente premio!</p>
         </div>
       </div>
       <div id="deck-win-form" class="mt-4 hidden">
         <div class="rounded-xl bg-navy-900/20 backdrop-blur-sm p-4 border-2 border-brand-500/30">
-          <p class="text-sm font-bold text-white mb-2"><i class="fas fa-paper-plane mr-1 text-brand-400"></i>Datos para enviar por WhatsApp</p>
-          <p class="text-sm font-bold text-brand-400 mb-4">¡Reclama tu premio en oficina!</p>
+          <p class="text-sm font-bold text-white mb-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              class="mr-1 inline h-4 w-4 text-brand-400"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M22 2 11 13" />
+              <path d="M22 2l-7 20-4-9-9-4z" />
+            </svg>
+            Datos para enviar por WhatsApp
+          </p>
+          <p class="text-sm font-bold text-brand-400 mb-4">Â¡Reclama tu premio en oficina!</p>
           <div class="mb-3">
-            <label class="block text-xs font-bold text-white/80 mb-1">Último número de boleta</label>
-            <input id="deck-ticket-number" type="text" inputmode="numeric" maxlength="10" placeholder="Ej: 12345678" class="w-full rounded-lg border-2 border-brand-500/50 bg-navy-900/30 backdrop-blur-sm px-3 py-2 text-sm text-white focus:border-brand-500 focus:outline-none" />
+            <label class="block text-xs font-bold text-white/80 mb-1">Ãšltimo nÃºmero de boleta</label>
+            <input
+              id="deck-ticket-number"
+              type="text"
+              inputmode="numeric"
+              maxlength="10"
+              placeholder="Ej: 12345678"
+              class="w-full rounded-lg border-2 border-brand-500/50 bg-navy-900/30 backdrop-blur-sm px-3 py-2 text-sm text-white focus:border-brand-500 focus:outline-none"
+            />
           </div>
           <div class="mb-3">
             <label class="block text-xs font-bold text-white/80 mb-1">Nombre del padre</label>
-            <input id="deck-parent-name" type="text" placeholder="Ej: Juan Pérez" class="w-full rounded-lg border-2 border-brand-500/50 bg-navy-900/30 backdrop-blur-sm px-3 py-2 text-sm text-white focus:border-brand-500 focus:outline-none" />
+            <input
+              id="deck-parent-name"
+              type="text"
+              placeholder="Ej: Juan PÃ©rez"
+              class="w-full rounded-lg border-2 border-brand-500/50 bg-navy-900/30 backdrop-blur-sm px-3 py-2 text-sm text-white focus:border-brand-500 focus:outline-none"
+            />
           </div>
           <div class="flex gap-2">
-            <button id="deck-whatsapp-btn" type="button" class="flex-1 rounded-lg bg-green-600 px-4 py-2 text-sm font-bold text-white hover:bg-green-700 transition">
-              <i class="fab fa-whatsapp mr-2"></i>Enviar
+            <button
+              id="deck-whatsapp-btn"
+              type="button"
+              class="flex-1 rounded-lg bg-green-600 px-4 py-2 text-sm font-bold text-white hover:bg-green-700 transition"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 32 32"
+                class="mr-2 inline h-5 w-5 fill-current"
+                aria-hidden="true"
+              >
+                <path d="M16 .4C7.4.4.4 7.4.4 16c0 2.8.7 5.4 2.1 7.8L0 32l8.4-2.4c2.3 1.3 4.9 2 7.6 2 8.6 0 15.6-7 15.6-15.6S24.6.4 16 .4zm0 28.4c-2.4 0-4.7-.6-6.7-1.8l-.5-.3-5 1.4 1.4-4.9-.3-.5C3.7 21 3 18.5 3 16 3 8.3 8.3 3 16 3s13 5.3 13 13-5.8 12.8-13 12.8zm7.2-9.7c-.4-.2-2.3-1.1-2.6-1.2-.4-.1-.6-.2-.9.2-.3.4-1 1.2-1.3 1.4-.2.3-.5.3-.9.1-.4-.2-1.6-.6-3.1-1.9-1.1-1-1.9-2.3-2.1-2.7-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.3-.4.4-.6.1-.2 0-.5-.1-.7-.1-.2-.9-2.2-1.3-3-.3-.8-.7-.7-.9-.7h-.8c-.3 0-.7.1-1.1.5-.4.4-1.4 1.4-1.4 3.4s1.5 4 1.7 4.3c.2.3 2.9 4.5 7.1 6.3 1 .4 1.8.7 2.4.8 1 .3 1.9.3 2.6.2.8-.1 2.3-.9 2.7-1.8.3-.9.3-1.7.2-1.8-.1-.2-.4-.3-.8-.5z" />
+              </svg>
+              Enviar
             </button>
-            <button id="deck-close-btn" type="button" class="rounded-lg bg-navy-600 px-4 py-2 text-sm font-bold text-white hover:bg-navy-700 transition">
+            <button
+              id="deck-close-btn"
+              type="button"
+              class="rounded-lg bg-navy-600 px-4 py-2 text-sm font-bold text-white hover:bg-navy-700 transition"
+            >
               Cerrar
             </button>
           </div>
@@ -130,33 +359,21 @@ import { PRIZES } from '../data/olimpiadasStore';
 </div>
 
 <script>
-  const WHEEL_PRIZES = [
-    { id: 'w1', name: '5% Souvenirs', description: '5% descuento souvenirs', type: 'descuento_souvenirs', value: 5, icon: 'shopping-bag' },
-    { id: 'w2', name: 'Test Vocacional', description: 'Test vocacional gratis', type: 'test_vocacional', value: 0, icon: 'clipboard-check' },
-    { id: 'w3', name: '15% Academia', description: '15% Academia Galileo', type: 'descuento_academia', value: 15, icon: 'graduation-cap' },
-    { id: 'w4', name: 'Entrevista Psicológica', description: 'Entrevista psicológica gratis', type: 'entrevista_psicologica', value: 0, icon: 'brain' },
-    { id: 'w5', name: 'Reclama tu Premio', description: 'Reclama en oficina', type: 'reclama_oficina', value: 0, icon: 'gift' },
-    { id: 'w6', name: '5% Souvenirs', description: '5% descuento souvenirs', type: 'descuento_souvenirs', value: 5, icon: 'shopping-bag' },
-  ];
+  import { PRIZES } from '../data/olimpiadasStore';
 
-  const ALL_PRIZES = [
-    { id: 'p1', name: '5% Souvenirs', description: '5% descuento souvenirs', type: 'descuento_souvenirs', value: 5, icon: 'shopping-bag' },
-    { id: 'p2', name: 'Test Vocacional', description: 'Test vocacional gratis', type: 'test_vocacional', value: 0, icon: 'clipboard-check' },
-    { id: 'p3', name: '15% Academia', description: '15% Academia Galileo', type: 'descuento_academia', value: 15, icon: 'graduation-cap' },
-    { id: 'p4', name: 'Entrevista Psicológica', description: 'Entrevista psicológica gratis', type: 'entrevista_psicologica', value: 0, icon: 'brain' },
-    { id: 'p5', name: 'Reclama tu Premio', description: 'Reclama en oficina', type: 'reclama_oficina', value: 0, icon: 'gift' },
-    { id: 'p6', name: '5% Souvenirs', description: '5% descuento souvenirs', type: 'descuento_souvenirs', value: 5, icon: 'shopping-bag' },
-    { id: 'p7', name: 'Test Vocacional', description: 'Test vocacional gratis', type: 'test_vocacional', value: 0, icon: 'clipboard-check' },
-    { id: 'p8', name: '15% Academia', description: '15% Academia Galileo', type: 'descuento_academia', value: 15, icon: 'graduation-cap' },
-    { id: 'p9', name: 'Entrevista Psicológica', description: 'Entrevista psicológica gratis', type: 'entrevista_psicologica', value: 0, icon: 'brain' },
-    { id: 'p10', name: 'Reclama tu Premio', description: 'Reclama en oficina', type: 'reclama_oficina', value: 0, icon: 'gift' },
-    { id: 'p11', name: '5% Souvenirs', description: '5% descuento souvenirs', type: 'descuento_souvenirs', value: 5, icon: 'shopping-bag' },
-    { id: 'p12', name: 'Test Vocacional', description: 'Test vocacional gratis', type: 'test_vocacional', value: 0, icon: 'clipboard-check' },
-    { id: 'p13', name: '15% Academia', description: '15% Academia Galileo', type: 'descuento_academia', value: 15, icon: 'graduation-cap' },
-    { id: 'p14', name: 'Entrevista Psicológica', description: 'Entrevista psicológica gratis', type: 'entrevista_psicologica', value: 0, icon: 'brain' },
-    { id: 'p15', name: 'Reclama tu Premio', description: 'Reclama en oficina', type: 'reclama_oficina', value: 0, icon: 'gift' },
-    { id: 'p16', name: '5% Souvenirs', description: '5% descuento souvenirs', type: 'descuento_souvenirs', value: 5, icon: 'shopping-bag' },
-  ];
+  type Prize = { id: string; name: string; description: string; type: string; value: number; icon: string };
+
+  // The wheel keeps 6 segments: the five prizes plus a repeat of the first, so
+  // the wheel geometry (and therefore the pointer maths) is unchanged.
+  const WHEEL_PRIZES = PRIZES.map(({ color, ...p }) => p as Prize);
+  WHEEL_PRIZES.push({ ...(WHEEL_PRIZES[0] as Prize), id: 'w6' });
+
+  // The card deck shows 8 cards drawn from the same pool, so duplicates are
+  // expected here.
+  const ALL_PRIZES = Array.from({ length: 8 }, (_, i) => ({
+    ...(PRIZES[i % PRIZES.length] as Prize),
+    id: `d${i + 1}`,
+  }));
 
   const SEGMENT_COLORS = ['#1b2a4e', '#f97316', '#0f172a', '#ea580c', '#1e3a5f', '#c2410c'];
   const SEGMENT_LIGHT = ['#2d4a7a', '#fb923c', '#1e293b', '#f97316', '#334e68', '#ea580c'];
@@ -166,8 +383,14 @@ import { PRIZES } from '../data/olimpiadasStore';
   let spinning = false;
   let deckFlipped = false;
 
-  function faIcon(name: string, size = 24) {
-    return `<i class="fas fa-${name}" style="font-size:${size}px"></i>`;
+  // Shared with the "cerrar" buttons inside the win forms, which live outside showModal().
+  let hideModal: () => void = () => {};
+  let dialog: DialogHandle | null = null;
+
+  function closePrizeModal() {
+    // Goes through the handle so Escape, the trap and the listeners stay in sync.
+    if (dialog) dialog.close();
+    else hideModal();
   }
 
   function launchConfetti() {
@@ -186,17 +409,23 @@ import { PRIZES } from '../data/olimpiadasStore';
       const shape = Math.random() > 0.5 ? '50%' : '2px';
       piece.style.cssText = `position:absolute;left:${x}px;top:-10px;width:${size}px;height:${size}px;background:${color};border-radius:${shape};pointer-events:none;`;
       container.appendChild(piece);
-      const anim = piece.animate([
-        { transform: `translate(0, 0) rotate(0deg) scale(1)`, opacity: 1 },
-        { transform: `translate(${Math.random() * 100 - 50}px, ${modalRect.height + 20}px) rotate(${Math.random() * 720}deg) scale(0.3)`, opacity: 0 }
-      ], {
-        duration: Math.random() * 1500 + 1000,
-        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-        delay: Math.random() * 600,
-      });
+      const anim = piece.animate(
+        [
+          { transform: `translate(0, 0) rotate(0deg) scale(1)`, opacity: 1 },
+          {
+            transform: `translate(${Math.random() * 100 - 50}px, ${modalRect.height + 20}px) rotate(${Math.random() * 720}deg) scale(0.3)`,
+            opacity: 0,
+          },
+        ],
+        {
+          duration: Math.random() * 1500 + 1000,
+          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          delay: Math.random() * 600,
+        },
+      );
       anim.onfinish = () => piece.remove();
     }
-    // Limpiar el contenedor después de que todos los confetis terminen
+    // Limpiar el contenedor despuÃ©s de que todos los confetis terminen
     setTimeout(() => {
       if (container) container.innerHTML = '';
     }, 3000);
@@ -210,8 +439,8 @@ import { PRIZES } from '../data/olimpiadasStore';
     WHEEL_PRIZES.forEach((prize, i) => {
       const startAngle = i * SEGMENT_ANGLE;
       const endAngle = startAngle + SEGMENT_ANGLE;
-      const startRad = (startAngle - 90) * Math.PI / 180;
-      const endRad = (endAngle - 90) * Math.PI / 180;
+      const startRad = ((startAngle - 90) * Math.PI) / 180;
+      const endRad = ((endAngle - 90) * Math.PI) / 180;
       const x1 = 200 + 195 * Math.cos(startRad);
       const y1 = 200 + 195 * Math.sin(startRad);
       const x2 = 200 + 195 * Math.cos(endRad);
@@ -219,8 +448,8 @@ import { PRIZES } from '../data/olimpiadasStore';
       const largeArc = SEGMENT_ANGLE > 180 ? 1 : 0;
       const midAngle = (startAngle + endAngle) / 2 - 90;
       const labelR = 130;
-      const lx = 200 + labelR * Math.cos(midAngle * Math.PI / 180);
-      const ly = 200 + labelR * Math.sin(midAngle * Math.PI / 180);
+      const lx = 200 + labelR * Math.cos((midAngle * Math.PI) / 180);
+      const ly = 200 + labelR * Math.sin((midAngle * Math.PI) / 180);
       const color = SEGMENT_COLORS[i % SEGMENT_COLORS.length];
       const lightColor = SEGMENT_LIGHT[i % SEGMENT_LIGHT.length];
 
@@ -270,7 +499,7 @@ import { PRIZES } from '../data/olimpiadasStore';
       subText.setAttribute('font-size', '9');
       subText.setAttribute('opacity', '0.9');
       subText.setAttribute('transform', `rotate(${midAngle + 90}, ${lx}, ${ly})`);
-      subText.textContent = prize.name.length > 12 ? prize.name.substring(0, 11) + '…' : prize.name;
+      subText.textContent = prize.name.length > 12 ? prize.name.substring(0, 11) + 'â€¦' : prize.name;
 
       container.appendChild(path);
       container.appendChild(text);
@@ -286,7 +515,10 @@ import { PRIZES } from '../data/olimpiadasStore';
     const cdEl = document.getElementById('countdown');
     const numEl = document.getElementById('countdown-num');
     const spinBtn = document.getElementById('spin-btn') as HTMLButtonElement | null;
-    if (!cdEl || !numEl) { onComplete(); return; }
+    if (!cdEl || !numEl) {
+      onComplete();
+      return;
+    }
 
     cdEl.classList.remove('hidden');
     if (spinBtn) spinBtn.classList.add('hidden');
@@ -379,15 +611,15 @@ import { PRIZES } from '../data/olimpiadasStore';
           spinBtn.disabled = true;
 
           showCountdown(() => {
-            spinBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Girando...';
+            spinBtn.innerHTML = faIcon('spinner', 16, 'animate-spin mr-2 inline-block align-[-2px]') + 'Girando...';
             const prize = pickRandomPrize();
-            const prizeIndex = WHEEL_PRIZES.findIndex(p => p.id === prize.id);
+            const prizeIndex = WHEEL_PRIZES.findIndex((p) => p.id === prize.id);
             const targetAngle = 360 * 8 + (360 - (prizeIndex * SEGMENT_ANGLE + SEGMENT_ANGLE / 2));
             if (wheelSvg) {
               wheelSvg.style.transition = 'transform 6s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
               wheelSvg.style.transform = `rotate(${targetAngle}deg)`;
             }
-setTimeout(() => {
+            setTimeout(() => {
               if (spinResultName) spinResultName.textContent = prize.name;
               if (spinResultDesc) spinResultDesc.textContent = prize.description;
               if (spinResult) {
@@ -399,7 +631,8 @@ setTimeout(() => {
                 centerText.textContent = prize.name;
                 centerText.setAttribute('font-size', '11');
               }
-              if (spinBtn) spinBtn.innerHTML = '<i class="fas fa-dharmachakra mr-2"></i>Girar Ruleta';
+              if (spinBtn)
+                spinBtn.innerHTML = faIcon('dharmachakra', 16, 'mr-2 inline-block align-[-2px]') + 'Girar Ruleta';
               spinning = false;
               saveWinner(prize);
               launchConfetti();
@@ -431,7 +664,7 @@ setTimeout(() => {
                   <svg width="100%" height="100%"><pattern id="diag${prize.id}" patternUnits="userSpaceOnUse" width="12" height="12" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="12" stroke="#f97316" stroke-width="1.5"/></pattern></svg>
                   <rect width="100%" height="100%" fill="url(#diag${prize.id})" />
                 </div>
-                <i class="fas fa-question text-3xl text-brand-400 relative z-10"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="relative z-10 h-8 w-8 text-brand-400" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z"/></svg>
                 <span class="mt-2 text-xs font-bold text-white relative z-10">CLICK</span>
               </div>
               <div class="flip-back absolute inset-0 flex flex-col items-center justify-center rounded-xl shadow-lg border-2 border-brand-500/50" style="backface-visibility: hidden; transform: rotateY(180deg); background: linear-gradient(135deg, rgba(27, 42, 78, 0.6), rgba(15, 23, 42, 0.8)); backdrop-blur-sm;">
@@ -477,7 +710,7 @@ setTimeout(() => {
       });
     });
 
-    function hideModal() {
+    function hideModalImpl() {
       if (!modal || !card) return;
       card.style.opacity = '0';
       card.style.transform = 'scale(0.9) translateY(20px)';
@@ -487,32 +720,29 @@ setTimeout(() => {
         localStorage.setItem('galileo-prize-date', today);
       }, 300);
     }
+    hideModal = hideModalImpl;
 
     const closeBtn = document.getElementById('prize-close');
     const backdrop = document.getElementById('prize-backdrop');
-    if (closeBtn) closeBtn.onclick = hideModal;
-    if (backdrop) backdrop.onclick = hideModal;
+    if (closeBtn) closeBtn.onclick = closePrizeModal;
+    if (backdrop) backdrop.onclick = closePrizeModal;
+
+    // Escape, focus trap and focus restoration come from the shared helper.
+    dialog?.destroy();
+    dialog = window.createDialog({
+      root: modal,
+      close: hideModalImpl,
+      initialFocus: '#prize-close',
+    });
+    // showModal() already made it visible with an entrance animation, so we only
+    // wire the trap and move focus.
+    dialog.open();
   }
 
   function saveWinner(prize: { id: string; name: string; description: string; icon: string }) {
     const winners = JSON.parse(localStorage.getItem('galileo-winners') || '[]');
     winners.push({ prizeId: prize.id, timestamp: Date.now() });
     localStorage.setItem('galileo-winners', JSON.stringify(winners));
-  }
-
-  function closeModal() {
-    const modal = document.getElementById('prize-modal');
-    const card = document.getElementById('prize-card');
-    if (modal && card) {
-      card.style.opacity = '0';
-      card.style.transform = 'scale(0.9) translateY(20px)';
-      setTimeout(() => {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        const today = new Date().toISOString().slice(0, 10);
-        localStorage.setItem('galileo-prize-date', today);
-      }, 300);
-    }
   }
 
   function showWinForm(prize: { id: string; name: string; description: string; icon: string }, mode: 'spin' | 'deck') {
@@ -536,34 +766,37 @@ setTimeout(() => {
           alert('Completa ambos campos para enviar por WhatsApp.');
           return;
         }
-        const message = `🎉 ¡Ganaste: ${prize.name}!
-📦 ${prize.description}
-🎫 Boleta: ${ticket}
-👤 Padre/Madre: ${name}`;
+        const message = `ðŸŽ‰ Â¡Ganaste: ${prize.name}!
+ðŸ“¦ ${prize.description}
+ðŸŽ« Boleta: ${ticket}
+ðŸ‘¤ Padre/Madre: ${name}`;
         const encodedMessage = encodeURIComponent(message);
         window.open(`https://wa.me/51997394157?text=${encodedMessage}`, '_blank');
-        // Cerrar el modal después de enviar
+        // Cerrar el modal despuÃ©s de enviar
         setTimeout(() => {
-          closeModal();
+          closePrizeModal();
         }, 1000);
       };
     }
 
-    // Botón de cerrar sin enviar
+    // BotÃ³n de cerrar sin enviar
     const closeBtn = document.getElementById(`${prefix}-close-btn`);
     if (closeBtn) {
       closeBtn.onclick = () => {
-        closeModal();
+        closePrizeModal();
       };
     }
 
-    // Cerrar automáticamente después de 2 segundos
+    // Cerrar automÃ¡ticamente despuÃ©s de 2 segundos
     setTimeout(() => {
-      closeModal();
+      closePrizeModal();
     }, 2000);
   }
 
-  function showCelebration(prize: { id: string; name: string; description: string; icon: string }, mode: 'spin' | 'deck') {
+  function showCelebration(
+    prize: { id: string; name: string; description: string; icon: string },
+    mode: 'spin' | 'deck',
+  ) {
     const prefix = mode;
     const celebration = document.getElementById(`${prefix}-celebration`);
     const icon = document.getElementById(`${prefix}-celebration-icon`);
@@ -575,7 +808,7 @@ setTimeout(() => {
     if (name) name.textContent = prize.name;
 
     celebration.classList.remove('hidden');
-    // No lanzar confetis aquí, ya se lanzaron antes
+    // No lanzar confetis aquÃ­, ya se lanzaron antes
 
     const iconEl = icon?.querySelector('i');
     if (iconEl) {
@@ -603,18 +836,23 @@ setTimeout(() => {
   }
   .flip-card:hover .flip-front {
     transform: translateY(-4px);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
   }
   .flip-card:hover .flip-back {
     transform: rotateY(180deg) translateY(-4px);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
   }
   .flip-front {
     backface-visibility: hidden;
   }
   @keyframes pulse-glow {
-    0%, 100% { filter: drop-shadow(0 0 8px rgba(255, 107, 26, 0.4)); }
-    50% { filter: drop-shadow(0 0 24px rgba(255, 107, 26, 0.7)); }
+    0%,
+    100% {
+      filter: drop-shadow(0 0 8px rgba(255, 107, 26, 0.4));
+    }
+    50% {
+      filter: drop-shadow(0 0 24px rgba(255, 107, 26, 0.7));
+    }
   }
   #wheel-svg {
     animation: pulse-glow 2s ease-in-out infinite;
@@ -623,14 +861,29 @@ setTimeout(() => {
     text-shadow: 0 0 20px rgba(255, 107, 26, 0.5);
   }
   @keyframes celebrate {
-    0% { transform: scale(0.5); opacity: 0; }
-    50% { transform: scale(1.15); opacity: 1; }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+      transform: scale(0.5);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.15);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
   @keyframes bounce-icon {
-    0% { transform: scale(0); }
-    60% { transform: scale(1.2); }
-    100% { transform: scale(1); }
+    0% {
+      transform: scale(0);
+    }
+    60% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
   }
   .celebrate-anim {
     animation: celebrate 0.6s cubic-bezier(0.17, 0.67, 0.12, 0.99) forwards;

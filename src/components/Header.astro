@@ -1,250 +1,196 @@
 ---
+import Logo from './Logo.astro';
 
+/** Links shown inline in the desktop bar. */
+const primaryNav = [
+  { href: '/#inicio', label: 'Inicio' },
+  { href: '/nosotros', label: 'Nosotros' },
+  { href: '/#academia', label: 'Academia' },
+  { href: '/olimpiadas', label: 'Olimpiadas' },
+  { href: '/#desfile', label: 'Desfile' },
+];
+
+/** Links behind the "Más" dropdown on desktop, listed flat on mobile. */
+const secondaryNav = [
+  { href: '/#programas', label: 'Programas' },
+  { href: '/admision', label: 'Admisión' },
+  { href: '/admision#faq', label: 'Preguntas frecuentes' },
+  { href: '/galeria', label: 'Galería' },
+  { href: '/#app-padres', label: 'App Padres' },
+  { href: '/#opiniones', label: 'Opiniones' },
+  { href: '/#contacto', label: 'Contacto' },
+];
+
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const linkClass =
+  'rounded-full px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-brand-50 hover:text-brand-600';
+const mobileLinkClass =
+  'rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-brand-50 hover:text-brand-600';
+const menuItemClass = 'block px-4 py-2.5 text-sm text-slate-700 transition hover:bg-brand-50 hover:text-brand-600';
+
+const isCurrent = (href: string) => {
+  const path = href.split('#')[0];
+  if (path === '/' || path === '') return false;
+  return currentPath === path;
+};
 ---
 
 <header class="sticky top-0 z-50 bg-white/95 backdrop-blur shadow-sm">
-    <div
-        class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4"
-    >
-        <a href="/" class="flex items-center gap-3">
-            <img src="/logo.png" alt="Galileo" class="h-10 w-auto sm:h-12" />
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
+    <a href="/" class="flex items-center gap-3">
+      <span class="sr-only">Colegio y Academia Galileo - inicio</span>
+      <Logo mark="logo" size="(min-width: 640px) 160px, 128px" class="h-10 w-auto sm:h-12" />
+    </a>
+
+    <nav class="hidden items-center gap-1 lg:flex" aria-label="Principal">
+      {primaryNav.map((item) => (
+        <a href={item.href} class={linkClass} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+          {item.label}
         </a>
-        <nav class="hidden items-center gap-1 lg:flex">
-            <a
-                href="/#inicio"
-                class="rounded-full px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                >Inicio</a
-            >
-            <a
-                href="/nosotros"
-                class="rounded-full px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                >Nosotros</a
-            >
-            <a
-                href="/#academia"
-                class="rounded-full px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                >Academia</a
-            >
-            <a
-                href="/olimpiadas"
-                class="rounded-full px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                >Olimpiadas</a
-            >
-            <a
-                href="/#desfile"
-                class="rounded-full px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                >Desfile</a
-            >
-            <div class="relative" data-dropdown>
-                <button
-                    type="button"
-                    data-dropdown-trigger
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    class="flex items-center gap-1 rounded-full px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                >
-                    Más
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-3.5 w-3.5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="2.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        ><path d="M6 9l6 6 6-6"></path></svg
-                    >
-                </button>
-                <div
-                    data-dropdown-menu
-                    class="absolute right-0 top-full z-50 mt-2 font-bold hidden w-48 overflow-hidden rounded-xl bg-white shadow-xl ring-1 ring-slate-200"
-                    role="menu"
-                >
-                    <a
-                        href="/#programas"
-                        role="menuitem"
-                        class="block px-4 py-2.5 text-sm text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                        >Programas</a
-                    >
-                    <a
-                        href="/admision"
-                        role="menuitem"
-                        class="block px-4 py-2.5 text-sm text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                        >Admisión</a
-                    >
-                    <a
-                        href="/admision#faq"
-                        role="menuitem"
-                        class="block px-4 py-2.5 text-sm text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                        >Preguntas frecuentes</a
-                    >
-                    <a
-                        href="/galeria"
-                        role="menuitem"
-                        class="block px-4 py-2.5 text-sm text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                        >Galería</a
-                    >
-                    <a
-                        href="/#app-padres"
-                        role="menuitem"
-                        class="block px-4 py-2.5 text-sm text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                        >App Padres</a
-                    >
-                    <a
-                        href="/#opiniones"
-                        role="menuitem"
-                        class="block px-4 py-2.5 text-sm text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                        >Opiniones</a
-                    >
-                    <a
-                        href="/#contacto"
-                        role="menuitem"
-                        class="block px-4 py-2.5 text-sm text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                        >Contacto</a
-                    >
-                </div>
-            </div>
-        </nav>
+      ))}
+
+      <div class="relative" data-dropdown>
         <button
-            id="btn-matriculate"
-            type="button"
-            class="hidden rounded-full bg-brand-500 px-5 py-2 text-sm font-bold text-white hover:bg-brand-600 md:inline-block"
-            >Matricúlate</button
+          type="button"
+          data-dropdown-trigger
+          aria-haspopup="true"
+          aria-expanded="false"
+          class="flex items-center gap-1 rounded-full px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
         >
-        <button id="menu-btn" class="md:hidden" aria-label="Menú">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-7 w-7 text-slate-700"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-            >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
+          Más
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-3.5 w-3.5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M6 9l6 6 6-6"></path>
+          </svg>
         </button>
-    </div>
-    <div id="mobile-menu" class="hidden border-t bg-white md:hidden">
-        <nav class="flex flex-col gap-0.5 px-3 py-3 sm:px-6 sm:py-4">
+        <div
+          data-dropdown-menu
+          class="absolute right-0 top-full z-50 mt-2 hidden w-48 overflow-hidden rounded-xl bg-white font-bold shadow-xl ring-1 ring-slate-200"
+          role="menu"
+        >
+          {secondaryNav.map((item) => (
             <a
-                href="/#inicio"
-                class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                >Inicio</a
+              href={item.href}
+              role="menuitem"
+              class={menuItemClass}
+              aria-current={isCurrent(item.href) ? 'page' : undefined}
             >
-            <a
-                href="/nosotros"
-                class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                >Nosotros</a
-            >
-            <a
-                href="/#academia"
-                class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                >Academia</a
-            >
-            <a
-                href="/olimpiadas"
-                class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                >Olimpiadas</a
-            >
-            <a
-                href="/#desfile"
-                class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                >Desfile</a
-            >
-            <a
-                href="/#programas"
-                class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                >Programas</a
-            >
-            <a
-                href="/admision"
-                class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                >Admisión</a
-            >
-            <a
-                href="/admision#faq"
-                class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                >Preguntas frecuentes</a
-            >
-            <a
-                href="/galeria"
-                class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                >Galería</a
-            >
-            <a
-                href="/#app-padres"
-                class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                >App Padres</a
-            >
-            <a
-                href="/#opiniones"
-                class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                >Opiniones</a
-            >
-            <a
-                href="/#contacto"
-                class="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-brand-50 hover:text-brand-600"
-                >Contacto</a
-            >
-            <button
-                id="btn-matriculate-mobile"
-                type="button"
-                class="mt-2 rounded-full bg-brand-500 px-5 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-600"
-                >Matricúlate</button
-            >
-        </nav>
-    </div>
+              {item.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </nav>
+
+    <button
+      id="btn-matriculate"
+      type="button"
+      class="hidden rounded-full bg-brand-500 px-5 py-2 text-sm font-bold text-white hover:bg-brand-600 md:inline-block"
+    >
+      Matricúlate
+    </button>
+
+    <button
+      id="menu-btn"
+      type="button"
+      class="rounded-lg p-1 md:hidden"
+      aria-label="Abrir menú"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-7 w-7 text-slate-700"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        aria-hidden="true"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="hidden border-t bg-white md:hidden">
+    <nav class="flex flex-col gap-0.5 px-3 py-3 sm:px-6 sm:py-4" aria-label="Navegación móvil">
+      {[...primaryNav, ...secondaryNav].map((item) => (
+        <a href={item.href} class={mobileLinkClass} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+          {item.label}
+        </a>
+      ))}
+      <button
+        id="btn-matriculate-mobile"
+        type="button"
+        class="mt-2 rounded-full bg-brand-500 px-5 py-2.5 text-center text-sm font-semibold text-white hover:bg-brand-600"
+      >
+        Matricúlate
+      </button>
+    </nav>
+  </div>
 </header>
 
 <script>
-    const btn = document.getElementById("menu-btn");
-    const menu = document.getElementById("mobile-menu");
-    const closeMenu = () => menu?.classList.add("hidden");
-    btn?.addEventListener("click", () => menu?.classList.toggle("hidden"));
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('mobile-menu');
 
-    const open = () =>
-        window.dispatchEvent(new CustomEvent("open-prematricula"));
-    document.getElementById("btn-matriculate")?.addEventListener("click", open);
-    document
-        .getElementById("btn-matriculate-mobile")
-        ?.addEventListener("click", () => {
-            closeMenu();
-            open();
-        });
+  const setMenu = (open: boolean) => {
+    menu?.classList.toggle('hidden', !open);
+    btn?.setAttribute('aria-expanded', String(open));
+    btn?.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+  };
 
-    menu?.querySelectorAll("a").forEach((a) => {
-        a.addEventListener("click", closeMenu);
+  const closeMenu = () => setMenu(false);
+  btn?.addEventListener('click', () => setMenu(menu?.classList.contains('hidden') ?? true));
+
+  const open = () => window.dispatchEvent(new CustomEvent('open-prematricula'));
+  document.getElementById('btn-matriculate')?.addEventListener('click', open);
+  document.getElementById('btn-matriculate-mobile')?.addEventListener('click', () => {
+    closeMenu();
+    open();
+  });
+
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+
+  // "Más" dropdown
+  const dropdown = document.querySelector('[data-dropdown]');
+  const trigger = document.querySelector<HTMLButtonElement>('[data-dropdown-trigger]');
+  const dropdownMenu = document.querySelector('[data-dropdown-menu]');
+
+  if (dropdown && trigger && dropdownMenu) {
+    const close = () => {
+      dropdownMenu.classList.add('hidden');
+      trigger.setAttribute('aria-expanded', 'false');
+    };
+    const openD = () => {
+      dropdownMenu.classList.remove('hidden');
+      trigger.setAttribute('aria-expanded', 'true');
+    };
+
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (dropdownMenu.classList.contains('hidden')) openD();
+      else close();
     });
+    dropdownMenu.querySelectorAll('a').forEach((a) => a.addEventListener('click', close));
 
-    const dropdown = document.querySelector("[data-dropdown]");
-    const trigger = document.querySelector("[data-dropdown-trigger]");
-    const dropdownMenu = document.querySelector("[data-dropdown-menu]");
-    if (dropdown && trigger && dropdownMenu) {
-        const close = () => {
-            dropdownMenu.classList.add("hidden");
-            trigger.setAttribute("aria-expanded", "false");
-        };
-        const openD = () => {
-            dropdownMenu.classList.remove("hidden");
-            trigger.setAttribute("aria-expanded", "true");
-        };
-        trigger.addEventListener("click", (e) => {
-            e.stopPropagation();
-            if (dropdownMenu.classList.contains("hidden")) openD();
-            else close();
-        });
-        dropdownMenu.querySelectorAll("a").forEach((a) => {
-            a.addEventListener("click", close);
-        });
-        document.addEventListener("click", (e) => {
-            if (!dropdown.contains(e.target as Node | null)) close();
-        });
-        document.addEventListener("keydown", (e) => {
-            if (e.key === "Escape") close();
-        });
-    }
+    // Escape closes and returns focus to the trigger.
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || dropdownMenu.classList.contains('hidden')) return;
+      close();
+      trigger.focus();
+    });
+    document.addEventListener('click', (e) => {
+      if (!dropdown.contains(e.target as Node | null)) close();
+    });
+  }
 </script>

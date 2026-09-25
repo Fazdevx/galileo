@@ -6,149 +6,191 @@ import deporte1 from '../assets/deporte-1.png';
 ---
 
 <section id="olimpiadas" class="bg-brand-500 py-16 text-white sm:py-20 md:py-24">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6">
-        <div class="grid items-center gap-10 md:grid-cols-2 md:gap-12">
-            <div>
-                <span class="inline-flex items-center gap-2 rounded-full bg-navy-500/20 px-2 py-1 text-[9px] font-bold uppercase tracking-widest text-navy-800 sm:px-3 sm:text-[10px] md:px-4 md:text-xs">
-                    <span class="h-2 w-2 rounded-full bg-navy-800 animate-pulse"></span>
-                    Olimpiadas Internas · 2026
-                </span>
-                <h1 class="mt-4 text-xl font-extrabold leading-tight sm:text-2xl md:text-3xl lg:text-5xl">
-                    La competencia entre <span class="text-navy-800">secciones</span>
-                </h1>
-                <p class="mt-4 text-sm text-white sm:text-base md:text-lg">
-                    La gran jornada deportiva interna donde las cuatro secciones
-                    del colegio compiten por la gloria. Fútbol y vóley,
-                    integración y espíritu galileano.
-                </p>
-                <div class="mt-6 grid grid-cols-3 gap-2 sm:mt-8 sm:gap-4" data-hero-stats>
-                    <div class="rounded-2xl bg-navy-800 p-2 text-center sm:p-3 md:p-5">
-                        <p class="text-xl font-extrabold text-brand-400 sm:text-2xl md:text-3xl" data-stat="secciones">0</p>
-                        <p class="mt-1 text-[9px] font-semibold uppercase tracking-wider text-white sm:text-[10px] md:text-xs">Secciones</p>
-                    </div>
-                    <div class="rounded-2xl bg-navy-800 p-2 text-center sm:p-3 md:p-5">
-                        <p class="text-xl font-extrabold text-brand-400 sm:text-2xl md:text-3xl" data-stat="disciplinas">0</p>
-                        <p class="mt-1 text-[9px] font-semibold uppercase tracking-wider text-white sm:text-[10px] md:text-xs">Disciplinas</p>
-                    </div>
-                    <div class="rounded-2xl bg-navy-800 p-2 text-center sm:p-3 md:p-5">
-                        <p class="text-xl font-extrabold text-brand-400 sm:text-2xl md:text-3xl" data-stat="dias">0</p>
-                        <p class="mt-1 text-[9px] font-semibold uppercase tracking-wider text-white sm:text-[10px] md:text-xs">Días</p>
-                    </div>
-                </div>
-            </div>
-<div>
-                <div class="relative overflow-hidden rounded-2xl bg-navy-800 p-4 sm:p-6 md:rounded-3xl shadow-2xl">
-                    <div class="absolute inset-0 bg-gradient-to-br from-brand-500/10 via-transparent to-purple-500/10"></div>
-                    <div class="absolute -top-12 -right-12 h-40 w-40 rounded-full bg-brand-500/5 blur-3xl"></div>
-                    <div class="absolute -bottom-12 -left-12 h-40 w-40 rounded-full bg-purple-500/5 blur-3xl"></div>
-
-                    <div class="relative">
-                        <p class="mb-1 text-[9px] font-bold uppercase tracking-widest text-brand-300 sm:text-[10px]">Calendario de partidos</p>
-                        <h3 class="text-base font-bold sm:text-lg md:text-xl">Próximos encuentros</h3>
-                        <div class="mt-4 sm:mt-6 space-y-2 sm:space-y-3" id="games-container">
-                            <div class="flex items-center justify-center py-8 text-navy-400" id="games-loading">
-                                <div class="flex items-center gap-2">
-                                    <svg class="h-5 w-5 animate-spin" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
-                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                    <span>Cargando partidos...</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-6 sm:mt-8">
-                        <div class="flex items-center gap-2 mb-3 sm:mb-4">
-                            <svg class="h-4 w-4 sm:h-5 sm:w-5 text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
-                            </svg>
-                            <h4 class="text-xs font-bold uppercase tracking-wider text-navy-100 sm:text-sm">Tabla de posiciones</h4>
-                        </div>
-                        <div class="overflow-hidden rounded-xl border border-slate-700 bg-navy-900/50">
-                            <table class="min-w-full divide-y divide-slate-700 text-xs sm:text-sm" data-standings-table>
-                                <thead class="bg-navy-800">
-                                    <tr>
-                                        <th class="px-2 py-2 text-center sm:px-4 sm:py-3">#</th>
-                                        <th class="px-2 py-2 sm:px-4 sm:py-3">Sección</th>
-                                        <th class="px-2 py-2 text-center sm:px-4 sm:py-3">PJ</th>
-                                        <th class="px-2 py-2 text-center sm:px-4 sm:py-3">G</th>
-                                        <th class="px-2 py-2 text-center sm:px-4 sm:py-3">E</th>
-                                        <th class="px-2 py-2 text-center sm:px-4 sm:py-3">P</th>
-                                        <th class="px-2 py-2 text-center sm:px-4 sm:py-3">Pts</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-slate-700" data-standings-body>
-                                    <tr class="animate-pulse" id="standings-loading">
-                                        <td class="px-2 py-2 text-center text-slate-500 sm:px-4 sm:py-3" colspan="7">
-                                            <div class="flex items-center justify-center gap-2">
-                                                <svg class="h-4 w-4 sm:h-5 sm:w-5 animate-spin" viewBox="0 0 24 24">
-                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
-                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                </svg>
-                                                <span class="text-xs sm:text-sm">Cargando tabla...</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6">
+    <div class="grid items-center gap-10 md:grid-cols-2 md:gap-12">
+      <div>
+        <span class="inline-flex items-center gap-2 rounded-full bg-navy-500/20 px-2 py-1 text-[9px] font-bold uppercase tracking-widest text-navy-800 sm:px-3 sm:text-[10px] md:px-4 md:text-xs">
+          <span class="h-2 w-2 rounded-full bg-navy-800 animate-pulse"></span>
+          Olimpiadas Internas · 2026
+        </span>
+        <h1 class="mt-4 text-xl font-extrabold leading-tight sm:text-2xl md:text-3xl lg:text-5xl">
+          La competencia entre <span class="text-navy-800">secciones</span>
+        </h1>
+        <p class="mt-4 text-sm text-white sm:text-base md:text-lg">
+          La gran jornada deportiva interna donde las cuatro secciones del colegio compiten por la gloria. Fútbol y
+          vóley, integración y espíritu galileano.
+        </p>
+        <div class="mt-6 grid grid-cols-3 gap-2 sm:mt-8 sm:gap-4" data-hero-stats>
+          <div class="rounded-2xl bg-navy-800 p-2 text-center sm:p-3 md:p-5">
+            <p class="text-xl font-extrabold text-brand-400 sm:text-2xl md:text-3xl" data-stat="secciones">
+              0
+            </p>
+            <p class="mt-1 text-[9px] font-semibold uppercase tracking-wider text-white sm:text-[10px] md:text-xs">
+              Secciones
+            </p>
+          </div>
+          <div class="rounded-2xl bg-navy-800 p-2 text-center sm:p-3 md:p-5">
+            <p class="text-xl font-extrabold text-brand-400 sm:text-2xl md:text-3xl" data-stat="disciplinas">
+              0
+            </p>
+            <p class="mt-1 text-[9px] font-semibold uppercase tracking-wider text-white sm:text-[10px] md:text-xs">
+              Disciplinas
+            </p>
+          </div>
+          <div class="rounded-2xl bg-navy-800 p-2 text-center sm:p-3 md:p-5">
+            <p class="text-xl font-extrabold text-brand-400 sm:text-2xl md:text-3xl" data-stat="dias">
+              0
+            </p>
+            <p class="mt-1 text-[9px] font-semibold uppercase tracking-wider text-white sm:text-[10px] md:text-xs">
+              Días
+            </p>
+          </div>
         </div>
-<!-- Galería de escenarios y copas -->
-        <div class="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-3">
-            <div class="relative group overflow-hidden rounded-2xl shadow-xl">
-                <Image
-                    src={campoGrass}
-                    alt="Campo de grass - Deporte 1"
-                    widths={[480, 800, 1200]}
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    class="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-110 sm:h-56"
-                    loading="lazy"
-                    decoding="async"
-                />
-                <div class="absolute inset-0 bg-gradient-to-t from-navy-900/80 via-transparent to-transparent"></div>
-                <div class="absolute bottom-0 left-0 right-0 p-4">
-                    <p class="text-sm font-bold uppercase tracking-wider text-white">Campo de Grass</p>
-                    <p class="text-xs text-white/80">El escenario donde se forjan las leyendas</p>
+      </div>
+      <div>
+        <div class="relative overflow-hidden rounded-2xl bg-navy-800 p-4 sm:p-6 md:rounded-3xl shadow-2xl">
+          <div class="absolute inset-0 bg-gradient-to-br from-brand-500/10 via-transparent to-purple-500/10"></div>
+          <div class="absolute -top-12 -right-12 h-40 w-40 rounded-full bg-brand-500/5 blur-3xl"></div>
+          <div class="absolute -bottom-12 -left-12 h-40 w-40 rounded-full bg-purple-500/5 blur-3xl"></div>
+
+          <div class="relative">
+            <p class="mb-1 text-[9px] font-bold uppercase tracking-widest text-brand-300 sm:text-[10px]">
+              Calendario de partidos
+            </p>
+            <h3 class="text-base font-bold sm:text-lg md:text-xl">Próximos encuentros</h3>
+            <div class="mt-4 sm:mt-6 space-y-2 sm:space-y-3" id="games-container">
+              <div class="flex items-center justify-center py-8 text-navy-400" id="games-loading">
+                <div class="flex items-center gap-2">
+                  <svg class="h-5 w-5 animate-spin" viewBox="0 0 24 24">
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                      fill="none"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  <span>Cargando partidos...</span>
                 </div>
+              </div>
             </div>
-            <div class="relative group overflow-hidden rounded-2xl shadow-xl">
-                <Image
-                    src={copas}
-                    alt="Copas Olímpicas"
-                    widths={[480, 800, 1200]}
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    class="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-110 sm:h-56"
-                    loading="lazy"
-                    decoding="async"
-                />
-                <div class="absolute inset-0 bg-gradient-to-t from-navy-900/80 via-transparent to-transparent"></div>
-                <div class="absolute bottom-0 left-0 right-0 p-4">
-                    <p class="text-sm font-bold uppercase tracking-wider text-white">🏆 Copas Olímpicas</p>
-                    <p class="text-xs text-white/80">El premio que corona a los campeones</p>
-                </div>
+          </div>
+
+          <div class="mt-6 sm:mt-8">
+            <div class="flex items-center gap-2 mb-3 sm:mb-4">
+              <svg class="h-4 w-4 sm:h-5 sm:w-5 text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                ></path>
+              </svg>
+              <h4 class="text-xs font-bold uppercase tracking-wider text-navy-100 sm:text-sm">Tabla de posiciones</h4>
             </div>
-            <div class="relative group overflow-hidden rounded-2xl shadow-xl">
-                <Image
-                    src={deporte1}
-                    alt="Deporte - Espíritu competitivo"
-                    widths={[480, 800, 1200]}
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    class="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-110 sm:h-56"
-                    loading="lazy"
-                    decoding="async"
-                />
-                <div class="absolute inset-0 bg-gradient-to-t from-navy-900/80 via-transparent to-transparent"></div>
-                <div class="absolute bottom-0 left-0 right-0 p-4">
-                    <p class="text-sm font-bold uppercase tracking-wider text-white">⚽ Espíritu Deportivo</p>
-                    <p class="text-xs text-white/80">Fútbol, vóley y la pasión de competir</p>
-                </div>
+            <div class="overflow-hidden rounded-xl border border-slate-700 bg-navy-900/50">
+              <table class="min-w-full divide-y divide-slate-700 text-xs sm:text-sm" data-standings-table>
+                <thead class="bg-navy-800">
+                  <tr>
+                    <th class="px-2 py-2 text-center sm:px-4 sm:py-3">#</th>
+                    <th class="px-2 py-2 sm:px-4 sm:py-3">Sección</th>
+                    <th class="px-2 py-2 text-center sm:px-4 sm:py-3">PJ</th>
+                    <th class="px-2 py-2 text-center sm:px-4 sm:py-3">G</th>
+                    <th class="px-2 py-2 text-center sm:px-4 sm:py-3">E</th>
+                    <th class="px-2 py-2 text-center sm:px-4 sm:py-3">P</th>
+                    <th class="px-2 py-2 text-center sm:px-4 sm:py-3">Pts</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-700" data-standings-body>
+                  <tr class="animate-pulse" id="standings-loading">
+                    <td class="px-2 py-2 text-center text-slate-500 sm:px-4 sm:py-3" colspan="7">
+                      <div class="flex items-center justify-center gap-2">
+                        <svg class="h-4 w-4 sm:h-5 sm:w-5 animate-spin" viewBox="0 0 24 24">
+                          <circle
+                            class="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            stroke-width="4"
+                            fill="none"
+                          ></circle>
+                          <path
+                            class="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                        <span class="text-xs sm:text-sm">Cargando tabla...</span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+    <!-- Galería de escenarios y copas -->
+    <div class="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-3">
+      <div class="relative group overflow-hidden rounded-2xl shadow-xl">
+        <Image
+          src={campoGrass}
+          alt="Campo de grass - Deporte 1"
+          widths={[480, 800, 1200]}
+          sizes="(max-width: 768px) 100vw, 33vw"
+          class="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-110 sm:h-56"
+          loading="lazy"
+          decoding="async"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-navy-900/80 via-transparent to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-4">
+          <p class="text-sm font-bold uppercase tracking-wider text-white">Campo de Grass</p>
+          <p class="text-xs text-white/80">El escenario donde se forjan las leyendas</p>
+        </div>
+      </div>
+      <div class="relative group overflow-hidden rounded-2xl shadow-xl">
+        <Image
+          src={copas}
+          alt="Copas Olímpicas"
+          widths={[480, 800, 1200]}
+          sizes="(max-width: 768px) 100vw, 33vw"
+          class="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-110 sm:h-56"
+          loading="lazy"
+          decoding="async"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-navy-900/80 via-transparent to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-4">
+          <p class="text-sm font-bold uppercase tracking-wider text-white">🏆 Copas Olímpicas</p>
+          <p class="text-xs text-white/80">El premio que corona a los campeones</p>
+        </div>
+      </div>
+      <div class="relative group overflow-hidden rounded-2xl shadow-xl">
+        <Image
+          src={deporte1}
+          alt="Deporte - Espíritu competitivo"
+          widths={[480, 800, 1200]}
+          sizes="(max-width: 768px) 100vw, 33vw"
+          class="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-110 sm:h-56"
+          loading="lazy"
+          decoding="async"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-navy-900/80 via-transparent to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-4">
+          <p class="text-sm font-bold uppercase tracking-wider text-white">⚽ Espíritu Deportivo</p>
+          <p class="text-xs text-white/80">Fútbol, vóley y la pasión de competir</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <script>

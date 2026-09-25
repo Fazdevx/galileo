@@ -1,11 +1,36 @@
 ---
 const testimonials = [
-  { name: 'María Rodríguez', role: 'Madre de familia', text: 'Mis hijos han crecido académica y personalmente. El compromiso de los docentes es excepcional.', avatar: 'MR', color: 'bg-brand-500' },
-  { name: 'Carlos Méndez', role: 'Egresado - Universidad Nacional', text: 'La preparación en Galileo fue clave para mi ingreso. Eternamente agradecido con mis profesores.', avatar: 'CM', color: 'bg-navy-600' },
-  { name: 'Ana Lucía Pérez', role: 'Madre de familia', text: 'La comunicación con los padres y el seguimiento personalizado hacen la diferencia.', avatar: 'AP', color: 'bg-brand-600' },
-  { name: 'Luis Torres', role: 'Egresado - Universidad de Ingeniería', text: 'Los valores y la disciplina que aprendí en Galileo siguen guiando mi vida profesional.', avatar: 'LT', color: 'bg-navy-700' },
+  {
+    name: 'María Rodríguez',
+    role: 'Madre de familia',
+    text: 'Mis hijos han crecido académica y personalmente. El compromiso de los docentes es excepcional.',
+    avatar: 'MR',
+    color: 'bg-brand-500',
+  },
+  {
+    name: 'Carlos Méndez',
+    role: 'Egresado - Universidad Nacional',
+    text: 'La preparación en Galileo fue clave para mi ingreso. Eternamente agradecido con mis profesores.',
+    avatar: 'CM',
+    color: 'bg-navy-600',
+  },
+  {
+    name: 'Ana Lucía Pérez',
+    role: 'Madre de familia',
+    text: 'La comunicación con los padres y el seguimiento personalizado hacen la diferencia.',
+    avatar: 'AP',
+    color: 'bg-brand-600',
+  },
+  {
+    name: 'Luis Torres',
+    role: 'Egresado - Universidad de Ingeniería',
+    text: 'Los valores y la disciplina que aprendí en Galileo siguen guiando mi vida profesional.',
+    avatar: 'LT',
+    color: 'bg-navy-700',
+  },
 ];
 ---
+
 <section id="opiniones" class="bg-slate-50 py-16 sm:py-20 md:py-24">
   <div class="mx-auto max-w-5xl px-4 sm:px-6">
     <div class="mx-auto max-w-2xl text-center">
@@ -18,23 +43,35 @@ const testimonials = [
       {testimonials.map((t, i) => (
         <div class={`flex items-end gap-2 sm:gap-3 ${i % 2 === 0 ? 'justify-start' : 'justify-end'}`}>
           {i % 2 === 0 && (
-            <div class={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${t.color} text-xs font-bold text-white shadow-md sm:h-10 sm:w-10 sm:text-sm`}>
+            <div
+              class={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${t.color} text-xs font-bold text-white shadow-md sm:h-10 sm:w-10 sm:text-sm`}
+            >
               {t.avatar}
             </div>
           )}
-          <div class={`group max-w-[85%] rounded-3xl px-4 py-3 shadow-md ring-1 sm:max-w-md sm:px-5 sm:py-4 ${i % 2 === 0 ? 'bg-white text-slate-800 rounded-bl-md ring-slate-200' : 'bg-brand-500 text-white rounded-br-md ring-brand-600'}`}>
+          <div
+            class={`group max-w-[85%] rounded-3xl px-4 py-3 shadow-md ring-1 sm:max-w-md sm:px-5 sm:py-4 ${i % 2 === 0 ? 'bg-white text-slate-800 rounded-bl-md ring-slate-200' : 'bg-brand-500 text-white rounded-br-md ring-brand-600'}`}
+          >
             <p class="text-sm leading-relaxed sm:text-[15px]">{t.text}</p>
-            <div class={`mt-2 flex flex-wrap items-center justify-between gap-1 text-[10px] sm:mt-3 sm:text-xs ${i % 2 === 0 ? 'text-slate-500' : 'text-brand-50'}`}>
-              <p class="font-semibold">{t.name} · {t.role}</p>
+            <div
+              class={`mt-2 flex flex-wrap items-center justify-between gap-1 text-[10px] sm:mt-3 sm:text-xs ${i % 2 === 0 ? 'text-slate-500' : 'text-brand-50'}`}
+            >
+              <p class="font-semibold">
+                {t.name} · {t.role}
+              </p>
               <div class="flex items-center gap-0.5">
                 {[...Array(5)].map(() => (
-                  <svg class="h-3 w-3 sm:h-3.5 sm:w-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.922-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.371 2.448c-.784.57-1.838-.196-1.539-1.118l1.287-3.957a1 1 0 00-.364-1.118L2.05 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z"/></svg>
+                  <svg class="h-3 w-3 sm:h-3.5 sm:w-3.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.957a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.287 3.957c.3.922-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.371 2.448c-.784.57-1.838-.196-1.539-1.118l1.287-3.957a1 1 0 00-.364-1.118L2.05 9.384c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.957z" />
+                  </svg>
                 ))}
               </div>
             </div>
           </div>
           {i % 2 === 1 && (
-            <div class={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${t.color} text-xs font-bold text-white shadow-md sm:h-10 sm:w-10 sm:text-sm`}>
+            <div
+              class={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${t.color} text-xs font-bold text-white shadow-md sm:h-10 sm:w-10 sm:text-sm`}
+            >
               {t.avatar}
             </div>
           )}

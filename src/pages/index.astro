@@ -1,34 +1,49 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Loader from "../components/Loader.astro";
-import Header from "../components/Header.astro";
-import Hero from "../components/Hero.astro";
-import Programs from "../components/Programs.astro";
-import Academia from "../components/Academia.astro";
-import WhyUs from "../components/WhyUs.astro";
-import Explora from "../components/Explora.astro";
-import Desfile from "../components/Desfile.astro";
-import AppPadres from "../components/AppPadres.astro";
-import Testimonials from "../components/Testimonials.astro";
-import Contact from "../components/Contact.astro";
-import Footer from "../components/Footer.astro";
-import FloatingPrizeModal from "../components/FloatingPrizeModal.astro";
+import Layout from '../layouts/Layout.astro';
+import Loader from '../components/Loader.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Programs from '../components/Programs.astro';
+import Academia from '../components/Academia.astro';
+import WhyUs from '../components/WhyUs.astro';
+import Explora from '../components/Explora.astro';
+import Desfile from '../components/Desfile.astro';
+import AppPadres from '../components/AppPadres.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import FloatingPrizeModal from '../components/FloatingPrizeModal.astro';
+import { SITE, SITE_URL } from '../data/site';
+
+const homeJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE_URL}/#website`,
+  url: SITE_URL,
+  name: SITE.name,
+  inLanguage: 'es-PE',
+  publisher: { '@id': `${SITE_URL}/#organization` },
+};
 ---
 
-<Layout>
-    <Loader />
-    <Header />
-    <main>
-        <Hero />
-        <FloatingPrizeModal />
-        <Programs />
-        <Academia />
-        <WhyUs />
-        <Explora />
-        <Desfile />
-        <AppPadres />
-        <Testimonials />
-        <Contact />
-    </main>
-    <Footer />
+<Layout
+  title="Colegio y Academia en Huacho"
+  description="Colegio y Academia Galileo en Huacho, Perú. Inicial, Primaria, Secundaria y Preuniversitario con más de 20 años de trayectoria. Matrícula 2026 abierta."
+  jsonLd={homeJsonLd}
+>
+  <Loader />
+  <Header />
+  <main id="contenido">
+    <Hero />
+    <FloatingPrizeModal />
+    <Programs />
+    <Academia />
+    <WhyUs />
+    <Explora />
+    <Desfile />
+    <AppPadres />
+    <Testimonials />
+    <Contact />
+  </main>
+  <Footer />
 </Layout>

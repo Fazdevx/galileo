@@ -29,12 +29,12 @@ Sitio web institucional del Colegio y Academia Galileo (Huacho, Perú). Incluye 
 
 ## Comandos
 
-| Comando            | Acción                                   |
-| :----------------- | :--------------------------------------- |
-| `npm run dev`      | Servidor de desarrollo en `localhost:4321` |
-| `npm run build`    | Build de producción en `./dist/`          |
-| `npm run preview`  | Previsualizar el build                    |
-| `npm run check`    | Revisión de tipos (`astro check`)        |
+| Comando           | Acción                                     |
+| :---------------- | :----------------------------------------- |
+| `npm run dev`     | Servidor de desarrollo en `localhost:4321` |
+| `npm run build`   | Build de producción en `./dist/`           |
+| `npm run preview` | Previsualizar el build                     |
+| `npm run check`   | Revisión de tipos (`astro check`)          |
 
 ## Olimpiadas
 

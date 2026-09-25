@@ -1,10 +1,15 @@
 ---
+import Logo from './Logo.astro';
 ---
-<div id="loader" class="fixed inset-0 z-[100] flex items-center justify-center bg-white transition-opacity duration-500">
+
+<div
+  id="loader"
+  class="fixed inset-0 z-[100] flex items-center justify-center bg-white transition-opacity duration-500"
+>
   <div class="flex flex-col items-center gap-6">
     <div class="relative">
       <div class="absolute -inset-3 animate-spin rounded-full border-4 border-transparent border-t-brand-500 border-r-brand-400"></div>
-      <img src="/escudo.png" alt="Galileo" class="relative h-28 w-28 animate-pulse object-contain" />
+      <Logo mark="escudo" alt="" size="112px" class="relative h-28 w-28 animate-pulse object-contain" />
     </div>
     <div class="text-center">
       <p class="text-2xl font-bold text-navy-700 tracking-wider">Galileo</p>

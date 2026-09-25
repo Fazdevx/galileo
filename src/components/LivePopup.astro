@@ -1,190 +1,167 @@
 ---
-import { DEFAULT_DATA } from "../data/olimpiadasStore";
-import { load, onDataChanged } from "../lib/olimpiadasClient";
+import { DEFAULT_DATA } from '../data/olimpiadasStore';
 
 const DEFAULT = JSON.parse(JSON.stringify(DEFAULT_DATA));
 const defaultData = JSON.stringify(DEFAULT);
 ---
 
 <div
-    id="live-popup"
-    class="pointer-events-none fixed right-2 top-24 z-50 flex justify-end sm:right-3 sm:top-28 md:right-6 md:top-32"
+  id="live-popup"
+  class="pointer-events-none fixed right-2 top-24 z-50 flex justify-end sm:right-3 sm:top-28 md:right-6 md:top-32"
 >
-    <div
-        data-live-popup-card
-        class="pointer-events-auto hidden w-56 overflow-hidden rounded-md bg-white shadow-xl ring-1 ring-slate-200 sm:w-60"
-        role="dialog"
-        aria-live="polite"
-        aria-label="Marcador en vivo"
-    >
-        <div
-            class="flex items-center justify-between gap-1.5 border-b border-slate-100 bg-gradient-to-r from-brand-500 to-brand-600 px-2.5 py-1.5 text-white"
+  <div
+    data-live-popup-card
+    class="pointer-events-auto hidden w-56 overflow-hidden rounded-md bg-white shadow-xl ring-1 ring-slate-200 sm:w-60"
+    role="dialog"
+    aria-live="polite"
+    aria-label="Marcador en vivo"
+  >
+    <div class="flex items-center justify-between gap-1.5 border-b border-slate-100 bg-gradient-to-r from-brand-500 to-brand-600 px-2.5 py-1.5 text-white">
+      <div class="flex min-w-0 items-center gap-1.5">
+        <span class="relative flex h-2 w-2 flex-shrink-0">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75"></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-white"></span>
+        </span>
+        <p class="truncate text-[10px] font-extrabold uppercase tracking-wider">En vivo</p>
+        <span data-live-popup-count class="rounded-sm bg-white/20 px-1 text-[9px] font-bold leading-tight">
+          0
+        </span>
+      </div>
+      <div class="flex items-center gap-1">
+        <button
+          type="button"
+          data-live-popup-toggle
+          aria-label="Plegar marcador en vivo"
+          class="flex h-5 w-5 items-center justify-center rounded-sm bg-white/20 transition hover:bg-white/30"
         >
-            <div class="flex min-w-0 items-center gap-1.5">
-                <span class="relative flex h-2 w-2 flex-shrink-0">
-                    <span
-                        class="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75"
-                    ></span>
-                    <span
-                        class="relative inline-flex h-2 w-2 rounded-full bg-white"
-                    ></span>
-                </span>
-                <p
-                    class="truncate text-[10px] font-extrabold uppercase tracking-wider"
-                >
-                    En vivo
-                </p>
-                <span
-                    data-live-popup-count
-                    class="rounded-sm bg-white/20 px-1 text-[9px] font-bold leading-tight"
-                >
-                    0
-                </span>
-            </div>
-            <div class="flex items-center gap-1">
-                <button
-                    type="button"
-                    data-live-popup-toggle
-                    aria-label="Plegar marcador en vivo"
-                    class="flex h-5 w-5 items-center justify-center rounded-sm bg-white/20 transition hover:bg-white/30"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-2.5 w-2.5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="2.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <path d="M6 9l6 6 6-6"></path>
-                    </svg>
-                </button>
-                <button
-                    type="button"
-                    data-live-popup-close
-                    aria-label="Cerrar marcador en vivo"
-                    class="flex h-5 w-5 items-center justify-center rounded-sm bg-white/20 transition hover:bg-white/30"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-2.5 w-2.5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="2.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <path d="M6 6l12 12 M18 6L6 18"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        <div
-            data-live-popup-body
-            class="max-h-0 overflow-hidden transition-[max-height] duration-300 ease-out"
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-2.5 w-2.5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M6 9l6 6 6-6"></path>
+          </svg>
+        </button>
+        <button
+          type="button"
+          data-live-popup-close
+          aria-label="Cerrar marcador en vivo"
+          class="flex h-5 w-5 items-center justify-center rounded-sm bg-white/20 transition hover:bg-white/30"
         >
-            <div data-live-popup-list class="grid gap-1 px-2 py-1.5"></div>
-            <div
-                class="flex items-center justify-between border-t border-slate-100 bg-slate-50 px-2 py-1"
-            >
-                <span class="text-[9px] text-slate-500"> Auto </span>
-                <a
-                    href="/olimpiadas"
-                    class="text-[9px] font-bold uppercase tracking-wider text-brand-600 hover:text-brand-700"
-                    >Ver todo →</a
-                >
-            </div>
-        </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-2.5 w-2.5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M6 6l12 12 M18 6L6 18"></path>
+          </svg>
+        </button>
+      </div>
     </div>
+
+    <div data-live-popup-body class="max-h-0 overflow-hidden transition-[max-height] duration-300 ease-out">
+      <div data-live-popup-list class="grid gap-1 px-2 py-1.5"></div>
+      <div class="flex items-center justify-between border-t border-slate-100 bg-slate-50 px-2 py-1">
+        <span class="text-[9px] text-slate-500"> Auto </span>
+        <a href="/olimpiadas" class="text-[9px] font-bold uppercase tracking-wider text-brand-600 hover:text-brand-700">
+          Ver todo →
+        </a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script define:vars={{ defaultData }}>
-    (async () => {
-        // Inline implementation to avoid dynamic imports
-        const STORAGE_KEY = 'galileo-olimpiadas-v2';
-        
-        const load = async (defaultData) => {
-            try {
-                const raw = localStorage.getItem(STORAGE_KEY);
-                if (!raw) return defaultData;
-                const parsed = JSON.parse(raw);
-                return {
-                    sections: Array.isArray(parsed.sections) ? parsed.sections : defaultData.sections,
-                    sports: Array.isArray(parsed.sports) ? parsed.sports : defaultData.sports,
-                    games: Array.isArray(parsed.games) ? parsed.games : defaultData.games,
-                    heroStats: parsed.heroStats || defaultData.heroStats,
-                };
-            } catch {
-                return defaultData;
-            }
-        };
-        
-        const onDataChanged = (callback) => {
-            const handler = () => callback();
-            window.addEventListener('galileo-data-changed', handler);
-            window.addEventListener('storage', (e) => {
-                if (e.key === STORAGE_KEY) handler();
-            });
-        };
-        
-        const DEFAULT = JSON.parse(defaultData);
+  (async () => {
+    // Inline implementation to avoid dynamic imports
+    const STORAGE_KEY = 'galileo-olimpiadas-v2';
 
-    const card = document.querySelector("[data-live-popup-card]");
-    const body = document.querySelector("[data-live-popup-body]");
-    const list = document.querySelector("[data-live-popup-list]");
-    const countEl = document.querySelector("[data-live-popup-count]");
-    const closeBtn = document.querySelector("[data-live-popup-close]");
-    const toggleBtn = document.querySelector("[data-live-popup-toggle]");
-    const POPUP_HIDDEN_KEY = "galileo-live-popup-dismissed";
-    const POPUP_COLLAPSED_KEY = "galileo-live-popup-collapsed";
+    const load = async (defaultData) => {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return defaultData;
+        const parsed = JSON.parse(raw);
+        return {
+          sections: Array.isArray(parsed.sections) ? parsed.sections : defaultData.sections,
+          sports: Array.isArray(parsed.sports) ? parsed.sports : defaultData.sports,
+          games: Array.isArray(parsed.games) ? parsed.games : defaultData.games,
+          heroStats: parsed.heroStats || defaultData.heroStats,
+        };
+      } catch {
+        return defaultData;
+      }
+    };
+
+    const onDataChanged = (callback) => {
+      const handler = () => callback();
+      window.addEventListener('galileo-data-changed', handler);
+      window.addEventListener('storage', (e) => {
+        if (e.key === STORAGE_KEY) handler();
+      });
+    };
+
+    const DEFAULT = JSON.parse(defaultData);
+
+    const card = document.querySelector('[data-live-popup-card]');
+    const body = document.querySelector('[data-live-popup-body]');
+    const list = document.querySelector('[data-live-popup-list]');
+    const countEl = document.querySelector('[data-live-popup-count]');
+    const closeBtn = document.querySelector('[data-live-popup-close]');
+    const toggleBtn = document.querySelector('[data-live-popup-toggle]');
+    const POPUP_HIDDEN_KEY = 'galileo-live-popup-dismissed';
+    const POPUP_COLLAPSED_KEY = 'galileo-live-popup-collapsed';
 
     if (card && body && list && countEl) {
-        const sectionMap = new Map(DEFAULT.sections.map((s) => [s.name, s]));
-        const colorMap = {
-            "bg-brand-500": "bg-brand-500",
-            "bg-navy-600": "bg-navy-600",
-            "bg-emerald-500": "bg-emerald-500",
-            "bg-purple-500": "bg-purple-500",
-            "bg-rose-500": "bg-rose-500",
-            "bg-amber-500": "bg-amber-500",
-            "bg-sky-500": "bg-sky-500",
-            "bg-slate-500": "bg-slate-500",
-        };
-        const colorFor = (name) => colorMap[name] || name || "bg-slate-500";
-        const sectionFromGame = (g) => {
-            return (
-                sectionMap.get(g) ?? {
-                    name: g,
-                    color: "bg-slate-500",
-                    initial: g.slice(-1),
-                }
-            );
-        };
+      const sectionMap = new Map(DEFAULT.sections.map((s) => [s.name, s]));
+      const colorMap = {
+        'bg-brand-500': 'bg-brand-500',
+        'bg-navy-600': 'bg-navy-600',
+        'bg-emerald-500': 'bg-emerald-500',
+        'bg-purple-500': 'bg-purple-500',
+        'bg-rose-500': 'bg-rose-500',
+        'bg-amber-500': 'bg-amber-500',
+        'bg-sky-500': 'bg-sky-500',
+        'bg-slate-500': 'bg-slate-500',
+      };
+      const colorFor = (name) => colorMap[name] || name || 'bg-slate-500';
+      const sectionFromGame = (g) => {
+        return (
+          sectionMap.get(g) ?? {
+            name: g,
+            color: 'bg-slate-500',
+            initial: g.slice(-1),
+          }
+        );
+      };
 
-        const isLive = (status) => (status || "").includes("En vivo");
+      const isLive = (status) => (status || '').includes('En vivo');
 
-        let lastData = null;
-        const render = (data) => {
-            lastData = data;
-            const games = data.games || [];
-            const live = games.filter((g) => isLive(g.status));
-            countEl.textContent = String(live.length);
+      const render = (data) => {
+        const games = data.games || [];
+        const live = games.filter((g) => isLive(g.status));
+        countEl.textContent = String(live.length);
 
-            if (live.length === 0) {
-                card.classList.add("hidden");
-                return;
-            }
+        if (live.length === 0) {
+          card.classList.add('hidden');
+          return;
+        }
 
-            card.classList.remove("hidden");
-            list.innerHTML = live
-                .map((g) => {
-                    const local = sectionFromGame(g.local);
-                    const visit = sectionFromGame(g.visit);
-                    return `
+        card.classList.remove('hidden');
+        list.innerHTML = live
+          .map((g) => {
+            const local = sectionFromGame(g.local);
+            const visit = sectionFromGame(g.visit);
+            return `
                     <div class="rounded-sm bg-slate-50 px-2 py-1.5 ring-1 ring-slate-100">
                         <div class="flex items-center justify-between gap-1.5">
                             <span class="rounded-sm bg-brand-100 px-1 text-[9px] font-bold uppercase tracking-wider text-brand-700">
@@ -208,52 +185,51 @@ const defaultData = JSON.stringify(DEFAULT);
                         </div>
                     </div>
                 `;
-                })
-                .join("");
-            requestAnimationFrame(applyCollapsed);
-        };
+          })
+          .join('');
+        requestAnimationFrame(applyCollapsed);
+      };
 
-        const applyCollapsed = () => {
-            if (sessionStorage.getItem(POPUP_COLLAPSED_KEY) === "1") {
-                body.style.maxHeight = "0px";
-                toggleBtn?.querySelector("svg")?.classList.add("rotate-180");
-            } else {
-                body.style.maxHeight = body.scrollHeight + "px";
-                toggleBtn?.querySelector("svg")?.classList.remove("rotate-180");
-            }
-        };
-
-        if (sessionStorage.getItem(POPUP_HIDDEN_KEY) === "1") {
-            card.classList.add("hidden");
+      const applyCollapsed = () => {
+        if (sessionStorage.getItem(POPUP_COLLAPSED_KEY) === '1') {
+          body.style.maxHeight = '0px';
+          toggleBtn?.querySelector('svg')?.classList.add('rotate-180');
+        } else {
+          body.style.maxHeight = body.scrollHeight + 'px';
+          toggleBtn?.querySelector('svg')?.classList.remove('rotate-180');
         }
+      };
 
-        toggleBtn?.addEventListener("click", () => {
-            const collapsed =
-                sessionStorage.getItem(POPUP_COLLAPSED_KEY) === "1";
-            if (collapsed) {
-                sessionStorage.removeItem(POPUP_COLLAPSED_KEY);
-            } else {
-                sessionStorage.setItem(POPUP_COLLAPSED_KEY, "1");
-            }
-            applyCollapsed();
-        });
+      if (sessionStorage.getItem(POPUP_HIDDEN_KEY) === '1') {
+        card.classList.add('hidden');
+      }
 
-        closeBtn?.addEventListener("click", () => {
-            card.classList.add("hidden");
-            sessionStorage.setItem(POPUP_HIDDEN_KEY, "1");
-        });
+      toggleBtn?.addEventListener('click', () => {
+        const collapsed = sessionStorage.getItem(POPUP_COLLAPSED_KEY) === '1';
+        if (collapsed) {
+          sessionStorage.removeItem(POPUP_COLLAPSED_KEY);
+        } else {
+          sessionStorage.setItem(POPUP_COLLAPSED_KEY, '1');
+        }
+        applyCollapsed();
+      });
 
-        onDataChanged(async () => {
-            const data = await load(DEFAULT);
-            render(data);
-        });
+      closeBtn?.addEventListener('click', () => {
+        card.classList.add('hidden');
+        sessionStorage.setItem(POPUP_HIDDEN_KEY, '1');
+      });
 
-        const refresh = async () => {
-            const data = await load(DEFAULT);
-            render(data);
-        };
+      onDataChanged(async () => {
+        const data = await load(DEFAULT);
+        render(data);
+      });
 
-        refresh();
+      const refresh = async () => {
+        const data = await load(DEFAULT);
+        render(data);
+      };
+
+      refresh();
     }
-    })();
+  })();
 </script>

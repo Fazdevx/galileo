@@ -25,6 +25,7 @@ const items = [
   },
 ];
 ---
+
 <section id="nosotros" class="bg-slate-50 py-16 sm:py-20 md:py-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
     <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-navy-700 to-navy-800 px-6 py-10 text-center shadow-xl sm:px-12 sm:py-14 md:py-16">
@@ -34,17 +35,29 @@ const items = [
         <span class="h-1.5 w-1.5 rounded-full bg-brand-400"></span>
         Sobre nosotros
       </span>
-      <h1 class="relative mx-auto mt-3 max-w-2xl text-2xl font-extrabold text-white sm:text-3xl md:text-4xl">Una institución con valores sólidos</h1>
+      <h1 class="relative mx-auto mt-3 max-w-2xl text-2xl font-extrabold text-white sm:text-3xl md:text-4xl">
+        Una institución con valores sólidos
+      </h1>
       <p class="relative mx-auto mt-4 max-w-2xl text-base text-navy-100 sm:text-lg">
-        En el Colegio y Academia Galileo creemos en una educación integral que combina la excelencia académica con la formación en valores.
+        En el Colegio y Academia Galileo creemos en una educación integral que combina la excelencia académica con la
+        formación en valores.
       </p>
     </div>
 
     <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 md:mt-14">
-      {items.map(item => (
+      {items.map((item) => (
         <article class="group relative rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 transition-all hover:-translate-y-1 hover:shadow-xl hover:ring-brand-300 sm:p-8">
           <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-brand-50 text-brand-500 transition-colors group-hover:bg-brand-500 group-hover:text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-7 w-7"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
               <path d={item.icon} />
             </svg>
           </div>
@@ -59,10 +72,19 @@ const items = [
         <span class="text-sm font-bold uppercase tracking-wider text-brand-500">Lo que nos distingue</span>
         <h3 class="mt-3 text-2xl font-extrabold text-navy-700 sm:text-3xl">Educación que transforma vidas</h3>
         <p class="mt-4 text-slate-600">
-          Más de dos décadas formando generaciones con una propuesta educativa innovadora, cercana y comprometida con el futuro de cada estudiante.
+          Más de dos décadas formando generaciones con una propuesta educativa innovadora, cercana y comprometida con el
+          futuro de cada estudiante.
         </p>
-<div class="mt-4 overflow-hidden rounded-2xl">
-          <Image src={frontis} alt="Frontis del comedor y aulas del colegio Galileo" widths={[640, 960, 1200]} sizes="(max-width: 1024px) 100vw, 50vw" class="h-auto w-full" loading="lazy" decoding="async" />
+        <div class="mt-4 overflow-hidden rounded-2xl">
+          <Image
+            src={frontis}
+            alt="Frontis del comedor y aulas del colegio Galileo"
+            widths={[640, 960, 1200]}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            class="h-auto w-full"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
       </div>
       <ul class="space-y-3">
@@ -72,10 +94,19 @@ const items = [
           { title: 'Acompañamiento psicoeducativo', desc: 'Departamento de orientación y tutorías personalizadas.' },
           { title: 'Infraestructura moderna y segura', desc: 'Aulas equipadas, laboratorios y áreas verdes.' },
           { title: 'Programa bilingüe', desc: 'Inglés desde inicial con certificación internacional.' },
-        ].map(item => (
+        ].map((item) => (
           <li class="flex items-start gap-3 rounded-xl bg-white p-4 ring-1 ring-slate-200 transition hover:ring-brand-300 sm:gap-4 sm:p-5">
             <div class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-brand-500 text-white sm:h-10 sm:w-10">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 sm:h-5 sm:w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
                 <path d="M5 13l4 4L19 7" />
               </svg>
             </div>

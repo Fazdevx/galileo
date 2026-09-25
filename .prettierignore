@@ -1,0 +1,18 @@
+node_modules/
+dist/
+.astro/
+.vercel/
+
+# Build output
+public/js/whatsapp-chat.js
+
+# Generated brand assets
+public/og-image.png
+public/favicon-*.png
+public/apple-touch-icon.png
+public/android-chrome-*.png
+
+# Binary sources
+src/assets/
+
+package-lock.json

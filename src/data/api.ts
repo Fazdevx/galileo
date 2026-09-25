@@ -32,16 +32,16 @@ export const DOCUMENT_ID = 'olimpiadas-data';
 export async function fetchData(): Promise<OlimpiadasData> {
   // Solo funciona en el navegador
   if (typeof window === 'undefined') return DEFAULT_DATA;
-  
+
   try {
     const db = await initFirebase();
     if (!db) return DEFAULT_DATA;
-    
+
     const { doc, getDoc, setDoc } = await import('firebase/firestore');
-    
+
     const docRef = doc(db, COLLECTION_NAME, DOCUMENT_ID);
     const docSnap = await getDoc(docRef);
-    
+
     if (docSnap.exists()) {
       const data = docSnap.data() as OlimpiadasData;
       if (data.sections && data.sports && data.games && data.heroStats) {
@@ -61,13 +61,13 @@ export async function fetchData(): Promise<OlimpiadasData> {
 export async function saveData(data: OlimpiadasData): Promise<boolean> {
   // Solo funciona en el navegador
   if (typeof window === 'undefined') return false;
-  
+
   try {
     const db = await initFirebase();
     if (!db) return false;
-    
+
     const { doc, setDoc } = await import('firebase/firestore');
-    
+
     const docRef = doc(db, COLLECTION_NAME, DOCUMENT_ID);
     await setDoc(docRef, data);
     return true;

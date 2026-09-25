@@ -1,12 +1,5 @@
 import type { OlimpiadasData } from '../data/olimpiadasStore';
-import {
-  fetchData,
-  saveData,
-  initFirebase,
-  API_CONFIGURED,
-  COLLECTION_NAME,
-  DOCUMENT_ID,
-} from '../data/api';
+import { fetchData, saveData, initFirebase, API_CONFIGURED, COLLECTION_NAME, DOCUMENT_ID } from '../data/api';
 
 export const STORAGE_KEY = 'galileo-olimpiadas-v2';
 
@@ -32,7 +25,7 @@ export function loadFromLocal(): OlimpiadasData | null {
   }
 }
 
-export async function loadFromApi(defaultData: OlimpiadasData): Promise<OlimpiadasData | null> {
+export async function loadFromApi(): Promise<OlimpiadasData | null> {
   if (!API_CONFIGURED || cloudDisabled) return null;
   try {
     const data = await fetchData();
@@ -47,7 +40,7 @@ export async function loadFromApi(defaultData: OlimpiadasData): Promise<Olimpiad
 }
 
 export async function load(defaultData: OlimpiadasData): Promise<OlimpiadasData> {
-  const remote = await loadFromApi(defaultData);
+  const remote = await loadFromApi();
   const local = remote ? null : loadFromLocal();
   const source = remote || local || defaultData;
   return {

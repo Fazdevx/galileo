@@ -1,110 +1,195 @@
 ---
+import { SITE } from '../data/site';
+
 const niveles = ['Inicial', 'Primaria', 'Secundaria', 'Academia Preuniversitaria'];
 const turnos = ['Mañana', 'Tarde'];
-const nivelesOptions = niveles.map(n => `<option value="${n}">${n}</option>`).join('');
-const turnosOptions = turnos.map(t => `<option value="${t}">${t}</option>`).join('');
+const nivelesOptions = niveles.map((n) => `<option value="${n}">${n}</option>`).join('');
+const turnosOptions = turnos.map((t) => `<option value="${t}">${t}</option>`).join('');
+const phone = SITE.phone.digits;
+const phoneAcademia = SITE.phoneAcademia.digits;
 ---
 
-<div id="prematricula-modal" class="fixed inset-0 z-50 hidden items-end justify-center bg-slate-900/60 p-0 sm:items-center sm:p-4">
+<div
+  id="prematricula-modal"
+  class="fixed inset-0 z-50 hidden items-end justify-center bg-slate-900/60 p-0 sm:items-center sm:p-4"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="premat-title"
+  aria-describedby="premat-desc"
+>
   <div class="w-full max-w-lg overflow-hidden rounded-t-2xl bg-white shadow-2xl ring-1 ring-slate-200 sm:rounded-2xl">
     <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
       <div>
-        <h3 class="text-base font-extrabold text-navy-700 sm:text-lg">Pre-matrícula 2026</h3>
-        <p class="text-xs text-slate-500 sm:text-sm">Completa el formulario y reserva tu día.</p>
+        <h3 id="premat-title" class="text-base font-extrabold text-navy-700 sm:text-lg">
+          Pre-matrícula 2026
+        </h3>
+        <p id="premat-desc" class="text-xs text-slate-500 sm:text-sm">
+          Completa el formulario y reserva tu día.
+        </p>
       </div>
-      <button id="premat-close" type="button" class="rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12 M18 6L6 18"/></svg>
+      <button
+        id="premat-close"
+        type="button"
+        aria-label="Cerrar"
+        class="rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+      >
+        <svg
+          class="h-5 w-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M6 6l12 12 M18 6L6 18" />
+        </svg>
       </button>
     </div>
-    <form id="premat-form" class="max-h-[80vh] overflow-y-auto p-5 space-y-4">
+    <form id="premat-form" class="max-h-[80vh] space-y-4 overflow-y-auto p-5">
       <div class="grid gap-4 sm:grid-cols-2">
         <label class="block">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Nombre del estudiante</span>
-          <input name="estudiante" required class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none" placeholder="Nombre completo" />
+          <input
+            name="estudiante"
+            required
+            class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none"
+            placeholder="Nombre completo"
+          />
         </label>
         <label class="block">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Nivel de interés</span>
-          <select name="nivel" required class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none">
+          <select
+            name="nivel"
+            id="premat-nivel"
+            required
+            class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none"
+          >
             <option value="">Selecciona</option>
             <Fragment set:html={nivelesOptions} />
           </select>
         </label>
         <label class="block">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Apoderado / Padre</span>
-          <input name="apoderado" required class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none" placeholder="Nombre del apoderado" />
+          <input
+            name="apoderado"
+            required
+            autocomplete="name"
+            class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none"
+            placeholder="Nombre del apoderado"
+          />
         </label>
         <label class="block">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Teléfono</span>
-          <input name="telefono" type="tel" required class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none" placeholder="+51 999 999 999" />
+          <input
+            name="telefono"
+            type="tel"
+            required
+            autocomplete="tel"
+            inputmode="tel"
+            class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none"
+            placeholder="+51 999 999 999"
+          />
         </label>
         <label class="block sm:col-span-2">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Correo electrónico</span>
-          <input name="correo" type="email" required class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none" placeholder="tu@correo.com" />
+          <input
+            name="correo"
+            type="email"
+            required
+            autocomplete="email"
+            inputmode="email"
+            class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none"
+            placeholder="tu@correo.com"
+          />
         </label>
         <label class="block">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Fecha preferida</span>
-          <input name="fecha" type="date" required class="mt-2 w-full w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none" />
+          <input
+            name="fecha"
+            type="date"
+            required
+            class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none"
+          />
         </label>
         <label class="block">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Turno preferido</span>
-          <select name="turno" required class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none">
+          <select
+            name="turno"
+            required
+            class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm transition focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none"
+          >
             <option value="">Selecciona</option>
             <Fragment set:html={turnosOptions} />
           </select>
         </label>
       </div>
       <div class="flex justify-end gap-2 pt-2">
-        <button type="button" id="premat-cancel" class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">Cancelar</button>
-        <button type="submit" class="rounded-xl bg-brand-500 px-4 py-2 text-sm font-bold text-white shadow-md hover:bg-brand-600">Reservar cita</button>
+        <button
+          type="button"
+          id="premat-cancel"
+          class="rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="rounded-xl bg-brand-500 px-4 py-2 text-sm font-bold text-white shadow-md hover:bg-brand-600"
+        >
+          Reservar cita
+        </button>
       </div>
-      <p class="text-center text-xs text-slate-500">Al enviar, un asesor te confirmará la cita por correo o teléfono.</p>
+      <p class="text-center text-xs text-slate-500">Al enviar, un asesor te confirmará la cita por WhatsApp.</p>
     </form>
   </div>
 </div>
 
-<script>
+<script is:inline define:vars={{ phone, phoneAcademia }}>
   (() => {
-    const modal = document.getElementById('prematricula-modal') as HTMLDivElement | null;
-    const form = document.getElementById('premat-form') as HTMLFormElement | null;
-    const open = () => {
-      if (!modal) return;
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    };
-    const close = () => {
-      if (!modal) return;
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    };
-    document.getElementById('premat-close')?.addEventListener('click', close);
-    document.getElementById('premat-cancel')?.addEventListener('click', close);
-    modal?.addEventListener('click', (e) => { if (e.target === modal) close(); });
+    const modal = document.getElementById('prematricula-modal');
+    const form = document.getElementById('premat-form');
 
-    const btn = document.getElementById('btn-matriculate-hero');
-    if (btn) btn.addEventListener('click', (e) => { e.preventDefault(); open(); });
+    const dlg = window.createDialog({
+      root: modal,
+      initialFocus: 'input[name="estudiante"]',
+    });
 
-    window.addEventListener('open-prematricula', open);
+    document.getElementById('premat-close')?.addEventListener('click', dlg.close);
+    document.getElementById('premat-cancel')?.addEventListener('click', dlg.close);
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) dlg.close();
+    });
+
+    document.getElementById('btn-matriculate-hero')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      dlg.open();
+    });
+
+    window.addEventListener('open-prematricula', dlg.open);
 
     form?.addEventListener('submit', (e) => {
       e.preventDefault();
-      const fd = new FormData(form);
-      const data = Object.fromEntries(fd.entries());
-      const isAcademia = data.nivel === 'Academia Preuniversitaria';
-      const phone = isAcademia ? '51967540629' : '51997394157';
-      const msg = encodeURIComponent(
-        `Hola, soy ${data.apoderado}, quiero reservar una cita de pre-matrícula.\n\n` +
-        `*Estudiante:* ${data.estudiante}\n` +
-        `*Nivel:* ${data.nivel}\n` +
-        `*Apoderado:* ${data.apoderado}\n` +
-        `*Teléfono:* ${data.telefono}\n` +
-        `*Correo:* ${data.correo}\n` +
-        `*Fecha preferida:* ${data.fecha}\n` +
-        `*Turno:* ${data.turno}\n\n` +
-        `Quedo atento(a) a la confirmación. ¡Gracias!`
-      );
-      window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+      const data = Object.fromEntries(new FormData(form).entries());
+      const target = data.nivel === 'Academia Preuniversitaria' ? phoneAcademia : phone;
+
+      const msg = [
+        `Hola, soy ${data.apoderado}, quiero reservar una cita de pre-matrícula.`,
+        '',
+        `*Estudiante:* ${data.estudiante}`,
+        `*Nivel:* ${data.nivel}`,
+        `*Apoderado:* ${data.apoderado}`,
+        `*Teléfono:* ${data.telefono}`,
+        `*Correo:* ${data.correo}`,
+        `*Fecha preferida:* ${data.fecha}`,
+        `*Turno:* ${data.turno}`,
+        '',
+        'Quedo atento(a) a la confirmación. ¡Gracias!',
+      ].join('\n');
+
+      window.open(`https://wa.me/${target}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
       form.reset();
-      close();
+      dlg.close();
     });
   })();
 </script>

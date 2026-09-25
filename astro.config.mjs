@@ -18,7 +18,12 @@ export default defineConfig({
   adapter: vercel({
     imageService: true,
   }),
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // The admin panel must never be advertised to crawlers.
+      filter: (page) => !page.includes('/admin'),
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },

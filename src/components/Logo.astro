@@ -1,0 +1,46 @@
+---
+/**
+ * Brand mark renderer.
+ *
+ * `logo`   - horizontal wordmark (480x166 source)
+ * `escudo` - crest (256x256 source)
+ *
+ * Both are served as WebP with a real srcset, so a 40px header logo no longer
+ * costs the 76-322KB the original PNGs did.
+ */
+import { Image } from 'astro:assets';
+import logoSrc from '../assets/logo.webp';
+import escudoSrc from '../assets/escudo.webp';
+
+interface Props {
+  mark?: 'logo' | 'escudo';
+  alt?: string;
+  class?: string;
+  loading?: 'eager' | 'lazy';
+  /** Rendered CSS size hint, used by the browser to pick a srcset candidate. */
+  size?: string;
+}
+
+const {
+  mark = 'logo',
+  alt = 'Colegio y Academia Galileo',
+  class: className = '',
+  loading = 'eager',
+  size,
+} = Astro.props;
+
+const isEscudo = mark === 'escudo';
+const widths = isEscudo ? [32, 48, 64, 96, 128, 192] : [64, 96, 128, 192, 256, 384];
+const intrinsic = isEscudo ? { width: 256, height: 256 } : { width: 480, height: 166 };
+---
+
+<Image
+  src={isEscudo ? escudoSrc : logoSrc}
+  alt={alt}
+  widths={widths}
+  sizes={size ?? (isEscudo ? '48px' : '160px')}
+  {...intrinsic}
+  class={className}
+  loading={loading}
+  decoding="async"
+/>

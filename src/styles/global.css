@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-brand-50: #fff5ed;
@@ -25,7 +25,12 @@
 }
 
 body {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
 }
 
 html {
@@ -39,5 +44,51 @@ section[id] {
 @media (min-width: 640px) {
   section[id] {
     scroll-margin-top: 5.5rem;
+  }
+}
+
+/* Visible focus for keyboard users. Components that use focus:outline-none
+   opt back in via their own ring utilities, so this only covers the rest. */
+:focus-visible {
+  outline: 3px solid var(--color-brand-500);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Skip link: off-screen until focused. */
+.skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  transform: translateY(-200%);
+  border-radius: 0.5rem;
+  background-color: var(--color-navy-700);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #fff;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.2);
+  transition: transform 0.15s ease-out;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Honour the OS "reduce motion" setting: kill CSS animations and the
+   smooth-scroll that the hero slider and prize modal rely on. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

@@ -30,21 +30,34 @@ const faqs = [
   },
 ];
 ---
+
 <section id="faq" class="bg-white py-16 sm:py-20 md:py-24">
   <div class="mx-auto max-w-3xl px-4 sm:px-6">
     <div class="mx-auto max-w-2xl text-center">
       <span class="text-sm font-bold uppercase tracking-wider text-brand-500">Preguntas frecuentes</span>
       <h2 class="mt-3 text-2xl font-extrabold text-navy-700 sm:text-3xl md:text-4xl">Resolvemos tus dudas</h2>
-      <p class="mt-4 text-base text-slate-600 sm:text-lg">Las preguntas que más nos hacen las familias que quieren matricularse con nosotros.</p>
+      <p class="mt-4 text-base text-slate-600 sm:text-lg">
+        Las preguntas que más nos hacen las familias que quieren matricularse con nosotros.
+      </p>
     </div>
 
     <div class="mt-10 space-y-3 sm:mt-12">
-      {faqs.map(f => (
+      {faqs.map((f) => (
         <details class="group overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200 transition shadow-sm hover:ring-brand-300 open:shadow-md open:ring-brand-300">
           <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 sm:px-6">
             <span class="text-sm font-bold text-navy-700 sm:text-base">{f.q}</span>
             <span class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-500 transition-transform duration-300 group-open:rotate-45">
-              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14 M5 12h14"/></svg>
+              <svg
+                class="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 5v14 M5 12h14" />
+              </svg>
             </span>
           </summary>
           <div class="border-t border-slate-100 px-5 pb-5 pt-3 sm:px-6">
@@ -56,7 +69,9 @@ const faqs = [
 
     <p class="mt-8 text-center text-sm text-slate-500 sm:text-base">
       ¿Tienes otra pregunta?
-      <a href="/#contacto" class="font-bold text-brand-500 transition hover:text-brand-600">Escríbenos aquí</a>
+      <a href="/#contacto" class="font-bold text-brand-500 transition hover:text-brand-600">
+        Escríbenos aquí
+      </a>
     </p>
   </div>
 </section>

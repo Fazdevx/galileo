@@ -7,6 +7,7 @@
 ## ⚠️ Estructura Correcta de Firebase
 
 ### Colección: `olimpiadas`
+
 - **Documento ID**: `olimpiadas-data`
 - **Campos del documento**:
   ```json
@@ -14,7 +15,7 @@
     "sections": [
       {
         "id": "s-a",
-        "name": "Sección A", 
+        "name": "Sección A",
         "color": "bg-brand-500",
         "initial": "A"
       }
@@ -25,7 +26,7 @@
         "id": "g-1",
         "local": "Sección A",
         "localScore": 3,
-        "visit": "Sección B", 
+        "visit": "Sección B",
         "visitScore": 1,
         "status": "Finalizado",
         "sport": "Fútbol",
@@ -34,7 +35,7 @@
     ],
     "heroStats": {
       "secciones": 0,
-      "disciplinas": 0, 
+      "disciplinas": 0,
       "dias": 0
     }
   }
@@ -63,6 +64,7 @@
 ## Integración Completa
 
 ### Archivos Modificados:
+
 1. **`src/lib/firebase.ts`** - Configuración de Firebase SDK
 2. **`src/data/api.ts`** - API que usa Firestore en lugar de JSONBin
 3. **`src/lib/olimpiadasClient.ts`** - Cliente que usa Firestore en lugar de JSONBin
@@ -70,6 +72,7 @@
 5. **`.env.example`** - Variables de entorno para Firebase
 
 ### Funcionalidades:
+
 - ✅ Lectura de datos desde Firestore
 - ✅ Escritura de datos a Firestore
 - ✅ Fallback automático a localStorage si Firebase falla
@@ -92,11 +95,13 @@ PUBLIC_FIREBASE_APP_ID=tu_app_id
 ## Uso del Sistema
 
 ### Para Usuarios Finales:
+
 - Los datos se cargan automáticamente desde Firestore
 - Si hay problemas de conexión, usa localStorage como respaldo
 - Los cambios se sincronizan con Firestore cuando es posible
 
 ### Para Administradores:
+
 - Accede al panel en `/admin`
 - Usa la contraseña: `galileo2026`
 - Los cambios se guardan en Firestore y localStorage simultáneamente
@@ -121,6 +126,7 @@ service cloud.firestore {
 ## Verificación
 
 El servidor de desarrollo está corriendo en `http://localhost:4321`. Puedes verificar:
+
 1. Visita la página principal para ver los datos cargados
 2. Visita `/admin` para probar el panel de administración
 3. Revisa la consola del navegador para mensajes de Firebase

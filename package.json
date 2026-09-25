@@ -6,13 +6,15 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "predev": "node scripts/gen-wa-chat.mjs",
-    "prebuild": "node scripts/gen-wa-chat.mjs",
+    "predev": "node scripts/gen-wa-chat.mjs && node scripts/gen-brand-assets.mjs",
+    "prebuild": "node scripts/gen-wa-chat.mjs && node scripts/gen-brand-assets.mjs",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "astro": "astro"
   },
   "dependencies": {
@@ -25,6 +27,8 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
+    "prettier": "^3.9.9",
+    "prettier-plugin-astro": "^1.1.0",
     "typescript": "^5.7.3"
   },
   "allowScripts": {

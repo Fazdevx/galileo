@@ -3,8 +3,9 @@ import { DEFAULT_DATA } from '../data/olimpiadasStore';
 import type { OlimpiadasData } from '../data/olimpiadasStore';
 
 const esc = (s: unknown) =>
-  String(s ?? '').replace(/[&<>"']/g, (c) =>
-    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!),
+  String(s ?? '').replace(
+    /[&<>"']/g,
+    (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!,
   );
 
 function updateStats(heroStats: OlimpiadasData['heroStats']) {
@@ -26,9 +27,7 @@ function updateGames(games: OlimpiadasData['games']) {
     gamesContainer.innerHTML = games
       .map((game) => {
         const isFinished = game.status && game.status.includes('Finalizado');
-        const statusClass = isFinished
-          ? 'bg-emerald-500/20 text-emerald-300'
-          : 'bg-blue-500/20 text-blue-300';
+        const statusClass = isFinished ? 'bg-emerald-500/20 text-emerald-300' : 'bg-blue-500/20 text-blue-300';
         return `<div class="flex items-center justify-between gap-4 p-3 rounded-lg bg-navy-900/50 border border-slate-700 hover:border-slate-500 transition-colors">
           <div class="flex items-center gap-3">
             <span class="text-xs font-bold uppercase tracking-wider text-brand-400 w-16">${esc(game.sport)}</span>
@@ -44,7 +43,8 @@ function updateGames(games: OlimpiadasData['games']) {
       })
       .join('');
   } else {
-    gamesContainer.innerHTML = '<div class="text-center py-6 text-navy-400"><p class="text-sm">No hay partidos programados</p></div>';
+    gamesContainer.innerHTML =
+      '<div class="text-center py-6 text-navy-400"><p class="text-sm">No hay partidos programados</p></div>';
   }
 }
 
@@ -70,7 +70,8 @@ function updateStandings(data: OlimpiadasData) {
       })
       .join('');
   } else {
-    standingsBody.innerHTML = '<tr><td class="px-4 py-3 text-center text-slate-500" colspan="7">No hay datos disponibles</td></tr>';
+    standingsBody.innerHTML =
+      '<tr><td class="px-4 py-3 text-center text-slate-500" colspan="7">No hay datos disponibles</td></tr>';
   }
 }
 

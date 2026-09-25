@@ -119,7 +119,7 @@ const waJS = [
   '}else{',
   'start();',
   '}',
-  '})();'
+  '})();',
 ].join('\n');
 
 fs.writeFileSync('public/js/whatsapp-chat.js', waJS, 'utf8');
