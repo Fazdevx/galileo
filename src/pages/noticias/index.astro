@@ -1,0 +1,170 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import type { Noticia } from '../../data/noticias';
+import { CATEGORIAS, NOTICIAS_SEED, fotoCategoria, ordenar } from '../../data/noticias';
+import { tarjetasHTML, vacioHTML } from '../../lib/noticiaMarkup';
+
+const CATEGORIAS_FILTRO = ['Todas', ...CATEGORIAS];
+
+/** Respaldo local renderizado en el servidor; el script lo reemplaza con Firestore. */
+const listaInicial: Noticia[] = ordenar(NOTICIAS_SEED.filter((n) => n.publicado));
+
+/**
+ * Foto de la cabecera. Sale de la categoría, que ya tiene una foto optimizada
+ * lista; si algún día se sube una portada desde el panel, se cambia aquí por
+ * `listaInicial[0]?.imagen`.
+ */
+const fotoCabecera = fotoCategoria('Aniversario', 'full');
+---
+
+<Layout
+  title="Noticias"
+  description="Aniversario, olimpiadas, desfile, admisiones y comunicados del Colegio y Academia Galileo en Huacho."
+>
+  <Header />
+  <main id="contenido">
+    <!-- Cabecera: foto de fondo y capa navy, al estilo del hero del home. -->
+    <section class="relative isolate overflow-hidden bg-navy-800">
+      {fotoCabecera && (
+        <img
+          src={fotoCabecera}
+          alt=""
+          width="1200"
+          height="675"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+          aria-hidden="true"
+          class="absolute inset-0 -z-10 h-full w-full object-cover opacity-70"
+        />
+      )}
+      {/* La foto va a opacidad alta y la capa es translúcida: el azul se ve
+          claro y la imagen se distingue detrás del título. */}
+      <div
+        class="absolute inset-0 -z-10 bg-gradient-to-br from-navy-900/95 via-navy-800/75 to-brand-700/70"
+        aria-hidden="true"
+      ></div>
+      <div
+        class="absolute -right-24 -top-24 -z-10 h-80 w-80 rounded-full bg-brand-500/20 blur-3xl"
+        aria-hidden="true"
+      ></div>
+
+      <div class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 md:py-24">
+        <nav aria-label="Migas de pan" class="text-sm text-navy-200">
+          <a href="/" class="transition hover:text-white">
+            Inicio
+          </a>
+          <span aria-hidden="true" class="mx-2">
+            /
+          </span>
+          <span class="font-semibold text-white">Noticias</span>
+        </nav>
+
+        <p class="mt-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-brand-300 backdrop-blur">
+          <span class="h-1.5 w-1.5 rounded-full bg-brand-400"></span>
+          Actualidad
+        </p>
+        <h1 class="mt-4 text-4xl font-black text-white sm:text-5xl">Noticias</h1>
+        <p class="mt-4 max-w-2xl text-base leading-relaxed text-navy-100 sm:text-lg">
+          Todo lo que pasa en el Galileo: aniversario, olimpiadas, desfile, admisiones y comunicados oficiales.
+        </p>
+      </div>
+    </section>
+
+    <!-- Filtros. Se pegan bajo la cabecera, que es sticky: por eso el top-16/sm:top-20. -->
+    <section
+      class="sticky top-16 z-30 border-b border-slate-200 bg-white/95 py-4 backdrop-blur sm:top-20"
+      aria-label="Filtrar por categoría"
+    >
+      <div class="mx-auto max-w-7xl px-4 sm:px-6">
+        <div class="flex gap-2 overflow-x-auto pb-1" data-noticias-filtros>
+          {CATEGORIAS_FILTRO.map((c, i) => (
+            <button
+              type="button"
+              data-categoria={c}
+              aria-pressed={i === 0 ? 'true' : 'false'}
+              class:list={[
+                'shrink-0 rounded-full px-4 py-2 text-sm font-bold transition',
+                i === 0
+                  ? 'bg-navy-800 text-white shadow-sm'
+                  : 'bg-slate-100 text-slate-700 hover:bg-brand-50 hover:text-brand-700',
+              ]}
+            >
+              {c}
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Listado -->
+    <section class="bg-slate-50 py-12 sm:py-16" aria-labelledby="lista-noticias">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6">
+        <h2 id="lista-noticias" class="sr-only">
+          Listado de noticias
+        </h2>
+
+        <div
+          class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          data-noticias-grid
+          set:html={
+            listaInicial.length ? tarjetasHTML(listaInicial) : vacioHTML('No hay noticias publicadas por ahora.')
+          }
+        />
+
+        <p class="mt-8 text-sm text-slate-500" data-noticias-estado aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script define:vars={{ listaInicialJson: JSON.stringify(listaInicial) }}>
+  import { fetchNoticias } from '../../data/noticias';
+  import { tarjetasHTML, vacioHTML } from '../../lib/noticiaMarkup';
+
+  (async () => {
+    const grid = document.querySelector('[data-noticias-grid]');
+    if (!grid) return;
+
+    let noticias = JSON.parse(listaInicialJson);
+    let filtro = 'Todas';
+
+    const botones = Array.from(document.querySelectorAll < HTMLButtonElement > '[data-categoria]');
+
+    const claseBoton = (activo) =>
+      activo
+        ? 'bg-navy-800 text-white shadow-sm'
+        : 'bg-slate-100 text-slate-700 hover:bg-brand-50 hover:text-brand-700';
+
+    function pintar() {
+      const lista = filtro === 'Todas' ? noticias : noticias.filter((n) => n.categoria === filtro);
+      grid.innerHTML = lista.length ? tarjetasHTML(lista) : vacioHTML(`No hay noticias en la categoría «${filtro}».`);
+    }
+
+    for (const boton of botones) {
+      boton.addEventListener('click', () => {
+        filtro = boton.dataset.categoria || 'Todas';
+        for (const b of botones) {
+          const activo = b === boton;
+          b.setAttribute('aria-pressed', String(activo));
+          b.className = `shrink-0 rounded-full px-4 py-2 text-sm font-bold transition ${claseBoton(activo)}`;
+        }
+        pintar();
+      });
+    }
+
+    try {
+      const remotas = await fetchNoticias();
+      if (remotas.length) {
+        noticias = remotas;
+        pintar();
+        document.querySelector('[data-noticias-estado]')?.remove();
+      }
+    } catch (error) {
+      console.warn('[Noticias] No se pudo refrescar la lista:', error);
+    }
+  })();
+</script>

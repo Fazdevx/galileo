@@ -1,0 +1,294 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Academia from '../components/Academia.astro';
+import Footer from '../components/Footer.astro';
+import { waLink, TRAYECTORIA, SITE } from '../data/site';
+
+import academiaMain from '../assets/academia/main.jpg';
+import academiaPresente from '../assets/academia/presente.jpg';
+import academiaCaravana from '../assets/academia/caravana.jpg';
+import academiaConsultas from '../assets/academia/consultas.jpg';
+
+/**
+ * Fotos de la Academia. Se importan desde src/assets para que Astro las
+ * convierta a WebP y sirva un srcset con varios tamaños: en su origen ocupan
+ * entre 174 y 443 KB cada una, que es demasiado para cuatro imágenes.
+ *
+ * No hay un bloque de galería. Cada foto va repartida por la página, en la
+ * sección que le toca, para que no se lean como cuatro fotos seguidas.
+ *
+ * El texto alternativo sale del nombre del archivo, así que conviene
+ * revisarlo: describe lo justo que se sabe de cada una.
+ */
+const waAcademia = waLink(
+  'Hola, quisiera información sobre la Academia Preuniversitaria del Colegio Galileo.',
+  SITE.phoneAcademia.digits,
+);
+---
+
+<Layout
+  title="Academia Preuniversitaria Galileo"
+  description="Academia preuniversitaria del Colegio Galileo: preparación intensiva, refuerzo académico, docentes especialistas y seguimiento personalizado para tu ingreso a la universidad."
+>
+  <Header />
+  <main id="contenido">
+    <!-- Cabecera de la página. Va en claro porque la sección Academia de abajo
+         es una banda azul oscura: el contraste marca el cambio de bloque. -->
+    <section class="bg-slate-50 py-14 sm:py-18">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6">
+        <nav aria-label="Migas de pan" class="text-sm text-slate-500">
+          <a href="/" class="transition hover:text-brand-600">
+            Inicio
+          </a>
+          <span aria-hidden="true" class="mx-2">
+            /
+          </span>
+          <span class="font-semibold text-slate-700">Academia</span>
+        </nav>
+
+        <div class="mt-6 grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
+          <div>
+            <span class="inline-flex items-center gap-2 rounded-full bg-navy-50 px-4 py-1 text-xs font-bold uppercase tracking-widest text-navy-700 sm:text-sm">
+              <span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span>
+              Academia Galileo
+            </span>
+            <h1 class="mt-4 text-3xl font-extrabold leading-tight text-slate-900 sm:text-4xl md:text-5xl">
+              La academia que te lleva a la <span class="text-brand-600">universidad</span>
+            </h1>
+            <p class="mt-4 text-base text-slate-600 sm:text-lg">
+              {TRAYECTORIA} preparando a los mejores estudiantes con metodología probada, docentes especializados y
+              resultados que se reflejan en cada ingreso.
+            </p>
+          </div>
+
+          <!-- Foto principal. Va en el hero y no en una galería aparte: es la
+               primera imagen que ve quien llega a la página. Se sube con
+               priority para que no tarde en aparecer. -->
+          <figure class="relative">
+            <Image
+              src={academiaMain}
+              alt="La Academia Preuniversitaria del Colegio Galileo."
+              width={800}
+              height={600}
+              widths={[400, 640, 800]}
+              sizes="(min-width: 1024px) 560px, 100vw"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+              format="webp"
+              class="h-64 w-full rounded-2xl object-cover shadow-xl ring-1 ring-slate-900/5 sm:h-80 lg:h-[26rem]"
+            />
+            <div
+              class="pointer-events-none absolute -bottom-4 -left-4 -z-10 h-24 w-24 rounded-2xl bg-brand-500/20"
+              aria-hidden="true"
+            ></div>
+          </figure>
+        </div>
+
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <button
+            id="btn-matriculate-hero-academia"
+            type="button"
+            class="inline-flex items-center justify-center gap-2 rounded-full bg-brand-500 px-7 py-3.5 text-sm font-bold text-white shadow-md transition hover:bg-brand-600"
+          >
+            Matricúlate
+            <svg
+              class="h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14 M13 6l6 6-6 6"></path>
+            </svg>
+          </button>
+          <a
+            href={waAcademia}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-navy-700 px-7 py-3.5 text-sm font-bold text-navy-700 transition hover:bg-navy-700 hover:text-white"
+          >
+            Consultar por WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <Academia />
+
+    <!-- La foto grande va con su propio texto al lado. Fondo blanco porque el
+         bloque de Academia de arriba es azul oscuro y dos bandas seguidas del
+         mismo color se embolan. -->
+    <section class="bg-white py-16 sm:py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6">
+        <div class="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+          <figure class="overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-slate-200">
+            <Image
+              src={academiaPresente}
+              alt="Actividad de la Academia Galileo."
+              width={720}
+              height={540}
+              widths={[360, 540, 720]}
+              sizes="(min-width: 1024px) 560px, 100vw"
+              loading="lazy"
+              decoding="async"
+              format="webp"
+              class="h-full w-full object-cover"
+            />
+          </figure>
+
+          <div>
+            <p class="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-xs font-bold uppercase tracking-widest text-brand-600">
+              <span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span>
+              La Academia
+            </p>
+            <h2 class="mt-4 text-2xl font-extrabold leading-tight text-navy-800 sm:text-3xl md:text-4xl">
+              Así se estudia en la Academia
+            </h2>
+            <p class="mt-4 text-base leading-relaxed text-slate-600">
+              Cada estudiante llega acompañado por el equipo docente, con un plan de trabajo revisado durante todo el
+              ciclo. La idea es sencilla: detectar en qué se está fallando antes del examen, no la semana de antes.
+            </p>
+            <a
+              href="/#por-que-elegirnos"
+              class="mt-6 inline-flex items-center gap-2 text-sm font-bold text-brand-600 transition hover:text-brand-700"
+            >
+              Ver por qué elegirnos
+              <svg
+                class="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14 M13 6l6 6-6 6"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Las otras dos, con títulos distintos: la página no debe ser un muro de
+         cuatro fotos seguidas. -->
+    <section class="bg-slate-50 py-16 sm:py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6">
+        <div class="grid gap-6 md:grid-cols-2">
+          <figure class="group overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200">
+            <Image
+              src={academiaCaravana}
+              alt="Caravana de la Academia Galileo."
+              width={720}
+              height={480}
+              widths={[360, 540, 720]}
+              sizes="(min-width: 768px) 560px, 100vw"
+              loading="lazy"
+              decoding="async"
+              format="webp"
+              class="h-full w-full object-cover transition duration-500 motion-reduce:transition-none group-hover:scale-105"
+            />
+            <figcaption class="px-5 py-4">
+              <h2 class="text-base font-extrabold text-slate-900">La caravana de la Academia</h2>
+              <p class="mt-1.5 text-sm text-slate-600">Salimos a colegios y ferias de la zona.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="group overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200">
+            <Image
+              src={academiaConsultas}
+              alt="Consultas de orientación de la Academia Galileo."
+              width={720}
+              height={480}
+              widths={[360, 540, 720]}
+              sizes="(min-width: 768px) 560px, 100vw"
+              loading="lazy"
+              decoding="async"
+              format="webp"
+              class="h-full w-full object-cover transition duration-500 motion-reduce:transition-none group-hover:scale-105"
+            />
+            <figcaption class="px-5 py-4">
+              <h2 class="text-base font-extrabold text-slate-900">Consultas de orientación</h2>
+              <p class="mt-1.5 text-sm text-slate-600">Te explicamos el ciclo y los horarios.</p>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cierre: la academia tiene su propio teléfono, distinto al del colegio. -->
+    <section class="bg-white py-16 sm:py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6">
+        <div class="grid gap-6 md:grid-cols-3">
+          <div class="rounded-2xl bg-slate-50 p-6 ring-1 ring-slate-200">
+            <h2 class="text-base font-extrabold text-slate-900">¿Buscas ingreso al colegio?</h2>
+            <p class="mt-2 text-sm text-slate-600">
+              La Academia es el área de preparación preuniversitaria. Si lo que necesitas es educación inicial, primaria
+              o secundaria, revisa el proceso de admisión del colegio.
+            </p>
+            <a
+              href="/admision"
+              class="mt-4 inline-flex items-center gap-2 text-sm font-bold text-brand-600 transition hover:text-brand-700"
+            >
+              Ver proceso de admisión
+              <svg
+                class="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14 M13 6l6 6-6 6"></path>
+              </svg>
+            </a>
+          </div>
+
+          <div class="rounded-2xl bg-navy-700 p-6 text-white">
+            <h2 class="text-base font-extrabold">Matrícula 2026 abierta</h2>
+            <p class="mt-2 text-sm text-navy-100">
+              Matrícula abierta para los ciclos de preparación al examen de admisión. Cupos por orden de registro.
+            </p>
+            <a
+              href={waAcademia}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-4 inline-flex items-center gap-2 text-sm font-bold text-brand-300 transition hover:text-brand-200"
+            >
+              Escribir a la academia
+            </a>
+          </div>
+
+          <div class="rounded-2xl bg-slate-50 p-6 ring-1 ring-slate-200">
+            <h2 class="text-base font-extrabold text-slate-900">Horarios flexibles</h2>
+            <p class="mt-2 text-sm text-slate-600">
+              Turnos de mañana y de tarde para que la preparación encaje con la rutina del estudiante y de su familia.
+            </p>
+            <a
+              href="/#contacto"
+              class="mt-4 inline-flex items-center gap-2 text-sm font-bold text-brand-600 transition hover:text-brand-700"
+            >
+              Ver datos de contacto
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  document.getElementById('btn-matriculate-hero-academia')?.addEventListener('click', () => {
+    window.dispatchEvent(new CustomEvent('open-prematricula'));
+  });
+</script>

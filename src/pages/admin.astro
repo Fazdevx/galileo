@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Logo from '../components/Logo.astro';
+import NoticiasEditor from '../components/admin/NoticiasEditor.astro';
 import { DEFAULT_DATA, ADMIN_PASSWORD } from '../data/olimpiadasStore';
 
 const DEFAULT_DATA_COPY = JSON.stringify(DEFAULT_DATA);
@@ -95,150 +96,191 @@ const adminPassword = ADMIN_PASSWORD;
       </div>
 
       <div id="admin-panel" class="hidden space-y-6">
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
-            <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Partidos en vivo</p>
-            <p class="mt-2 text-3xl font-extrabold text-brand-500" data-summary-live>
-              0
-            </p>
-          </div>
-          <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
-            <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Partidos finalizados</p>
-            <p class="mt-2 text-3xl font-extrabold text-navy-700" data-summary-finished>
-              0
-            </p>
-          </div>
-          <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:col-span-2 lg:col-span-1">
-            <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Secciones / disciplinas</p>
-            <p class="mt-2 text-3xl font-extrabold text-navy-700">
-              <span data-summary-sections>0</span> <span class="text-base font-semibold text-slate-500">/</span>{' '}
-              <span data-summary-sports>0</span>
-            </p>
-          </div>
+        <div
+          role="tablist"
+          aria-label="Secciones del panel"
+          class="flex flex-wrap gap-2 border-b border-slate-200 pb-3"
+        >
+          <button
+            type="button"
+            role="tab"
+            id="tab-olimpiadas"
+            data-panel-btn="olimpiadas"
+            aria-selected="true"
+            aria-controls="panel-olimpiadas"
+            class="rounded-full bg-brand-500 px-5 py-2 text-sm font-bold text-white transition"
+          >
+            Olimpiadas
+          </button>
+          <button
+            type="button"
+            role="tab"
+            id="tab-noticias"
+            data-panel-btn="noticias"
+            aria-selected="false"
+            aria-controls="panel-noticias"
+            class="rounded-full bg-white px-5 py-2 text-sm font-bold text-slate-600 ring-1 ring-slate-200 transition hover:bg-brand-50 hover:text-brand-700"
+          >
+            Noticias
+          </button>
         </div>
 
-        <section class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-6">
-          <h2 class="text-lg font-extrabold text-navy-700 sm:text-xl">Estadísticas del hero</h2>
-          <p class="text-xs text-slate-500 sm:text-sm">Números que se muestran en la sección principal.</p>
-          <form id="stats-form" class="mt-4 grid gap-3 sm:grid-cols-3">
-            <label class="block">
-              <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Secciones</span>
-              <input
-                name="secciones"
-                type="number"
-                min="0"
-                class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none"
-              />
-            </label>
-            <label class="block">
-              <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Disciplinas</span>
-              <input
-                name="disciplinas"
-                type="number"
-                min="0"
-                class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none"
-              />
-            </label>
-            <label class="block">
-              <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Días</span>
-              <input
-                name="dias"
-                type="number"
-                min="0"
-                class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none"
-              />
-            </label>
-            <div class="sm:col-span-3 flex justify-end">
+        <div
+          id="panel-olimpiadas"
+          data-panel="olimpiadas"
+          role="tabpanel"
+          aria-labelledby="tab-olimpiadas"
+          class="space-y-6"
+        >
+          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
+              <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Partidos en vivo</p>
+              <p class="mt-2 text-3xl font-extrabold text-brand-500" data-summary-live>
+                0
+              </p>
+            </div>
+            <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200">
+              <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Partidos finalizados</p>
+              <p class="mt-2 text-3xl font-extrabold text-navy-700" data-summary-finished>
+                0
+              </p>
+            </div>
+            <div class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:col-span-2 lg:col-span-1">
+              <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Secciones / disciplinas</p>
+              <p class="mt-2 text-3xl font-extrabold text-navy-700">
+                <span data-summary-sections>0</span> <span class="text-base font-semibold text-slate-500">/</span>{' '}
+                <span data-summary-sports>0</span>
+              </p>
+            </div>
+          </div>
+
+          <section class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-6">
+            <h2 class="text-lg font-extrabold text-navy-700 sm:text-xl">Estadísticas del hero</h2>
+            <p class="text-xs text-slate-500 sm:text-sm">Números que se muestran en la sección principal.</p>
+            <form id="stats-form" class="mt-4 grid gap-3 sm:grid-cols-3">
+              <label class="block">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Secciones</span>
+                <input
+                  name="secciones"
+                  type="number"
+                  min="0"
+                  class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none"
+                />
+              </label>
+              <label class="block">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Disciplinas</span>
+                <input
+                  name="disciplinas"
+                  type="number"
+                  min="0"
+                  class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none"
+                />
+              </label>
+              <label class="block">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Días</span>
+                <input
+                  name="dias"
+                  type="number"
+                  min="0"
+                  class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none"
+                />
+              </label>
+              <div class="sm:col-span-3 flex justify-end">
+                <button
+                  type="submit"
+                  class="inline-flex items-center gap-2 rounded-xl bg-navy-700 px-4 py-2.5 text-sm font-bold text-white shadow-md transition hover:bg-navy-800"
+                >
+                  Guardar estadísticas
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <section class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-6">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <h2 class="text-lg font-extrabold text-navy-700 sm:text-xl">Secciones en competencia</h2>
               <button
-                type="submit"
-                class="inline-flex items-center gap-2 rounded-xl bg-navy-700 px-4 py-2.5 text-sm font-bold text-white shadow-md transition hover:bg-navy-800"
+                id="btn-add-section"
+                type="button"
+                class="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-3 py-2 text-xs font-bold text-white shadow-md transition hover:bg-brand-600 sm:text-sm"
               >
-                Guardar estadísticas
+                + Nueva sección
               </button>
             </div>
-          </form>
-        </section>
+            <div class="mt-4 overflow-x-auto">
+              <table class="w-full min-w-[520px] text-sm">
+                <thead class="bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
+                  <tr>
+                    <th class="px-3 py-2 text-left">Inicial</th>
+                    <th class="px-3 py-2 text-left">Nombre</th>
+                    <th class="px-3 py-2 text-left">Color</th>
+                    <th class="px-3 py-2 text-right">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="sections-tbody" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </section>
 
-        <section class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-6">
-          <div class="flex flex-wrap items-center justify-between gap-3">
-            <h2 class="text-lg font-extrabold text-navy-700 sm:text-xl">Secciones en competencia</h2>
-            <button
-              id="btn-add-section"
-              type="button"
-              class="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-3 py-2 text-xs font-bold text-white shadow-md transition hover:bg-brand-600 sm:text-sm"
-            >
-              + Nueva sección
-            </button>
-          </div>
-          <div class="mt-4 overflow-x-auto">
-            <table class="w-full min-w-[520px] text-sm">
-              <thead class="bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
-                <tr>
-                  <th class="px-3 py-2 text-left">Inicial</th>
-                  <th class="px-3 py-2 text-left">Nombre</th>
-                  <th class="px-3 py-2 text-left">Color</th>
-                  <th class="px-3 py-2 text-right">Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="sections-tbody" class="divide-y divide-slate-100"></tbody>
-            </table>
-          </div>
-        </section>
+          <section class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-6">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <h2 class="text-lg font-extrabold text-navy-700 sm:text-xl">Disciplinas deportivas</h2>
+              <button
+                id="btn-add-sport"
+                type="button"
+                class="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-3 py-2 text-xs font-bold text-white shadow-md transition hover:bg-brand-600 sm:text-sm"
+              >
+                + Nueva disciplina
+              </button>
+            </div>
+            <div id="sports-list" class="mt-4 flex flex-wrap gap-2"></div>
+          </section>
 
-        <section class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-6">
-          <div class="flex flex-wrap items-center justify-between gap-3">
-            <h2 class="text-lg font-extrabold text-navy-700 sm:text-xl">Disciplinas deportivas</h2>
-            <button
-              id="btn-add-sport"
-              type="button"
-              class="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-3 py-2 text-xs font-bold text-white shadow-md transition hover:bg-brand-600 sm:text-sm"
-            >
-              + Nueva disciplina
-            </button>
-          </div>
-          <div id="sports-list" class="mt-4 flex flex-wrap gap-2"></div>
-        </section>
+          <section class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-6">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <h2 class="text-lg font-extrabold text-navy-700 sm:text-xl">Partidos / Marcadores</h2>
+              <button
+                id="btn-add-game"
+                type="button"
+                class="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-3 py-2 text-xs font-bold text-white shadow-md transition hover:bg-brand-600 sm:text-sm"
+              >
+                + Nuevo partido
+              </button>
+            </div>
+            <div class="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3" id="games-tbody"></div>
+          </section>
 
-        <section class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-6">
-          <div class="flex flex-wrap items-center justify-between gap-3">
-            <h2 class="text-lg font-extrabold text-navy-700 sm:text-xl">Partidos / Marcadores</h2>
-            <button
-              id="btn-add-game"
-              type="button"
-              class="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-3 py-2 text-xs font-bold text-white shadow-md transition hover:bg-brand-600 sm:text-sm"
-            >
-              + Nuevo partido
-            </button>
-          </div>
-          <div class="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3" id="games-tbody"></div>
-        </section>
+          <section class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-6">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <h2 class="text-lg font-extrabold text-navy-700 sm:text-xl">🎡 Premios de la Ruleta</h2>
+              <button
+                id="btn-add-prize"
+                type="button"
+                class="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-3 py-2 text-xs font-bold text-white shadow-md transition hover:bg-brand-600 sm:text-sm"
+              >
+                + Nuevo premio
+              </button>
+            </div>
+            <div class="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3" id="prizes-list"></div>
+          </section>
 
-        <section class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-6">
-          <div class="flex flex-wrap items-center justify-between gap-3">
-            <h2 class="text-lg font-extrabold text-navy-700 sm:text-xl">🎡 Premios de la Ruleta</h2>
-            <button
-              id="btn-add-prize"
-              type="button"
-              class="inline-flex items-center gap-2 rounded-xl bg-brand-500 px-3 py-2 text-xs font-bold text-white shadow-md transition hover:bg-brand-600 sm:text-sm"
-            >
-              + Nuevo premio
-            </button>
-          </div>
-          <div class="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3" id="prizes-list"></div>
-        </section>
+          <section class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-6">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <h2 class="text-lg font-extrabold text-navy-700 sm:text-xl">Zona peligrosa</h2>
+              <button
+                id="btn-reset"
+                type="button"
+                class="inline-flex items-center gap-2 rounded-xl border-2 border-red-200 bg-white px-3 py-2 text-xs font-bold text-red-600 transition hover:bg-red-50 sm:text-sm"
+              >
+                Restablecer datos
+              </button>
+            </div>
+          </section>
+        </div>
 
-        <section class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-6">
-          <div class="flex flex-wrap items-center justify-between gap-3">
-            <h2 class="text-lg font-extrabold text-navy-700 sm:text-xl">Zona peligrosa</h2>
-            <button
-              id="btn-reset"
-              type="button"
-              class="inline-flex items-center gap-2 rounded-xl border-2 border-red-200 bg-white px-3 py-2 text-xs font-bold text-red-600 transition hover:bg-red-50 sm:text-sm"
-            >
-              Restablecer datos
-            </button>
-          </div>
-        </section>
+        <div id="panel-noticias" data-panel="noticias" role="tabpanel" aria-labelledby="tab-noticias" class="hidden">
+          <NoticiasEditor />
+        </div>
       </div>
     </main>
   </div>
@@ -350,6 +392,26 @@ const adminPassword = ADMIN_PASSWORD;
     $('#login-card')?.classList.add('hidden');
     $('#admin-panel')?.classList.remove('hidden');
   }
+
+  // Pestañas: solo se muestra un panel a la vez.
+  const BTN_ACTIVO = 'rounded-full bg-brand-500 px-5 py-2 text-sm font-bold text-white transition';
+  const BTN_INACTIVO =
+    'rounded-full bg-white px-5 py-2 text-sm font-bold text-slate-600 ring-1 ring-slate-200 transition hover:bg-brand-50 hover:text-brand-700';
+
+  function activarPestana(nombre) {
+    document.querySelectorAll('[data-panel-btn]').forEach((b) => {
+      const activo = b.getAttribute('data-panel-btn') === nombre;
+      b.setAttribute('aria-selected', String(activo));
+      b.className = activo ? BTN_ACTIVO : BTN_INACTIVO;
+    });
+    document.querySelectorAll('[data-panel]').forEach((p) => {
+      p.classList.toggle('hidden', p.getAttribute('data-panel') !== nombre);
+    });
+  }
+
+  document.querySelectorAll('[data-panel-btn]').forEach((b) => {
+    b.addEventListener('click', () => activarPestana(b.getAttribute('data-panel-btn')));
+  });
 
   function findSection(name) {
     const n = String(name || '').trim();
@@ -486,7 +548,7 @@ const adminPassword = ADMIN_PASSWORD;
             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12 M18 6L6 18"/></svg>
           </button>
         </div>
-        <div class="max-h-[80vh] overflow-y-auto p-5">${formHtml}</div>
+        <div class="max-h-[80dvh] overflow-y-auto p-5">${formHtml}</div>
       </div>
     </div>`;
     $('#modal-backdrop').addEventListener('click', (e) => {
@@ -787,7 +849,7 @@ const adminPassword = ADMIN_PASSWORD;
       <label class="block"><span class="text-xs font-bold uppercase tracking-wider text-slate-600">Descripción</span>
         <input name="description" required maxlength="80" value="${esc(prize.description)}" class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none" placeholder="5% descuento mensualidad" />
       </label>
-      <div class="grid grid-cols-2 gap-3">
+      <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <label class="block"><span class="text-xs font-bold uppercase tracking-wider text-slate-600">Tipo</span>
           <select name="type" class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none">
             ${typeOptions.map((t) => `<option value="${t.value}" ${t.value === prize.type ? 'selected' : ''}>${t.label}</option>`).join('')}
@@ -797,7 +859,7 @@ const adminPassword = ADMIN_PASSWORD;
           <input name="value" type="number" min="1" max="100" value="${prize.value}" class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none" />
         </label>
       </div>
-      <div class="grid grid-cols-2 gap-3">
+      <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <label class="block"><span class="text-xs font-bold uppercase tracking-wider text-slate-600">Color</span>
           <select name="color" class="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm focus:border-brand-500 focus:bg-white focus:ring-2 focus:ring-brand-200 focus:outline-none">
             ${colorOptions.map((c) => `<option value="${c.value}" ${c.value === prize.color ? 'selected' : ''}>${c.label}</option>`).join('')}

@@ -33,7 +33,7 @@ const defaultJsonLd = {
   image: new URL('/og-image.png', site).toString(),
   telephone: SITE.phone.display,
   email: SITE.email,
-  foundingDate: '2004',
+  foundingDate: String(SITE.fundacion),
   address: {
     '@type': 'PostalAddress',
     streetAddress: SITE.address.street,
@@ -66,7 +66,11 @@ const structuredData = jsonLd ? [defaultJsonLd, ...(Array.isArray(jsonLd) ? json
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <!--
+      Solo PNG: el favicon.svg que traia el starter de Astro (el cohete) tiene
+      prioridad sobre estos iconos en los navegadores que soportan SVG, asi que
+      se elimino. Los PNG se generan desde public/escudo.png en prebuild.
+    -->
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

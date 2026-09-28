@@ -4,16 +4,7 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { initializeFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-
-const firebaseConfig = {
-  apiKey: 'AIzaSyAgjrkE_Ah-mKOm8naH-aFEB7UrschO40o',
-  authDomain: 'galiweb-4cc7d.firebaseapp.com',
-  projectId: 'galiweb-4cc7d',
-  storageBucket: 'galiweb-4cc7d.firebasestorage.app',
-  messagingSenderId: '192323726068',
-  appId: '1:192323726068:web:9cebbbd6d9e20c12ce0ca1',
-  measurementId: 'G-V9WEJ4RYTG',
-};
+import { firebaseConfig } from './firebase.config';
 
 let app = null;
 let dbInstance = null;

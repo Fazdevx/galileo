@@ -1,5 +1,6 @@
 ---
 import Logo from './Logo.astro';
+import { SITE, TRAYECTORIA } from '../data/site';
 ---
 
 <footer class="bg-navy-700 text-navy-100">
@@ -8,8 +9,9 @@ import Logo from './Logo.astro';
       <div class="col-span-2 sm:col-span-2 md:col-span-1">
         <Logo mark="logo" size="(min-width: 768px) 160px, 128px" class="h-8 w-auto sm:h-10 md:h-12" />
         <p class="mt-2 text-xs text-navy-100 sm:text-sm">
-          Formando líderes con valores y excelencia académica desde 2005.
+          Formando líderes con valores y excelencia académica desde {SITE.fundacion}.
         </p>
+        <p class="mt-1 text-xs text-brand-300">{TRAYECTORIA}.</p>
       </div>
       <div>
         <h4 class="font-bold text-white text-sm sm:text-base">Programas</h4>
@@ -30,7 +32,7 @@ import Logo from './Logo.astro';
             </a>
           </li>
           <li>
-            <a href="/#programas" class="hover:text-brand-300">
+            <a href="/academia" class="hover:text-brand-300">
               Academia
             </a>
           </li>

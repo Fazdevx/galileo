@@ -1,0 +1,21 @@
+---
+/**
+ * Tarjeta de noticia.
+ *
+ * El markup vive en src/lib/noticiaMarkup.ts, no aquí, porque la misma tarjeta
+ * se pinta también desde el cliente con innerHTML cuando llegan los datos de
+ * Firestore. Este componente solo elige la variante y pone el resultado en la
+ * página; así el render del servidor y el del cliente no pueden divergir.
+ */
+import { tarjetaHTML, type VarianteTarjeta } from '../lib/noticiaMarkup';
+import type { Noticia } from '../data/noticias';
+
+interface Props {
+  noticia: Noticia;
+  variant?: VarianteTarjeta;
+}
+
+const { noticia, variant = 'grid' } = Astro.props;
+---
+
+<Fragment set:html={tarjetaHTML(noticia, variant)} />

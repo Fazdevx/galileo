@@ -1,23 +1,28 @@
 ---
 import Logo from './Logo.astro';
 
-/** Links shown inline in the desktop bar. */
+/**
+ * Enlaces del menú.
+ *
+ * "Inicio" va primero porque en las páginas independientes es la única forma
+ * de volver a la portada sin usar el logo. Los enlaces a secciones del home
+ * (Desfile, App Padres, Opiniones) no están: se llegan bajando en la portada y
+ * no son un sitio al que uno vaya a propósito.
+ */
 const primaryNav = [
-  { href: '/#inicio', label: 'Inicio' },
+  { href: '/', label: 'Inicio' },
   { href: '/nosotros', label: 'Nosotros' },
-  { href: '/#academia', label: 'Academia' },
-  { href: '/olimpiadas', label: 'Olimpiadas' },
-  { href: '/#desfile', label: 'Desfile' },
+  { href: '/#programas', label: 'Programas' },
+  { href: '/academia', label: 'Academia' },
+  { href: '/admision', label: 'Admisión' },
+  { href: '/noticias', label: 'Noticias' },
 ];
 
-/** Links behind the "Más" dropdown on desktop, listed flat on mobile. */
+/** Lo que queda detrás de "Más" en escritorio; en móvil se listan todos juntos. */
 const secondaryNav = [
-  { href: '/#programas', label: 'Programas' },
-  { href: '/admision', label: 'Admisión' },
-  { href: '/admision#faq', label: 'Preguntas frecuentes' },
+  { href: '/olimpiadas', label: 'Olimpiadas' },
   { href: '/galeria', label: 'Galería' },
-  { href: '/#app-padres', label: 'App Padres' },
-  { href: '/#opiniones', label: 'Opiniones' },
+  { href: '/admision#faq', label: 'Preguntas frecuentes' },
   { href: '/#contacto', label: 'Contacto' },
 ];
 
@@ -29,9 +34,14 @@ const mobileLinkClass =
   'rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-brand-50 hover:text-brand-600';
 const menuItemClass = 'block px-4 py-2.5 text-sm text-slate-700 transition hover:bg-brand-50 hover:text-brand-600';
 
+/**
+ * Marca el enlace activo. "/" sí cuenta como coincidencia para que "Inicio"
+ * quede resaltado en la portada; los enlaces con ancla (/#programas) nunca
+ * están activos, porque un ancla no es una página.
+ */
 const isCurrent = (href: string) => {
   const path = href.split('#')[0];
-  if (path === '/' || path === '') return false;
+  if (path === '') return true;
   return currentPath === path;
 };
 ---

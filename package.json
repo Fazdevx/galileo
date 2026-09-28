@@ -6,8 +6,8 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "predev": "node scripts/gen-wa-chat.mjs && node scripts/gen-brand-assets.mjs",
-    "prebuild": "node scripts/gen-wa-chat.mjs && node scripts/gen-brand-assets.mjs",
+    "predev": "node scripts/gen-wa-chat.mjs && node scripts/gen-brand-assets.mjs && node scripts/gen-noticias-assets.mjs",
+    "prebuild": "node scripts/gen-wa-chat.mjs && node scripts/gen-brand-assets.mjs && node scripts/gen-noticias-assets.mjs",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",

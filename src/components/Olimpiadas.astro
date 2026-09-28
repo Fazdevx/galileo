@@ -95,8 +95,12 @@ import deporte1 from '../assets/deporte-1.png';
               </svg>
               <h4 class="text-xs font-bold uppercase tracking-wider text-navy-100 sm:text-sm">Tabla de posiciones</h4>
             </div>
-            <div class="overflow-hidden rounded-xl border border-slate-700 bg-navy-900/50">
-              <table class="min-w-full divide-y divide-slate-700 text-xs sm:text-sm" data-standings-table>
+            <!-- overflow-x-auto, no hidden: con hidden la tabla se salia por la
+                 derecha y la columna de puntos quedaba cortada, sin forma de
+                 verla. El min-w del table hace que la tabla se desplace en vez
+                 de aplastarse. -->
+            <div class="overflow-x-auto rounded-xl border border-slate-700 bg-navy-900/50">
+              <table class="min-w-[420px] divide-y divide-slate-700 text-xs sm:min-w-0 sm:text-sm" data-standings-table>
                 <thead class="bg-navy-800">
                   <tr>
                     <th class="px-2 py-2 text-center sm:px-4 sm:py-3">#</th>

@@ -4,7 +4,7 @@ import type { ImageMetadata } from 'astro';
 import aniversarioImg from '../assets/aniversario.jpg';
 import logoSrc from '../assets/logo.webp';
 import escudoSrc from '../assets/escudo.webp';
-import { waLink } from '../data/site';
+import { waLink, TRAYECTORIA, ANIOS_ANTIGUEDAD } from '../data/site';
 
 interface Slide {
   id: string;
@@ -40,8 +40,7 @@ const slides: Slide[] = [
     title: 'Formamos el futuro con',
     titleAccent: 'educación de excelencia',
     accentClass: 'text-navy-700',
-    description:
-      'Nuestra academia combina enseñanza personalizada, tecnología y valores para preparar a los estudiantes desde inicial hasta preuniversitario. Con más de 20 años de experiencia, ofrecemos un ambiente inclusivo y de alto rendimiento académico.',
+    description: `Nuestra academia combina enseñanza personalizada, tecnología y valores para preparar a los estudiantes desde inicial hasta preuniversitario. Con ${TRAYECTORIA}, ofrecemos un ambiente inclusivo y de alto rendimiento académico.`,
     primaryCta: {
       label: 'Matricúlate',
       href: '#prematricula',
@@ -73,7 +72,7 @@ const slides: Slide[] = [
       href: '/olimpiadas',
     },
     stats: [
-      { value: '20+', label: 'Años' },
+      { value: String(ANIOS_ANTIGUEDAD), label: 'Años de antigüedad' },
       { value: '1500+', label: 'Estudiantes' },
       { value: '98%', label: 'Ingresantes' },
     ],
@@ -166,10 +165,13 @@ const slides: Slide[] = [
       live: false,
       href: '/nosotros',
     },
+    // Estas tres estadísticas estaban rotas como "1 Octubre / 8 AM / ¡ Únete":
+    // eran restos de la cuenta atrás, que ya se muestra aparte en esta misma
+    // diapositiva. Ahora usan datos que ya existen en el sitio.
     stats: [
-      { value: '1', label: 'Octubre' },
-      { value: '8', label: 'AM' },
-      { value: '¡', label: 'Únete' },
+      { value: String(ANIOS_ANTIGUEDAD), label: 'Años de antigüedad' },
+      { value: '4', label: 'Niveles educativos' },
+      { value: '01', label: 'Octubre' },
     ],
   },
 ];

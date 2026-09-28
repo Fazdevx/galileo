@@ -1,143 +1,207 @@
 ---
-import { waLink } from '../data/site';
+import { waLink, SITE, TRAYECTORIA } from '../data/site';
+
+/**
+ * Asistente de WhatsApp.
+ *
+ * Antes este panel fingía ser un chatbot que contestaba cualquier cosa, y
+ * además daba datos bancarios inventados de una cuenta "Cuscatlán". Eso
+ * no puede quedar en una web de un colegio: se quitó. Ahora los temas y sus
+ * respuestas salen de aquí, no de un JS suelto en /public, y se arma con los
+ * mismos datos que el resto del sitio (SITE, TRAYECTORIA), así que no puede
+ * contradecirlos: si cambia el teléfono o la antigüedad, cambia solo.
+ *
+ * El bot NO intenta resolver nada que no esté en esta lista. Cuando la
+ * pregunta se le escapa, pasa el turno al equipo por WhatsApp, que es lo
+ * único honesto que puede hacer: detrás no hay nadie leyendo.
+ */
+
+const academiaWa = waLink(
+  'Hola, quisiera información sobre la Academia Preuniversitaria del Colegio Galileo.',
+  SITE.phoneAcademia.digits,
+);
+const admisionWa = waLink('Hola, quisiera información sobre el proceso de admisión 2026.');
+const contactoWa = waLink('Hola, quisiera información sobre el Colegio y la Academia Galileo.');
+const otraWa = waLink('Hola, quisiera hacer una consulta sobre el Colegio Galileo.');
+
+const temas = [
+  {
+    clave: 'admision',
+    chip: 'Admisión',
+    pregunta: 'Quiero información sobre la admisión',
+    respuesta: `<strong>La admisión 2026 está abierta.</strong> El proceso son cuatro pasos: agendar una visita, presentar los documentos, una evaluación diagnóstica y la confirmación de la matrícula.<br><br>Si quieres que te llamemos, escríbenos por WhatsApp al <a href="${admisionWa}" target="_blank" rel="noopener noreferrer">${SITE.phone.display}</a>.`,
+    accion: { texto: 'Ver el proceso de admisión', href: '/admision' },
+  },
+  {
+    clave: 'niveles',
+    chip: 'Niveles',
+    pregunta: 'Qué niveles ofrecen',
+    respuesta: `<strong>Trabajamos los cuatro niveles:</strong> Educación Inicial, Primaria, Secundaria y la Academia Preuniversitaria.<br><br>Los dos primeros se estudian en el colegio; el tercero es el área de preparación para la universidad.`,
+    accion: { texto: 'Ver los programas', href: '/#programas' },
+  },
+  {
+    clave: 'academia',
+    chip: 'Academia',
+    pregunta: 'Información sobre la Academia',
+    respuesta: `<strong>La Academia es el área preuniversitaria</strong> del colegio, con ${TRAYECTORIA}. Tiene su propio número: <a href="${academiaWa}" target="_blank" rel="noopener noreferrer">${SITE.phoneAcademia.display}</a>.<br><br>Allí te orientan sobre ciclos, horarios y matrícula.`,
+    accion: { texto: 'Ir a la página de la Academia', href: '/academia' },
+  },
+  {
+    clave: 'noticias',
+    chip: 'Noticias',
+    pregunta: 'Qué noticias hay',
+    respuesta:
+      'Publicamos el aniversario, las olimpiadas, el desfile, los comunicados y las actividades del colegio. Puedes verlas todas en la sección de noticias.',
+    accion: { texto: 'Ver las noticias', href: '/noticias' },
+  },
+  {
+    clave: 'contacto',
+    chip: 'Contacto',
+    pregunta: 'Datos de contacto',
+    respuesta: `Estos son nuestros datos:<br><br><strong>Colegio</strong><br>${SITE.phone.display}<br><br><strong>Academia</strong><br>${SITE.phoneAcademia.display}<br><br><strong>Correo</strong><br>${SITE.email}<br><br><strong>Dirección</strong><br>${SITE.address.street}, ${SITE.address.city}<br><br><strong>Horario</strong><br>${SITE.hoursDisplay}`,
+    accion: { texto: 'Ver el contacto completo', href: '/#contacto' },
+  },
+  {
+    clave: 'otra',
+    chip: 'Otra información',
+    pregunta: 'Tengo otra consulta',
+    respuesta: `Claro. Para eso está el equipo del colegio, que sí te va a poder responder.<br><br>Escríbenos por WhatsApp al <a href="${otraWa}" target="_blank" rel="noopener noreferrer">${SITE.phone.display}</a> y te contestamos en horario de atención.`,
+  },
+];
+
+const config = {
+  nombre: 'Galileo Info',
+  subtitulo: 'Asistente del colegio',
+  aviso: `Esta conversación es un asistente automático con la información del colegio. Para una atención personalizada, escríbenos al ${SITE.phone.display}.`,
+  saludo: `Hola 👋 Soy el asistente del <strong>Colegio y Academia Galileo</strong>. Te puedo informar sobre:`,
+  temas,
+  /** Si la pregunta no cae en ningún tema, se pasa el turno al equipo. */
+  fueraDeLista: `Esa consulta no la tengo aquí, pero el equipo sí te la puede responder. Escríbenos por WhatsApp al <a href="${contactoWa}" target="_blank" rel="noopener noreferrer">${SITE.phone.display}</a>.`,
+  /** Destino del botón de enviar: el WhatsApp real. */
+  envio: `Hola, escribo desde la web del Colegio y Academia Galileo. Mi consulta es: `,
+};
 ---
 
-<!-- Botón flotante de WhatsApp -->
+<!-- Botón flotante -->
 <button
   id="wa-toggle-btn"
-  aria-label="Abrir chat de WhatsApp"
-  class="fixed bottom-4 right-3 z-[60] flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-emerald-500/30 transition hover:scale-110 hover:bg-[#1ebe5b] sm:bottom-5 sm:right-4 sm:h-14 sm:w-14 md:bottom-6 md:right-6 md:h-16 md:w-16"
+  aria-label="Abrir asistente de información del colegio"
+  aria-expanded="false"
+  aria-controls="wa-chat-panel"
+  class="group fixed bottom-4 right-3 z-[60] flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-xl shadow-emerald-900/20 ring-1 ring-black/5 transition-all duration-200 hover:scale-105 hover:bg-[#1ebe5b] focus:outline-none focus-visible:ring-4 focus-visible:ring-emerald-300 motion-reduce:transition-none motion-reduce:hover:scale-100 sm:bottom-5 sm:right-5 sm:h-16 sm:w-16 md:bottom-6 md:right-6"
 >
-  <span class="absolute inset-0 -z-10 animate-ping rounded-full bg-[#25D366] opacity-60"></span>
+  <span class="absolute inset-0 -z-10 animate-ping rounded-full bg-[#25D366] opacity-40 motion-reduce:hidden"></span>
   <span
     id="wa-badge"
-    class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold ring-2 ring-white"
+    class="absolute -top-0.5 -right-0.5 hidden h-5 min-w-5 items-center justify-center rounded-full bg-navy-800 px-1.5 text-[11px] font-bold text-white ring-2 ring-white"
+  ></span>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 32 32"
+    class="h-7 w-7 fill-current sm:h-8 sm:w-8"
+    aria-hidden="true"
   >
-    1
-  </span>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="h-6 w-6 fill-current sm:h-7 sm:w-7 md:h-8 md:w-8">
     <path d="M16 .4C7.4.4.4 7.4.4 16c0 2.8.7 5.4 2.1 7.8L0 32l8.4-2.4c2.3 1.3 4.9 2 7.6 2 8.6 0 15.6-7 15.6-15.6S24.6.4 16 .4zm0 28.4c-2.4 0-4.7-.6-6.7-1.8l-.5-.3-5 1.4 1.4-4.9-.3-.5C3.7 21 3 18.5 3 16 3 8.3 8.3 3 16 3s13 5.3 13 13-5.8 12.8-13 12.8zm7.2-9.7c-.4-.2-2.3-1.1-2.6-1.2-.4-.1-.6-.2-.9.2-.3.4-1 1.2-1.3 1.4-.2.3-.5.3-.9.1-.4-.2-1.6-.6-3.1-1.9-1.1-1-1.9-2.3-2.1-2.7-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.3-.4.4-.6.1-.2 0-.5-.1-.7-.1-.2-.9-2.2-1.3-3-.3-.8-.7-.7-.9-.7h-.8c-.3 0-.7.1-1.1.5-.4.4-1.4 1.4-1.4 3.4s1.5 4 1.7 4.3c.2.3 2.9 4.5 7.1 6.3 1 .4 1.8.7 2.4.8 1 .3 1.9.3 2.6.2.8-.1 2.3-.9 2.7-1.8.3-.9.3-1.7.2-1.8-.1-.2-.4-.3-.8-.5z"></path>
   </svg>
 </button>
 
-<!-- Panel de chat -->
+<!-- Panel -->
 <div
   id="wa-chat-panel"
-  class="fixed bottom-24 right-3 z-[50] hidden w-[350px] max-w-[calc(100vw-2rem)] flex flex-col rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-black/20 transition-all duration-300 sm:bottom-24 sm:right-4 sm:w-[380px] md:bottom-28 md:right-6 md:w-[400px]"
+  class="fixed bottom-24 right-3 z-[50] hidden w-[360px] max-w-[calc(100vw-1.5rem)] flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/20 sm:right-5 sm:w-[400px] md:bottom-28 md:right-6 max-h-[calc(100dvh-7rem)]"
   role="dialog"
-  aria-label="Chat de WhatsApp"
+  aria-modal="false"
+  aria-labelledby="wa-chat-name"
 >
   <!-- Encabezado -->
-  <div class="flex items-center gap-3 border-b rounded-2xl border-slate-200 bg-white px-4 py-3">
-    <div class="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-brand-500 text-white">
+  <div class="relative flex shrink-0 items-center gap-3 bg-navy-800 px-4 py-3 text-white">
+    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-500">
       <span class="text-sm font-bold">GI</span>
     </div>
-    <div class="flex-1 min-w-0">
-      <p id="wa-chat-name" class="text-sm font-semibold text-slate-800 truncate">
-        Galileo Info
+    <div class="min-w-0 flex-1">
+      <p id="wa-chat-name" class="truncate text-sm font-bold">
+        {config.nombre}
       </p>
-      <p id="wa-chat-status" class="text-[10px] font-semibold text-navy-800">
-        En línea
-      </p>
+      <p class="truncate text-[11px] text-navy-200">{config.subtitulo}</p>
     </div>
     <button
       id="wa-close-btn"
-      aria-label="Cerrar chat"
-      class="rounded-full p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+      aria-label="Cerrar asistente"
+      class="rounded-full p-1.5 text-white/70 transition hover:bg-white/10 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
     >
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
         <path
           fill-rule="evenodd"
           d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
           clip-rule="evenodd"
-        />
+        ></path>
       </svg>
     </button>
-    <a
-      id="wa-whatsapp-link"
-      href={waLink('Hola, quiero información sobre el Colegio y Academia Galileo.')}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Abrir chat de WhatsApp"
-      class="ml-2 rounded-full p-1 text-[#25D366] transition-colors hover:bg-slate-100 hover:text-[#1ebe5b]"
-      title="Abrir en WhatsApp"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="h-5 w-5 fill-current" aria-hidden="true">
-        <path d="M16 .4C7.4.4.4 7.4.4 16c0 2.8.7 5.4 2.1 7.8L0 32l8.4-2.4c2.3 1.3 4.9 2 7.6 2 8.6 0 15.6-7 15.6-15.6S24.6.4 16 .4zm0 28.4c-2.4 0-4.7-.6-6.7-1.8l-.5-.3-5 1.4 1.4-4.9-.3-.5C3.7 21 3 18.5 3 16 3 8.3 8.3 3 16 3s13 5.3 13 13-5.8 12.8-13 12.8zm7.2-9.7c-.4-.2-2.3-1.1-2.6-1.2-.4-.1-.6-.2-.9.2-.3.4-1 1.2-1.3 1.4-.2.3-.5.3-.9.1-.4-.2-1.6-.6-3.1-1.9-1.1-1-1.9-2.3-2.1-2.7-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.3-.4.4-.6.1-.2 0-.5-.1-.7-.1-.2-.9-2.2-1.3-3-.3-.8-.7-.7-.9-.7h-.8c-.3 0-.7.1-1.1.5-.4.4-1.4 1.4-1.4 3.4s1.5 4 1.7 4.3c.2.3 2.9 4.5 7.1 6.3 1 .4 1.8.7 2.4.8 1 .3 1.9.3 2.6.2.8-.1 2.3-.9 2.7-1.8.3-.9.3-1.7.2-1.8-.1-.2-.4-.3-.8-.5z"></path>
-      </svg>
-    </a>
   </div>
 
-  <!-- Mensajes (se llenan dinámicamente por el JS) -->
+  <!-- Aviso: es un bot, no una persona. Sin esto es engañoso. -->
+  <p class="shrink-0 border-b border-amber-200 bg-amber-50 px-4 py-2 text-[11px] leading-snug text-amber-900">
+    {config.aviso}
+  </p>
+
+  <!-- Mensajes -->
+  <!-- El alto va en clases y no en style. El min-height fijo de 260px hacia que
+       en pantallas bajas (movil en horizontal) el panel creciese hacia arriba y
+       la cabecera, con el boton de cerrar, quedase fuera de la pantalla. Con
+       dvh el panel nunca pasa del alto disponible. -->
   <div
     id="wa-messages"
-    class="flex-1 overflow-y-auto p-4 space-y-4 bg-white"
-    style="min-height: 300px; max-height: 450px; scroll-behavior: smooth;"
+    class="min-h-[7rem] flex-1 space-y-3 overflow-y-auto bg-slate-50 px-4 py-4 sm:min-h-[11rem]"
+    style="scroll-behavior: smooth"
     role="log"
     aria-live="polite"
-    aria-label="Historial de mensajes"
+    aria-label="Mensajes del asistente"
   ></div>
 
-  <!-- Input -->
-  <div class="flex items-center gap-2 border-t border-slate-200 rounded-b-2xl bg-white px-3 py-2">
-    <button
-      id="wa-attach-btn"
-      aria-label="Adjuntar"
-      class="flex h-7 w-7 items-center justify-center rounded-full bg-navy-800 text-slate-400 hover:bg-slate-200"
-    >
-      <svg
-        class="text-orange-500 w-3 h-3"
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-        />
-      </svg>
-    </button>
+  <!-- Escribir: no finge un chat, pasa a WhatsApp -->
+  <div class="flex shrink-0 items-center gap-2 border-t border-slate-200 bg-white px-3 py-2.5">
+    <label for="wa-input" class="sr-only">
+      Escribe tu consulta para enviar por WhatsApp
+    </label>
     <input
       id="wa-input"
       type="text"
-      placeholder="Escribe un mensaje..."
+      placeholder="Escribe tu consulta…"
       autocomplete="off"
-      class="flex-1 bg-zinc-100 rounded-full px-2 py-2 text-sm text-slate-700 placeholder-slate-400 focus:outline-none"
-      aria-label="Mensaje"
+      class="min-w-0 flex-1 rounded-full bg-slate-100 px-4 py-2.5 text-sm text-slate-700 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-200"
     />
-    <button
+    <a
       id="wa-send-btn"
-      aria-label="Enviar mensaje"
-      class="flex h-7 w-7 items-center justify-center rounded-full bg-brand-500 text-navy-800 hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-50 transition"
-      disabled
+      href={waLink('Hola, escribo desde la web del Colegio y Academia Galileo.')}
+      data-digits={SITE.phone.digits}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Enviar la consulta por WhatsApp"
+      title="Enviar por WhatsApp"
+      class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#25D366] text-white transition hover:bg-[#1ebe5b] focus:outline-none focus-visible:ring-4 focus-visible:ring-emerald-300"
     >
       <svg
-        class="w-4 h-4"
         xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
         viewBox="0 0 24 24"
-        stroke-width="2"
-        stroke="currentColor"
         fill="none"
+        stroke="currentColor"
+        stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
+        class="h-5 w-5"
+        aria-hidden="true"
       >
-        <path stroke="none" d="M0 0h24v24H0z" />
-        <line x1="10" y1="14" x2="21" y2="3" />
-        <path d="M21 3L14.5 21a.55 .55 0 0 1 -1 0L10 14L3 10.5a.55 .55 0 0 1 0 -1L21 3" />
+        <path d="M5 12h14M13 6l6 6-6 6"></path>
       </svg>
-    </button>
+    </a>
   </div>
 </div>
 
-<!-- Overlay -->
-<div id="wa-overlay" class="fixed inset-0 z-[40] hidden bg-black/30 transition-opacity" aria-hidden="true"></div>
+<div id="wa-overlay" class="fixed inset-0 z-[40] hidden bg-navy-900/30 backdrop-blur-[1px]"></div>
 
+<!--
+  Los datos se entregan como JSON y los lee /js/whatsapp-chat.js. Así el texto
+  vive aquí, con tipaje y usando SITE, en vez de duplicado en un JS suelto.
+-->
+<script type="application/json" id="wa-datos" set:html={JSON.stringify(config)} is:inline></script>
 <script src="/js/whatsapp-chat.js" is:inline></script>
-<!-- cambios  -->

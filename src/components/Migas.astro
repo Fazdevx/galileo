@@ -1,0 +1,29 @@
+---
+/**
+ * Migas de pan para las páginas independientes.
+ *
+ * El menú ya tiene un enlace "Inicio" arriba, pero las migas dejan el camino
+ * a la vista sin depender del scroll ni del ancho de la ventana, que es justo
+ * lo que pasa en el móvil. Se ponen entre el Header y el contenido, sobre una
+ * franja clara, así que funcionan igual tanto si la sección de debajo es
+ * clara como si es de color.
+ */
+interface Props {
+  /** Nombre de la página actual. No se enlaza: es donde estás. */
+  actual: string;
+}
+
+const { actual } = Astro.props;
+---
+
+<nav aria-label="Migas de pan" class="border-b border-slate-200 bg-white">
+  <div class="mx-auto max-w-7xl px-4 py-3 text-sm text-slate-500 sm:px-6">
+    <a href="/" class="font-semibold transition hover:text-brand-600">
+      Inicio
+    </a>
+    <span aria-hidden="true" class="mx-2 text-slate-300">
+      /
+    </span>
+    <span class="text-slate-700">{actual}</span>
+  </div>
+</nav>

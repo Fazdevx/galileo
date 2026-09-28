@@ -1,0 +1,115 @@
+---
+/**
+ * Resumen de noticias para la pagina principal.
+ *
+ * Se renderiza en el servidor con la semilla local (para que Google vea
+ * contenido aunque el visitante no ejecute JS) y despues se reemplaza con lo
+ * que haya en Firestore.
+ *
+ * El markup de las tarjetas no esta aqui: vive en src/lib/noticiaMarkup.ts,
+ * que es el mismo modulo que usa el script de abajo para repintar el bloque.
+ */
+import { NOTICIAS_SEED, ordenar } from '../data/noticias';
+import { resumenHTML } from '../lib/noticiaMarkup';
+
+interface Props {
+  /**
+   * Cuántas tarjetas mostrar como máximo. Por defecto, todas: la sección del
+   * home muestra el listado completo. `define:vars` lo serializa como JSON,
+   * así que tiene que ser un número finito, no Infinity.
+   */
+  limite?: number;
+  /** Titulo de la sección. */
+  titulo?: string;
+}
+
+/** "Sin límite" en un número que sobrevive al JSON de `define:vars`. */
+const SIN_LIMITE = 9999;
+
+const { limite = SIN_LIMITE, titulo = 'Novedades del colegio' } = Astro.props;
+
+/**
+ * Respaldo local para el render del servidor.
+ *
+ * Las marcadas como destacada desde el panel van primero, y después las más
+ * recientes. Así la sección nunca sale con una sola tarjeta aunque nadie haya
+ * marcado ninguna como destacada.
+ */
+const resumenInicial = ordenar(NOTICIAS_SEED.filter((n) => n.publicado))
+  .sort((a, b) => Number(b.destacado) - Number(a.destacado))
+  .slice(0, limite);
+---
+
+<section id="noticias" class="bg-slate-50 py-16 sm:py-20 md:py-24" aria-labelledby="noticias-titulo">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <div class="max-w-2xl">
+        <p class="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-xs font-bold uppercase tracking-widest text-brand-600">
+          <span class="h-1.5 w-1.5 rounded-full bg-brand-500"></span>
+          Actualidad
+        </p>
+        <h2 id="noticias-titulo" class="mt-4 text-3xl font-black text-navy-800 sm:text-4xl">
+          {titulo}
+        </h2>
+        <p class="mt-3 text-base leading-relaxed text-slate-600">
+          Aniversario, olimpiadas, desfile, admisiones, eventos y comunicados de la familia Galileana.
+        </p>
+      </div>
+
+      <a
+        href="/noticias"
+        class="inline-flex shrink-0 items-center gap-2 rounded-full bg-navy-800 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-navy-700"
+      >
+        Ver todas las noticias
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="h-4 w-4"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14M13 6l6 6-6 6"></path>
+        </svg>
+      </a>
+    </div>
+
+    <div class="mt-10" data-noticias-resumen set:html={resumenHTML(resumenInicial)} />
+
+    <p class="mt-6 text-sm text-slate-500" data-noticias-estado aria-live="polite"></p>
+  </div>
+</section>
+
+<script define:vars={{ limite }}>
+  import { fetchNoticias } from '../data/noticias';
+  import { resumenHTML } from '../lib/noticiaMarkup';
+
+  (async () => {
+    const bloque = document.querySelector('[data-noticias-resumen]');
+    if (!bloque) return;
+
+    try {
+      const noticias = await fetchNoticias();
+
+      // Destacadas primero, y luego las más recientes, igual que en el
+      // respaldo del servidor. Se limita antes de dibujar para no enviar al
+      // navegador tarjetas que no se van a ver.
+      const lista = noticias
+        .slice()
+        .sort((a, b) => Number(b.destacado) - Number(a.destacado))
+        .slice(0, limite);
+      if (!lista.length) return;
+
+      bloque.innerHTML = resumenHTML(lista);
+
+      const estado = document.querySelector('[data-noticias-estado]');
+      estado?.remove();
+    } catch (error) {
+      // Si algo falla se mantiene el contenido ya renderizado por el servidor.
+      console.warn('[Noticias] No se pudo refrescar el resumen:', error);
+    }
+  })();
+</script>

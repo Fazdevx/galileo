@@ -37,6 +37,14 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Red de seguridad para palabras largas (correos, URLs, nombres sin espacios)
+   en pantallas estrechas. Deliberadamente NO se pone overflow-x: hidden en
+   body: convertiria a body en contenedor de scroll y romperia el
+   position: sticky de la cabecera. */
+body {
+  overflow-wrap: break-word;
+}
+
 section[id] {
   scroll-margin-top: 5rem;
 }
