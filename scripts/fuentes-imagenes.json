@@ -1,0 +1,100 @@
+{
+  "_comentario": [
+    "Origen de las imágenes del sitio. La mayoría se bajaron de la página de Facebook",
+    "del colegio y se guardaron en src/assets para que el sitio no dependa de Facebook.",
+    "",
+    "Por qué NO se enlazan en caliente: las URLs de scontent.xx.fbcdn.net van firmadas",
+    "y caducan. Hoy cargan y en unos meses devuelven error, así que la portada se",
+    "quedaría con imágenes rotas. Además Facebook bloquea el enlazado desde otros",
+    "dominios de forma intermitente.",
+    "",
+    "Qué se hace entonces: se pegan aquí las URLs y 'npm run imagenes' las descarga",
+    "una vez, las convierte a WebP y las deja en src/assets. Si una URL caduca, el",
+    "script avisa al ejecutarlo en vez de romper la web en producción.",
+    "",
+    "Para re-descargar una imagen que ya está: npm run imagenes -- --force",
+    "o solo una: npm run imagenes -- --force frontis"
+  ],
+  "_campos": {
+    "url": "URL de Facebook (o de donde venga). Vacío = todavía no rellenada.",
+    "archivo": "Nombre del archivo que se escribe en src/assets.",
+    "carpeta": "Subcarpeta de src/assets. Opcional, por defecto la raíz.",
+    "notas": "Para qué se usa. Para no perder el contexto de la foto."
+  },
+  "imagenes": {
+    "frontis": {
+      "url": "",
+      "archivo": "frontis.webp",
+      "notas": "Fachada del colegio. About.astro y categoría Comunicados."
+    },
+    "copas": {
+      "url": "",
+      "archivo": "copas.webp",
+      "notas": "Trofeos. Galeria.astro y categoría Olimpiadas."
+    },
+    "campo-grass": {
+      "url": "",
+      "archivo": "campo-grass.webp",
+      "notas": "Césped al aire libre. Galeria.astro, Olimpiadas.astro y categoría Eventos."
+    },
+    "deporte-1": {
+      "url": "",
+      "archivo": "deporte-1.webp",
+      "notas": "Deporte. Galeria.astro, Olimpiadas.astro y categoría Deportes."
+    },
+    "deporte-2": {
+      "url": "",
+      "archivo": "deporte-2.webp",
+      "notas": "Segunda de deporte. Solo en Galeria.astro, sin categoría asignada."
+    },
+    "ganadores-desfile": {
+      "url": "",
+      "archivo": "ganadores-desfile.webp",
+      "notas": "Ganadores del desfile. Galeria.astro y categoría Académico."
+    },
+    "ingresantes": {
+      "url": "",
+      "archivo": "ingresantes.webp",
+      "notas": "Ingresantes. Galeria.astro y categoría Admisión. Tiene canal alfa."
+    },
+    "aniversario": {
+      "url": "",
+      "archivo": "aniversario.jpg",
+      "notas": "Categoría Aniversario."
+    },
+    "desfile": {
+      "url": "",
+      "archivo": "desfile.jpg",
+      "notas": "Categoría Desfile."
+    },
+    "primavera": {
+      "url": "",
+      "archivo": "primavera.jpg",
+      "notas": "Picnic de primavera. Foto propia de la noticia de primavera."
+    },
+    "academia-main": {
+      "url": "https://scontent.flim1-1.fna.fbcdn.net/v/t39.99422-6/812255195_5458668774358430_3127648733227187239_n.png?stp=dst-jpg_tt6&cstp=mx1448x1086&ctp=s1448x1086&_nc_cat=106&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=127cfc&_nc_ohc=g-Rryj2HHTYQ7kNvwEx1gFS&_nc_oc=AdqPxe0NCSggzVfKymX9Vr0LR2q1qvx4T_VrWl8dmkj06WzPE-ZLloRg-dzGjPIzUPg&_nc_zt=14&_nc_ht=scontent.flim1-1.fna&_nc_gid=DAXopqTaUa_EpJasIij99g&_nc_ss=7a2a8&oh=00_AQOXJr0Nho91mCWJFpGaTXJczHd3vud0Hjd04LAvif5CBA&oe=6AC193A6",
+      "archivo": "main.jpg",
+      "carpeta": "academia",
+      "notas": "Foto principal de la Academia, va en el hero de /academia."
+    },
+    "academia-presente": {
+      "url": "",
+      "archivo": "presente.jpg",
+      "carpeta": "academia",
+      "notas": "Foto de Academia con su texto al lado. Sin confirmar qué muestra."
+    },
+    "academia-caravana": {
+      "url": "",
+      "archivo": "caravana.jpg",
+      "carpeta": "academia",
+      "notas": "Caravana de la Academia, en /academia."
+    },
+    "academia-consultas": {
+      "url": "",
+      "archivo": "consultas.jpg",
+      "carpeta": "academia",
+      "notas": "Consultas de orientación, en /academia."
+    }
+  }
+}

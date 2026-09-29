@@ -10,6 +10,7 @@
     "prebuild": "node scripts/gen-wa-chat.mjs && node scripts/gen-brand-assets.mjs && node scripts/gen-noticias-assets.mjs",
     "dev": "astro dev",
     "start": "astro dev",
+    "imagenes": "node scripts/sincronizar-imagenes.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",

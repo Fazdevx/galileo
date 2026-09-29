@@ -30,16 +30,19 @@ const OUT = path.join(ASSETS, 'noticias');
  * `campo-grass` es un césped al aire libre, así que va a Eventos (picnic de
  * primavera) y no a Comunicados, que se queda con la fachada del colegio.
  * `deporte-2` no se usa: queda libre por si sale una categoría nueva.
+ *
+ * Los masters son WebP, no PNG. Venían como PNG exportados de Facebook y
+ * ocupaban 2,5 MB cada uno; en WebP rondan los 300 KB y se ven igual.
  */
 const IMAGENES = {
   Aniversario: 'aniversario.jpg',
-  Olimpiadas: 'copas.png',
+  Olimpiadas: 'copas.webp',
   Desfile: 'desfile.jpg',
-  Admisión: 'ingresantes.png',
-  Académico: 'ganadores-desfile.png',
-  Deportes: 'deporte-1.png',
-  Eventos: 'campo-grass.png',
-  Comunicados: 'frontis.png',
+  Admisión: 'ingresantes.webp',
+  Académico: 'ganadores-desfile.webp',
+  Deportes: 'deporte-1.webp',
+  Eventos: 'campo-grass.webp',
+  Comunicados: 'frontis.webp',
 };
 
 /**
