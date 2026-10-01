@@ -45,7 +45,7 @@ const slides: Slide[] = [
     description:
       'El 1 de octubre celebramos nuestro aniversario institucional. ¡Falta muy poco para festejarlo juntos!',
     countdown: true,
-    target: '2026-10-01T08:30:00',
+    target: '2026-10-01T08:35:00',
     primaryCta: {
       label: 'Envía tus felicitaciones',
       href: waFelicitaciones,
@@ -680,18 +680,10 @@ const slides: Slide[] = [
       setTimeout(() => layer.remove(), 6000);
     };
 
-    const celebrateToday = () => {
-      const KEY = 'galileo-aniversario-day';
-      const today = new Date().toDateString();
-      if (localStorage.getItem(KEY) === today) return;
-      localStorage.setItem(KEY, today);
-      fireConfetti(160);
-    };
-
     const startCelebration = () => {
       if (countdown) countdown.classList.add('hidden');
       celebrate?.classList.remove('hidden');
-      celebrateToday();
+      fireConfetti(180);
       // Ya en cero: reinicia el tiempo del slide para esperar 10 s antes de
       // pasar al siguiente hero.
       if (isCountdownSlide(current)) refreshIfPlaying();
