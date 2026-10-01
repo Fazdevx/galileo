@@ -33,7 +33,61 @@ const waFelicitaciones = waLink(
   '¡Feliz aniversario, Colegio Galileo! 🎉 Te deseamos todo lo mejor en este día especial.',
 );
 
+// El primer elemento es el slide inicial del carrusel: la cuenta regresiva
+// del aniversario. Al llegar a cero se queda 10 s antes de pasar al siguiente.
 const slides: Slide[] = [
+  {
+    id: 'aniversario',
+    eyebrow: 'Aniversario del colegio',
+    title: 'Cuenta regresiva para',
+    titleAccent: 'el gran día',
+    accentClass: 'text-brand-300',
+    description:
+      'El 1 de octubre celebramos nuestro aniversario institucional. ¡Falta muy poco para festejarlo juntos!',
+    countdown: true,
+    target: '2026-10-01T08:30:00',
+    primaryCta: {
+      label: 'Envía tus felicitaciones',
+      href: waFelicitaciones,
+      style: 'bg-brand-500 hover:bg-brand-600',
+    },
+    secondaryCta: {
+      label: 'Conoce nuestra historia',
+      href: '/nosotros',
+      style: 'border-2 border-white hover:bg-white hover:text-brand-600',
+    },
+    image: aniversarioImg,
+    imageWidth: 992,
+    imageHeight: 1057,
+    imageFill: true,
+    bg: 'from-navy-700 via-navy-800 to-brand-600',
+    badge: {
+      text: 'Próximo: 1 de Octubre',
+      href: '/nosotros',
+      live: false,
+    },
+    floating: {
+      side: 'left',
+      label: 'Fecha',
+      value: '1 Octubre',
+      style: 'bg-brand-500 text-white',
+    },
+    card: {
+      side: 'right',
+      icon: 'cake',
+      title: 'Aniversario 2026',
+      live: false,
+      href: '/nosotros',
+    },
+    // Estas tres estadísticas estaban rotas como "1 Octubre / 8 AM / ¡ Únete":
+    // eran restos de la cuenta atrás, que ya se muestra aparte en esta misma
+    // diapositiva. Ahora usan datos que ya existen en el sitio.
+    stats: [
+      { value: String(ANIOS_ANTIGUEDAD), label: 'Años de antigüedad' },
+      { value: '4', label: 'Niveles educativos' },
+      { value: '01', label: 'Octubre' },
+    ],
+  },
   {
     id: 'colegio',
     eyebrow: 'Colegio & Academia Galileo',
@@ -122,58 +176,6 @@ const slides: Slide[] = [
     imageWidth: 256,
     imageHeight: 256,
   },
-  {
-    id: 'aniversario',
-    eyebrow: 'Aniversario del colegio',
-    title: 'Cuenta regresiva para',
-    titleAccent: 'el gran día',
-    accentClass: 'text-brand-300',
-    description:
-      'El 1 de octubre celebramos nuestro aniversario institucional. ¡Falta muy poco para festejarlo juntos!',
-    countdown: true,
-    target: '2026-10-01T08:30:00',
-    primaryCta: {
-      label: 'Envía tus felicitaciones',
-      href: waFelicitaciones,
-      style: 'bg-brand-500 hover:bg-brand-600',
-    },
-    secondaryCta: {
-      label: 'Conoce nuestra historia',
-      href: '/nosotros',
-      style: 'border-2 border-white hover:bg-white hover:text-brand-600',
-    },
-    image: aniversarioImg,
-    imageWidth: 992,
-    imageHeight: 1057,
-    imageFill: true,
-    bg: 'from-navy-700 via-navy-800 to-brand-600',
-    badge: {
-      text: 'Próximo: 1 de Octubre',
-      href: '/nosotros',
-      live: false,
-    },
-    floating: {
-      side: 'left',
-      label: 'Fecha',
-      value: '1 Octubre',
-      style: 'bg-brand-500 text-white',
-    },
-    card: {
-      side: 'right',
-      icon: 'cake',
-      title: 'Aniversario 2026',
-      live: false,
-      href: '/nosotros',
-    },
-    // Estas tres estadísticas estaban rotas como "1 Octubre / 8 AM / ¡ Únete":
-    // eran restos de la cuenta atrás, que ya se muestra aparte en esta misma
-    // diapositiva. Ahora usan datos que ya existen en el sitio.
-    stats: [
-      { value: String(ANIOS_ANTIGUEDAD), label: 'Años de antigüedad' },
-      { value: '4', label: 'Niveles educativos' },
-      { value: '01', label: 'Octubre' },
-    ],
-  },
 ];
 ---
 
@@ -187,6 +189,7 @@ const slides: Slide[] = [
             idx === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none',
           ]}
           data-slide={idx}
+          data-countdown-slide={slide.countdown ? '' : undefined}
           aria-hidden={idx !== 0}
           inert={idx !== 0}
         >
@@ -548,6 +551,18 @@ const slides: Slide[] = [
   const next = () => show((current + 1) % slides.length);
   const prev = () => show((current - 1 + slides.length) % slides.length);
 
+  // El slide de la cuenta regresiva se queda 10 s visible: al llegar a cero se
+  // reinicia su propio tiempo para que el festejo se vea completo antes de
+  // seguir al siguiente hero.
+  const DWELL_DEFAULT = 6000;
+  const DWELL_COUNTDOWN = 10000;
+
+  const isCountdownSlide = (idx: number) =>
+    slides[idx].hasAttribute('data-countdown-slide');
+
+  const dwellFor = (idx: number) =>
+    isCountdownSlide(idx) ? DWELL_COUNTDOWN : DWELL_DEFAULT;
+
   nextBtn?.addEventListener('click', () => {
     next();
     restart();
@@ -565,7 +580,13 @@ const slides: Slide[] = [
 
   const restart = () => {
     if (timer) clearInterval(timer);
-    timer = setInterval(next, 6000);
+    timer = setInterval(next, dwellFor(current));
+  };
+
+  // Vuelve a arrancar el autoplay solo si ya estaba activo: si el visitante
+  // está hovered, en otra pestaña o con movimiento reducido, no se fuerza.
+  const refreshIfPlaying = () => {
+    if (timer) restart();
   };
 
   const stop = () => {
@@ -671,6 +692,9 @@ const slides: Slide[] = [
       if (countdown) countdown.classList.add('hidden');
       celebrate?.classList.remove('hidden');
       celebrateToday();
+      // Ya en cero: reinicia el tiempo del slide para esperar 10 s antes de
+      // pasar al siguiente hero.
+      if (isCountdownSlide(current)) refreshIfPlaying();
     };
 
     replayBtn?.addEventListener('click', () => fireConfetti(120));
