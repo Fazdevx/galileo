@@ -1,4 +1,5 @@
 ---
+import WinForm from './PrizeWinForm.astro';
 ---
 
 <div
@@ -15,7 +16,7 @@
     class="relative z-10 w-full max-w-lg rounded-2xl bg-navy-900/40 backdrop-blur-md p-4 sm:p-6 shadow-2xl ring-1 ring-brand-500/50 text-center max-h-[90dvh] overflow-y-auto border border-brand-500/20"
   >
     <h2 id="prize-title" class="sr-only">
-      PromociÃ³n de premios Galileo
+      Promoción de premios Galileo
     </h2>
     <button
       id="prize-close"
@@ -54,7 +55,7 @@
         </svg>{' '}
         Gira la Ruleta
       </h3>
-      <p class="text-xs text-white/80 mb-4">Â¡Puedes ganar descuentos en souvenirs, test vocacional y mÃ¡s!</p>
+      <p class="text-xs text-white/80 mb-4">¡Puedes ganar descuentos en souvenirs, test vocacional y más!</p>
       <div class="relative mx-auto" style="width: 280px; height: 280px; max-width: 340px; max-height: 340px;">
         <div
           class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-3 z-20"
@@ -153,7 +154,7 @@
               <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
               <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
             </svg>
-            Â¡Ganaste!
+            ¡Ganaste!
           </p>
           <p id="spin-result-name" class="text-2xl font-extrabold"></p>
           <p id="spin-result-desc" class="text-sm opacity-90"></p>
@@ -162,75 +163,12 @@
       <div id="spin-celebration" class="mt-4 hidden">
         <div class="inline-block text-center">
           <div id="spin-celebration-icon" class="text-6xl mb-2 inline-block"></div>
-          <p id="spin-celebration-name" class="text-2xl font-extrabold text-brand-600"></p>
-          <p class="text-xs text-slate-500 mt-1">Â¡Excelente premio!</p>
+          <p id="spin-celebration-name" class="text-2xl font-extrabold text-white"></p>
+          <p class="text-xs text-white/80 mt-1">¡Excelente premio!</p>
         </div>
       </div>
-      <div id="spin-win-form" class="mt-4 hidden">
-        <div class="rounded-xl bg-navy-900/20 backdrop-blur-sm p-4 border-2 border-brand-500/30">
-          <p class="text-sm font-bold text-white mb-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              class="mr-1 inline h-4 w-4 text-brand-400"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M22 2 11 13" />
-              <path d="M22 2l-7 20-4-9-9-4z" />
-            </svg>
-            Datos para enviar por WhatsApp
-          </p>
-          <p class="text-sm font-bold text-brand-400 mb-4">Â¡Reclama tu premio en oficina!</p>
-          <div class="mb-3">
-            <label class="block text-xs font-bold text-white/80 mb-1">Ãšltimo nÃºmero de boleta</label>
-            <input
-              id="spin-ticket-number"
-              type="text"
-              inputmode="numeric"
-              maxlength="10"
-              placeholder="Ej: 12345678"
-              class="w-full rounded-lg border-2 border-brand-500/50 bg-navy-900/30 backdrop-blur-sm px-3 py-2 text-sm text-white focus:border-brand-500 focus:outline-none"
-            />
-          </div>
-          <div class="mb-3">
-            <label class="block text-xs font-bold text-white/80 mb-1">Nombre del padre</label>
-            <input
-              id="spin-parent-name"
-              type="text"
-              placeholder="Ej: Juan PÃ©rez"
-              class="w-full rounded-lg border-2 border-brand-500/50 bg-navy-900/30 backdrop-blur-sm px-3 py-2 text-sm text-white focus:border-brand-500 focus:outline-none"
-            />
-          </div>
-          <div class="flex gap-2">
-            <button
-              id="spin-whatsapp-btn"
-              type="button"
-              class="flex-1 rounded-lg bg-green-600 px-4 py-2 text-sm font-bold text-white hover:bg-green-700 transition"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 32 32"
-                class="mr-2 inline h-5 w-5 fill-current"
-                aria-hidden="true"
-              >
-                <path d="M16 .4C7.4.4.4 7.4.4 16c0 2.8.7 5.4 2.1 7.8L0 32l8.4-2.4c2.3 1.3 4.9 2 7.6 2 8.6 0 15.6-7 15.6-15.6S24.6.4 16 .4zm0 28.4c-2.4 0-4.7-.6-6.7-1.8l-.5-.3-5 1.4 1.4-4.9-.3-.5C3.7 21 3 18.5 3 16 3 8.3 8.3 3 16 3s13 5.3 13 13-5.8 12.8-13 12.8zm7.2-9.7c-.4-.2-2.3-1.1-2.6-1.2-.4-.1-.6-.2-.9.2-.3.4-1 1.2-1.3 1.4-.2.3-.5.3-.9.1-.4-.2-1.6-.6-3.1-1.9-1.1-1-1.9-2.3-2.1-2.7-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.3-.4.4-.6.1-.2 0-.5-.1-.7-.1-.2-.9-2.2-1.3-3-.3-.8-.7-.7-.9-.7h-.8c-.3 0-.7.1-1.1.5-.4.4-1.4 1.4-1.4 3.4s1.5 4 1.7 4.3c.2.3 2.9 4.5 7.1 6.3 1 .4 1.8.7 2.4.8 1 .3 1.9.3 2.6.2.8-.1 2.3-.9 2.7-1.8.3-.9.3-1.7.2-1.8-.1-.2-.4-.3-.8-.5z" />
-              </svg>
-              Enviar
-            </button>
-            <button
-              id="spin-close-btn"
-              type="button"
-              class="rounded-lg bg-navy-600 px-4 py-2 text-sm font-bold text-white hover:bg-navy-700 transition"
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
+      <div id="spin-win-form" data-win-form class="mt-4 hidden">
+        <WinForm mode="spin" />
       </div>
     </div>
 
@@ -275,7 +213,7 @@
               <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
               <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
             </svg>
-            Â¡Ganaste!
+            ¡Ganaste!
           </p>
           <p id="deck-result-name" class="text-2xl font-extrabold"></p>
           <p id="deck-result-desc" class="text-sm opacity-90"></p>
@@ -284,75 +222,12 @@
       <div id="deck-celebration" class="mt-4 hidden">
         <div class="inline-block text-center">
           <div id="deck-celebration-icon" class="text-6xl mb-2 inline-block"></div>
-          <p id="deck-celebration-name" class="text-2xl font-extrabold text-brand-600"></p>
-          <p class="text-xs text-slate-500 mt-1">Â¡Excelente premio!</p>
+          <p id="deck-celebration-name" class="text-2xl font-extrabold text-white"></p>
+          <p class="text-xs text-white/80 mt-1">¡Excelente premio!</p>
         </div>
       </div>
-      <div id="deck-win-form" class="mt-4 hidden">
-        <div class="rounded-xl bg-navy-900/20 backdrop-blur-sm p-4 border-2 border-brand-500/30">
-          <p class="text-sm font-bold text-white mb-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              class="mr-1 inline h-4 w-4 text-brand-400"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M22 2 11 13" />
-              <path d="M22 2l-7 20-4-9-9-4z" />
-            </svg>
-            Datos para enviar por WhatsApp
-          </p>
-          <p class="text-sm font-bold text-brand-400 mb-4">Â¡Reclama tu premio en oficina!</p>
-          <div class="mb-3">
-            <label class="block text-xs font-bold text-white/80 mb-1">Ãšltimo nÃºmero de boleta</label>
-            <input
-              id="deck-ticket-number"
-              type="text"
-              inputmode="numeric"
-              maxlength="10"
-              placeholder="Ej: 12345678"
-              class="w-full rounded-lg border-2 border-brand-500/50 bg-navy-900/30 backdrop-blur-sm px-3 py-2 text-sm text-white focus:border-brand-500 focus:outline-none"
-            />
-          </div>
-          <div class="mb-3">
-            <label class="block text-xs font-bold text-white/80 mb-1">Nombre del padre</label>
-            <input
-              id="deck-parent-name"
-              type="text"
-              placeholder="Ej: Juan PÃ©rez"
-              class="w-full rounded-lg border-2 border-brand-500/50 bg-navy-900/30 backdrop-blur-sm px-3 py-2 text-sm text-white focus:border-brand-500 focus:outline-none"
-            />
-          </div>
-          <div class="flex gap-2">
-            <button
-              id="deck-whatsapp-btn"
-              type="button"
-              class="flex-1 rounded-lg bg-green-600 px-4 py-2 text-sm font-bold text-white hover:bg-green-700 transition"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 32 32"
-                class="mr-2 inline h-5 w-5 fill-current"
-                aria-hidden="true"
-              >
-                <path d="M16 .4C7.4.4.4 7.4.4 16c0 2.8.7 5.4 2.1 7.8L0 32l8.4-2.4c2.3 1.3 4.9 2 7.6 2 8.6 0 15.6-7 15.6-15.6S24.6.4 16 .4zm0 28.4c-2.4 0-4.7-.6-6.7-1.8l-.5-.3-5 1.4 1.4-4.9-.3-.5C3.7 21 3 18.5 3 16 3 8.3 8.3 3 16 3s13 5.3 13 13-5.8 12.8-13 12.8zm7.2-9.7c-.4-.2-2.3-1.1-2.6-1.2-.4-.1-.6-.2-.9.2-.3.4-1 1.2-1.3 1.4-.2.3-.5.3-.9.1-.4-.2-1.6-.6-3.1-1.9-1.1-1-1.9-2.3-2.1-2.7-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.3-.4.4-.6.1-.2 0-.5-.1-.7-.1-.2-.9-2.2-1.3-3-.3-.8-.7-.7-.9-.7h-.8c-.3 0-.7.1-1.1.5-.4.4-1.4 1.4-1.4 3.4s1.5 4 1.7 4.3c.2.3 2.9 4.5 7.1 6.3 1 .4 1.8.7 2.4.8 1 .3 1.9.3 2.6.2.8-.1 2.3-.9 2.7-1.8.3-.9.3-1.7.2-1.8-.1-.2-.4-.3-.8-.5z" />
-              </svg>
-              Enviar
-            </button>
-            <button
-              id="deck-close-btn"
-              type="button"
-              class="rounded-lg bg-navy-600 px-4 py-2 text-sm font-bold text-white hover:bg-navy-700 transition"
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
+      <div id="deck-win-form" data-win-form class="mt-4 hidden">
+        <WinForm mode="deck" />
       </div>
     </div>
   </div>
@@ -425,7 +300,7 @@
       );
       anim.onfinish = () => piece.remove();
     }
-    // Limpiar el contenedor despuÃ©s de que todos los confetis terminen
+    // Limpiar el contenedor después de que todos los confetis terminen
     setTimeout(() => {
       if (container) container.innerHTML = '';
     }, 3000);
@@ -499,7 +374,7 @@
       subText.setAttribute('font-size', '9');
       subText.setAttribute('opacity', '0.9');
       subText.setAttribute('transform', `rotate(${midAngle + 90}, ${lx}, ${ly})`);
-      subText.textContent = prize.name.length > 12 ? prize.name.substring(0, 11) + 'â€¦' : prize.name;
+      subText.textContent = prize.name.length > 12 ? prize.name.substring(0, 11) + '⬦' : prize.name;
 
       container.appendChild(path);
       container.appendChild(text);
@@ -636,10 +511,12 @@
               spinning = false;
               saveWinner(prize);
               launchConfetti();
+              // El premio se lee en su propia tarjeta y recién después pasa
+              // la celebración: 2 s era demasiado corto para leerlo.
               setTimeout(() => {
                 if (spinResult) spinResult.classList.add('hidden');
                 showCelebration(prize, 'spin');
-              }, 2000);
+              }, 3200);
             }, 6200);
           });
         };
@@ -687,10 +564,15 @@
             }
             saveWinner(prize);
             launchConfetti();
+            // Las demas cartas se atenúan para que se vea cuál se eligió y el
+            // resultado tiene tiempo de leerse antes de la celebración.
+            Array.from(deckGrid?.children ?? []).forEach((el) => {
+              if (el !== cardEl) el.classList.add('opacity-30', 'pointer-events-none');
+            });
             setTimeout(() => {
               if (deckResult) deckResult.classList.add('hidden');
               showCelebration(prize, 'deck');
-            }, 1500);
+            }, 3200);
           });
           deckGrid.appendChild(cardEl);
         });
@@ -722,10 +604,40 @@
     }
     hideModal = hideModalImpl;
 
+    // A partir del premio ganado el modal no se cierra por accident: perder el
+    // reclamo por un clic fuera seria peor que exigir el boton "Cerrar".
     const closeBtn = document.getElementById('prize-close');
     const backdrop = document.getElementById('prize-backdrop');
-    if (closeBtn) closeBtn.onclick = closePrizeModal;
-    if (backdrop) backdrop.onclick = closePrizeModal;
+    let winLocked = false;
+
+    const setWinLock = (on: boolean) => {
+      winLocked = on;
+      if (backdrop) backdrop.style.cursor = on ? 'not-allowed' : '';
+      if (closeBtn) {
+        closeBtn.dataset.winLocked = on ? '' : undefined;
+        closeBtn.setAttribute('aria-disabled', String(on));
+      }
+    };
+
+    // Escape llega por el helper del dialogo, que siempre cierra: se
+    // intercepta antes para respetar el bloqueo.
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && winLocked) e.stopImmediatePropagation();
+    });
+
+    closeBtn?.addEventListener('click', () => {
+      if (winLocked) return;
+      closePrizeModal();
+    });
+
+    backdrop?.addEventListener('click', () => {
+      if (winLocked) return;
+      closePrizeModal();
+    });
+
+    document.addEventListener('galileo:prize-won', () => setWinLock(true));
+    // Al enviar o al cerrar con el boton, el bloqueo ya no estorba.
+    document.addEventListener('galileo:prize-done', () => setWinLock(false));
 
     // Escape, focus trap and focus restoration come from the shared helper.
     dialog?.destroy();
@@ -739,58 +651,117 @@
     dialog.open();
   }
 
-  function saveWinner(prize: { id: string; name: string; description: string; icon: string }) {
+  function saveWinner(
+    prize: {
+      id: string;
+      name: string;
+      description: string;
+      icon: string;
+      parentName?: string;
+      phone?: string;
+      ticket?: string;
+    },
+  ) {
     const winners = JSON.parse(localStorage.getItem('galileo-winners') || '[]');
-    winners.push({ prizeId: prize.id, timestamp: Date.now() });
+    winners.push({
+      prizeId: prize.id,
+      prizeName: prize.name,
+      timestamp: Date.now(),
+      parentName: prize.parentName,
+      phone: prize.phone,
+      ticket: prize.ticket,
+    });
     localStorage.setItem('galileo-winners', JSON.stringify(winners));
   }
 
+  /** Número de WhatsApp del colegio, destino del reclamo. */
+  const PRIZE_WHATSAPP = '51997394157';
+
   function showWinForm(prize: { id: string; name: string; description: string; icon: string }, mode: 'spin' | 'deck') {
-    const prefix = mode;
-    const form = document.getElementById(`${prefix}-win-form`);
-    const ticketInput = document.getElementById(`${prefix}-ticket-number`) as HTMLInputElement | null;
-    const nameInput = document.getElementById(`${prefix}-parent-name`) as HTMLInputElement | null;
-    const whatsappBtn = document.getElementById(`${prefix}-whatsapp-btn`);
+    const form = document.getElementById(`${mode}-win-form`);
+    const el = <T extends HTMLElement>(suffix: string) => document.getElementById(`${mode}-${suffix}`) as T | null;
+
+    const nameInput = el<HTMLInputElement>('parent-name');
+    const phoneInput = el<HTMLInputElement>('phone');
+    const ticketInput = el<HTMLInputElement>('ticket-number');
+    const errorEl = el<HTMLParagraphElement>('form-error');
+    const formEl = el<HTMLFormElement>('win-form-el');
+    const closeBtn = el<HTMLButtonElement>('close-btn');
 
     if (!form) return;
+
+    // Los dos formularios comparten markup pero solo uno esta en pantalla.
+    document.querySelectorAll('[data-win-form]').forEach((n) => n.classList.add('hidden'));
     form.classList.remove('hidden');
 
-    if (ticketInput) ticketInput.value = '';
-    if (nameInput) nameInput.value = '';
+    // El premio sigue a la vista mientras rellenan los datos.
+    const iconEl = form.querySelector('[data-prize-icon]');
+    const nameEl = form.querySelector('[data-prize-name]');
+    const descEl = form.querySelector('[data-prize-desc]');
+    if (iconEl) iconEl.innerHTML = faIcon(prize.icon, 32);
+    if (nameEl) nameEl.textContent = prize.name;
+    if (descEl) descEl.textContent = prize.description;
 
-    if (whatsappBtn) {
-      whatsappBtn.onclick = () => {
-        const ticket = ticketInput?.value.trim() || '';
-        const name = nameInput?.value.trim() || '';
-        if (!ticket || !name) {
-          alert('Completa ambos campos para enviar por WhatsApp.');
-          return;
-        }
-        const message = `ðŸŽ‰ Â¡Ganaste: ${prize.name}!
-ðŸ“¦ ${prize.description}
-ðŸŽ« Boleta: ${ticket}
-ðŸ‘¤ Padre/Madre: ${name}`;
-        const encodedMessage = encodeURIComponent(message);
-        window.open(`https://wa.me/51997394157?text=${encodedMessage}`, '_blank');
-        // Cerrar el modal despuÃ©s de enviar
-        setTimeout(() => {
-          closePrizeModal();
-        }, 1000);
-      };
+    if (nameInput) nameInput.value = '';
+    if (phoneInput) phoneInput.value = '';
+    if (ticketInput) ticketInput.value = '';
+    if (errorEl) {
+      errorEl.textContent = '';
+      errorEl.classList.add('hidden');
     }
 
-    // BotÃ³n de cerrar sin enviar
-    const closeBtn = document.getElementById(`${prefix}-close-btn`);
+    const fail = (msg: string) => {
+      if (!errorEl) return;
+      errorEl.textContent = msg;
+      errorEl.classList.remove('hidden');
+    };
+
+    // Solo dígitos mientras se escribe: evita pegar espacios o guiones.
+    phoneInput?.addEventListener('input', () => {
+      const clean = phoneInput.value.replace(/\D/g, '').slice(0, 9);
+      if (phoneInput.value !== clean) phoneInput.value = clean;
+    });
+
+    formEl?.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = nameInput?.value.trim() || '';
+      const phone = phoneInput?.value.trim() || '';
+      const ticket = ticketInput?.value.trim() || '';
+
+      if (name.length < 3) return fail('Escribe el nombre completo del padre o madre.');
+      if (!/^\d{9}$/.test(phone)) return fail('El WhatsApp debe tener 9 dígitos, sin el +51.');
+      if (ticket.length < 4) return fail('Escribe el número de tu último comprobante de pago.');
+
+      const message = [
+        `🎉 ¡Ganaste: ${prize.name}!`,
+        `📦 ${prize.description}`,
+        '',
+        `👤 Padre/Madre: ${name}`,
+        `📱 WhatsApp: +51 ${phone}`,
+        `🧾 Último comprobante de pago: ${ticket}`,
+      ].join('\n');
+
+      window.open(`https://wa.me/${PRIZE_WHATSAPP}?text=${encodeURIComponent(message)}`, '_blank');
+      // Se guarda para que el colegio pueda cotejar el reclamo.
+      saveWinner({ ...prize, parentName: name, phone, ticket });
+      document.dispatchEvent(new CustomEvent('galileo:prize-done'));
+      closePrizeModal();
+    });
+
+    // Cerrar sin enviar sigue disponible, ya sin temporizador que se adelante.
     if (closeBtn) {
       closeBtn.onclick = () => {
+        document.dispatchEvent(new CustomEvent('galileo:prize-done'));
         closePrizeModal();
       };
     }
 
-    // Cerrar automÃ¡ticamente despuÃ©s de 2 segundos
-    setTimeout(() => {
-      closePrizeModal();
-    }, 2000);
+    // El foco arranca en el primer campo: quien gana quiere rellenar ya.
+    nameInput?.focus();
+
+    // Ya hay un premio en juego: el fondo y la X dejan de cerrar el modal.
+    document.dispatchEvent(new CustomEvent('galileo:prize-won'));
   }
 
   function showCelebration(
@@ -808,7 +779,7 @@
     if (name) name.textContent = prize.name;
 
     celebration.classList.remove('hidden');
-    // No lanzar confetis aquÃ­, ya se lanzaron antes
+    // No lanzar confetis aquí, ya se lanzaron antes
 
     const iconEl = icon?.querySelector('i');
     if (iconEl) {

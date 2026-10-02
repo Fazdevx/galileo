@@ -50,11 +50,18 @@ const IMAGENES = {
  * La salida usa el nombre de la izquierda (no el de la categoría), y hay que
  * apuntarla en FOTO_POR_SLUG de src/data/noticias.ts para que se use:
  *
- *   slug de la noticia            ->  nombre de salida  ->  master
- *   primavera-picnic-galileano    ->  primavera         ->  primavera.jpg
+ *   slug de la noticia            ->  nombre de salida     ->  master
+ *   primavera-picnic-galileano    ->  primavera            ->  primavera.jpg
+ *   manitas-pintadas-galileo      ->  manitascreativas     ->  manitascreativas.jpg
+ *   procesion-interna-galileo     ->  procesion-interna    ->  procesion-interna.jpg
+ *
+ * Las claves deben quedar en ASCII: se usan tal cual para armar la ruta del
+ * WebP generado, y una tilde ahí se rompe en algunos entornos de build.
  */
 const PROPIAS = {
   primavera: 'primavera.jpg',
+  manitascreativas: 'manitascreativas.jpg',
+  'procesion-interna': 'procesion-interna.jpg',
 };
 
 const VARIANTES = [

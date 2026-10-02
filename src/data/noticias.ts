@@ -71,6 +71,8 @@ const FOTOS = import.meta.glob<string>('../assets/noticias/*.webp', {
  */
 const FOTO_POR_SLUG: Record<string, string> = {
   'primavera-picnic-galileano': 'primavera',
+  'manitas-pintadas-galileo': 'manitascreativas',
+  'procesion-interna-galileo': 'procesion-interna',
 };
 
 /** Categoría cuya foto se muestra cuando nada más coincide. */
@@ -211,6 +213,46 @@ export const NOTICIAS_SEED: Noticia[] = [
       'Entre sonrisas, compañerismo y mucha energía, recibimos juntos una nueva primavera. Porque en Galileo también creamos momentos que nuestros estudiantes recordarán con cariño.',
     ],
     actualizado: '2026-09-26T00:00:00.000Z',
+  },
+  {
+    slug: 'manitas-pintadas-galileo',
+    titulo: 'Galileo da inicio a su 4.º aniversario con "Manitas Pintadas"',
+    fecha: '2026-10-01',
+    resumen:
+      'Manzana Express celebró con nosotros el 4.º aniversario del Galileo. La fecha se inició con "Manitas Pintadas", una celebración llena de color, creatividad y alegría.',
+    destacado: false,
+    publicado: true,
+    imagen: '',
+    imagenAlt: 'Estudiantes pintando sus manos durante la actividad Manitas Pintadas',
+    categoria: 'Aniversario',
+    cuerpo: [
+      'Manzana Express celebró con nosotros la gran celebración por el 4.º aniversario del Colegio Galileo. Damos inicio a esta fecha tan especial con nuestra primera actividad: "Manitas Pintadas", una celebración llena de color, creatividad y alegría, donde nuestros estudiantes son los protagonistas.',
+      'A través de esta actividad, nuestros niños y niñas pudieron expresar su imaginación y dejar su huellita en esta gran celebración, compartiendo momentos especiales junto a sus maestras y toda la comunidad educativa.',
+      '¡Cuatro años creando, aprendiendo y creciendo juntos!',
+      '¡Me cuida, me guía, me educa!',
+    ],
+    actualizado: '2026-10-01T00:00:00.000Z',
+  },
+  {
+    slug: 'procesion-interna-galileo',
+    titulo: 'Procesión interna y formación general por el Señor de los Milagros',
+    fecha: '2026-10-01',
+    resumen:
+      'En el segundo día de celebración vivimos una jornada de fe, unión y tradición: procesión interna en honor a nuestro santo patrón y la Formación General que dio inicio al Mes de Aniversario.',
+    destacado: false,
+    publicado: true,
+    imagen: '',
+    imagenAlt: 'Comunidad educativa del Galileo durante la procesión interna',
+    categoria: 'Aniversario',
+    cuerpo: [
+      'En este segundo día de celebración vivimos una jornada llena de fe, unión y tradición en nuestra Familia Galileana.',
+      'Realizamos nuestra procesión interna en homenaje a nuestro santo patrón, el Señor de los Milagros, compartiendo un momento de reflexión y devoción junto a nuestros estudiantes, docentes y toda la comunidad educativa.',
+      'Con mucha fe, encomendamos a nuestra institución y a cada integrante de la Familia Galileana, pidiendo bendiciones para continuar creciendo y avanzando juntos.',
+      'Además, realizamos la Formación General, dando inicio oficialmente a las actividades programadas por nuestro Mes de Aniversario.',
+      '¡Que siga la fiesta, la fe y la alegría Galileana!',
+      'GALILEO: ME CUIDA, ME GUÍA, ME EDUCA.',
+    ],
+    actualizado: '2026-10-01T00:00:00.000Z',
   },
 ];
 
