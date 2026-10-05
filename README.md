@@ -1,12 +1,12 @@
 # Colegio y Academia Galileo · Web
 
-Sitio web institucional del Colegio y Academia Galileo (Huacho, Perú). Incluye la landing institucional, páginas de admisión, galería, nosotros y la sección de **Olimpiadas Internas 2026** con marcadores en vivo y panel de administración.
+Sitio web institucional del Colegio y Academia Galileo (Huacho, Perú). Incluye la landing institucional, páginas de admisión, galería, nosotros, noticias y panel de administración.
 
 ## Stack
 
 - [Astro](https://astro.build) 7 + Tailwind CSS 4
 - Despliegue en [Vercel](https://vercel.com) (`@astrojs/vercel`)
-- [Firebase / Firestore](https://firebase.google.com) (SDK de cliente) para los datos de las olimpiadas
+- [Firebase / Firestore](https://firebase.google.com) (SDK de cliente) para las noticias y los marcadores en vivo
 - Sitemap generado con `@astrojs/sitemap`
 
 ## Estructura
@@ -19,10 +19,10 @@ Sitio web institucional del Colegio y Academia Galileo (Huacho, Perú). Incluye 
 ├── src/
 │   ├── assets/          # Imágenes optimizables por Astro (src/assets)
 │   ├── components/      # Secciones y componentes UI
-│   ├── data/            # Estado y acceso a datos de olimpiadas
+│   ├── data/            # Estado de olympiadas (marcadores) y semilla de noticias
 │   ├── layouts/         # Layout base (SEO, OG, WhatsApp, modales)
 │   ├── lib/             # Cliente Firebase y utilidades
-│   ├── pages/           # Rutas: index, nosotros, admision, galeria, olimpiadas, admin, 404
+│   ├── pages/           # Rutas: index, nosotros, admision, galeria, noticias, admin, 404
 │   └── styles/          # global.css (tema Tailwind)
 └── astro.config.mjs
 ```
@@ -36,11 +36,11 @@ Sitio web institucional del Colegio y Academia Galileo (Huacho, Perú). Incluye 
 | `npm run preview` | Previsualizar el build                     |
 | `npm run check`   | Revisión de tipos (`astro check`)          |
 
-## Olimpiadas
+## Noticias y marcadores
 
-- La página `/olimpiadas` muestra calendario, marcadores y tabla de posiciones en vivo.
-- Los datos se leen de Firestore (`olimpiadas/olimpiadas-data`) y se sincronizan con `onSnapshot`; además hay respaldo en `localStorage` y data por defecto.
-- El panel `/admin` permite gestionar secciones, disciplinas, partidos y premios. El acceso usa una contraseña definida en `src/data/olimpiadasStore.ts`.
+- Las noticias viven en Firestore (`noticias/<slug>`) con respaldo en `src/data/noticias.ts`; el panel `/admin` las crea y edita.
+- Las olimpiadas se cuentan como noticia (categoría `Olimpiadas`); ya no existe una página `/olimpiadas`.
+- Los marcadores en vivo siguen alimentando el popup global (`src/components/LivePopup.astro`) y su pestaña en `/admin` desde Firestore (`olimpiadas/olimpiadas-data`).
 - Todo el acceso a Firebase del cliente vive en un solo módulo: `src/lib/firebase.ts` + `src/data/api.ts` + `src/lib/olimpiadasClient.ts`.
 
 ## Configuración
