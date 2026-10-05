@@ -1,15 +1,18 @@
 ---
-import { waLink, SITE, TRAYECTORIA } from '../data/site';
+import { waLink, SITE, TRAYECTORIA, mapsLinkUrl } from '../data/site';
 
 /**
  * Asistente de WhatsApp.
  *
- * Antes este panel fingía ser un chatbot que contestaba cualquier cosa, y
- * además daba datos bancarios inventados de una cuenta "Cuscatlán". Eso
- * no puede quedar en una web de un colegio: se quitó. Ahora los temas y sus
- * respuestas salen de aquí, no de un JS suelto en /public, y se arma con los
- * mismos datos que el resto del sitio (SITE, TRAYECTORIA), así que no puede
- * contradecirlos: si cambia el teléfono o la antigüedad, cambia solo.
+ * Este panel no finge ser un chatbot que responde cualquier cosa. Los temas y
+ * sus respuestas salen de aquí, se entregan al script como JSON (#wa-datos) y
+ * se arman con los mismos datos que el resto del sitio (SITE, TRAYECTORIA),
+ * así que no pueden contradecerse: si cambia el teléfono, el horario o la
+ * antigüedad, cambian los dos a la vez.
+ *
+ * Cada tema trae `keywords`: la lista de palabras con las que se reconoce la
+ * pregunta si la persona escribe en vez de tocar un chip. Se comparan sin
+ * tildes ni mayúsculas.
  *
  * El bot NO intenta resolver nada que no esté en esta lista. Cuando la
  * pregunta se le escapa, pasa el turno al equipo por WhatsApp, que es lo
@@ -20,52 +23,86 @@ const academiaWa = waLink(
   'Hola, quisiera información sobre la Academia Preuniversitaria del Colegio Galileo.',
   SITE.phoneAcademia.digits,
 );
-const admisionWa = waLink('Hola, quisiera información sobre el proceso de admisión 2026.');
-const contactoWa = waLink('Hola, quisiera información sobre el Colegio y la Academia Galileo.');
-const otraWa = waLink('Hola, quisiera hacer una consulta sobre el Colegio Galileo.');
+const admisionWa = waLink('Hola, quisiera información sobre el proceso de admisión.');
+const contactoWa = waLink('Hola, quisiera hacer una consulta sobre el Colegio Galileo.');
+
+const horariosTexto = SITE.hours
+  .map((h) => `${h.days} de ${h.opens} a ${h.closes}`)
+  .join('<br>');
 
 const temas = [
   {
     clave: 'admision',
     chip: 'Admisión',
     pregunta: 'Quiero información sobre la admisión',
-    respuesta: `<strong>La admisión 2026 está abierta.</strong> El proceso son cuatro pasos: agendar una visita, presentar los documentos, una evaluación diagnóstica y la confirmación de la matrícula.<br><br>Si quieres que te llamemos, escríbenos por WhatsApp al <a href="${admisionWa}" target="_blank" rel="noopener noreferrer">${SITE.phone.display}</a>.`,
+    keywords: ['admision', 'inscri', 'matricul', 'postul', 'nuevo ingreso', 'ingreso', 'vacante'],
+    respuesta: `<strong>La admisión está abierta.</strong> El proceso son cuatro pasos: agendar una visita al colegio, presentar los documentos, la evaluación diagnóstica y la confirmación de la matrícula.<br><br>Si prefieres que te llamemos, cuéntanos por WhatsApp al <a href="${admisionWa}" target="_blank" rel="noopener noreferrer">${SITE.phone.display}</a>.`,
     accion: { texto: 'Ver el proceso de admisión', href: '/admision' },
   },
   {
     clave: 'niveles',
     chip: 'Niveles',
     pregunta: 'Qué niveles ofrecen',
-    respuesta: `<strong>Trabajamos los cuatro niveles:</strong> Educación Inicial, Primaria, Secundaria y la Academia Preuniversitaria.<br><br>Los dos primeros se estudian en el colegio; el tercero es el área de preparación para la universidad.`,
+    keywords: ['nivel', 'programa', 'inicial', 'primaria', 'secundaria', 'que estudian', 'materia', 'curso'],
+    respuesta: `<strong>Tenemos Inicial, Primaria y Secundaria</strong> en el colegio, más la Academia Preuniversitaria.<br><br><strong>Inicial</strong> (3 a 5 años), <strong>Primaria</strong> (6 a 11) y <strong>Secundaria</strong> (12 a 16), con programa bilingüe, talleres de ciencia, robótica, arte y deportes. La Academia prepara para el ingreso a la universidad.`,
     accion: { texto: 'Ver los programas', href: '/#programas' },
   },
   {
     clave: 'academia',
     chip: 'Academia',
     pregunta: 'Información sobre la Academia',
-    respuesta: `<strong>La Academia es el área preuniversitaria</strong> del colegio, con ${TRAYECTORIA}. Tiene su propio número: <a href="${academiaWa}" target="_blank" rel="noopener noreferrer">${SITE.phoneAcademia.display}</a>.<br><br>Allí te orientan sobre ciclos, horarios y matrícula.`,
+    keywords: ['academia', 'preunivers', 'universidad', 'ingenier', 'medicina', 'cachimbo', 'postgrado'],
+    respuesta: `<strong>La Academia Preuniversitaria</strong> prepara para el ingreso a la universidad: ciclos regulares e intensivos, simulacros tipo examen y docentes especialistas por materia. Hoy suma ${TRAYECTORIA}.<br><br>Tiene su propio número para consultas de matrícula y horarios: <a href="${academiaWa}" target="_blank" rel="noopener noreferrer">${SITE.phoneAcademia.display}</a>.`,
     accion: { texto: 'Ir a la página de la Academia', href: '/academia' },
+  },
+  {
+    clave: 'mensualidad',
+    chip: 'Mensualidades',
+    pregunta: 'Cuánto cuesta la matrícula y las mensualidades',
+    keywords: ['mensualidad', 'precio', 'pension', 'cuanto cuesta', 'costo', 'tarifa', 'matricula', 'beca', 'becas'],
+    respuesta:
+      'No publicamos los importes en la web porque cambian según el nivel. Un asesor del colegio te confirma el importe de cada concepto y si hay becas disponibles.',
+    accion: { texto: 'Consultar por WhatsApp', href: admisionWa },
+  },
+  {
+    clave: 'horarios',
+    chip: 'Horarios',
+    pregunta: 'A qué hora dan clases',
+    keywords: ['horario', 'hora', 'entrada', 'salida', 'clase', 'tarde'],
+    respuesta: `<strong>Nuestro horario de atención es:</strong><br><br>${horariosTexto}<br><br>La entrada y la salida de los estudiantes se organizan según el nivel y el turno de cada sección.`,
+    accion: { texto: 'Ver el contacto completo', href: '/#contacto' },
+  },
+  {
+    clave: 'ubicacion',
+    chip: 'Ubicación',
+    pregunta: 'Dónde están ubicados',
+    keywords: ['ubicacion', 'direccion', 'donde estan', 'donde queda', 'mapa', 'como llego', 'direcc', 'transporte'],
+    respuesta: `<strong>Estamos en ${SITE.address.street}, ${SITE.address.city}</strong>.<br><br>Si vienes de Lima o de otra ciudad, confírmanos tu llegada por WhatsApp y coordinamos el acceso a la puerta.`,
+    accion: { texto: 'Ver el mapa', href: mapsLinkUrl },
   },
   {
     clave: 'noticias',
     chip: 'Noticias',
     pregunta: 'Qué noticias hay',
+    keywords: ['noticia', 'aniversario', 'olimpiad', 'desfile', 'evento', 'comunicado', 'galeria', 'foto'],
     respuesta:
-      'Publicamos el aniversario, las olimpiadas, el desfile, los comunicados y las actividades del colegio. Puedes verlas todas en la sección de noticias.',
+      'Publicamos las noticias de la comunidad: el aniversario con sus actividades, los desfiles, las olimpiadas y los comunicados. También hay una galería con fotos de la vida escolar.',
     accion: { texto: 'Ver las noticias', href: '/noticias' },
   },
   {
     clave: 'contacto',
     chip: 'Contacto',
     pregunta: 'Datos de contacto',
-    respuesta: `Estos son nuestros datos:<br><br><strong>Colegio</strong><br>${SITE.phone.display}<br><br><strong>Academia</strong><br>${SITE.phoneAcademia.display}<br><br><strong>Correo</strong><br>${SITE.email}<br><br><strong>Dirección</strong><br>${SITE.address.street}, ${SITE.address.city}<br><br><strong>Horario</strong><br>${SITE.hoursDisplay}`,
+    keywords: ['contacto', 'telefono', 'whatsapp', 'numero', 'correo', 'email', 'escribir', 'llamar', 'direccion del colegio'],
+    respuesta: `<strong>Estos son nuestros datos:</strong><br><br><strong>Colegio</strong><br>${SITE.phone.display}<br><br><strong>Academia</strong><br>${SITE.phoneAcademia.display}<br><br><strong>Correo</strong><br>${SITE.email}<br><br><strong>Dirección</strong><br>${SITE.address.street}, ${SITE.address.city}<br><br><strong>Horario</strong><br>${SITE.hoursDisplay}`,
     accion: { texto: 'Ver el contacto completo', href: '/#contacto' },
   },
   {
     clave: 'otra',
-    chip: 'Otra información',
+    chip: 'Otra consulta',
     pregunta: 'Tengo otra consulta',
-    respuesta: `Claro. Para eso está el equipo del colegio, que sí te va a poder responder.<br><br>Escríbenos por WhatsApp al <a href="${otraWa}" target="_blank" rel="noopener noreferrer">${SITE.phone.display}</a> y te contestamos en horario de atención.`,
+    keywords: [],
+    respuesta: `Claro. Para eso está el equipo del colegio, que sí te va a poder responder.<br><br>Escríbenos por WhatsApp al <a href="${contactoWa}" target="_blank" rel="noopener noreferrer">${SITE.phone.display}</a> y te contestamos en horario de atención.`,
   },
 ];
 
@@ -73,10 +110,10 @@ const config = {
   nombre: 'Galileo Info',
   subtitulo: 'Asistente del colegio',
   aviso: `Esta conversación es un asistente automático con la información del colegio. Para una atención personalizada, escríbenos al ${SITE.phone.display}.`,
-  saludo: `Hola 👋 Soy el asistente del <strong>Colegio y Academia Galileo</strong>. Te puedo informar sobre:`,
+  saludo: `Hola 👋 Soy el asistente del <strong>Colegio y Academia Galileo</strong>, en Huacho. Te puedo informar sobre:`,
   temas,
   /** Si la pregunta no cae en ningún tema, se pasa el turno al equipo. */
-  fueraDeLista: `Esa consulta no la tengo aquí, pero el equipo sí te la puede responder. Escríbenos por WhatsApp al <a href="${contactoWa}" target="_blank" rel="noopener noreferrer">${SITE.phone.display}</a>.`,
+  fueraDeLista: `Esa consulta no la tengo aquí, pero el equipo del colegio sí te la puede responder. Escríbenos por WhatsApp al <a href="${contactoWa}" target="_blank" rel="noopener noreferrer">${SITE.phone.display}</a> y te contestamos en horario de atención.`,
   /** Destino del botón de enviar: el WhatsApp real. */
   envio: `Hola, escribo desde la web del Colegio y Academia Galileo. Mi consulta es: `,
 };
@@ -149,9 +186,16 @@ const config = {
        en pantallas bajas (movil en horizontal) el panel creciese hacia arriba y
        la cabecera, con el boton de cerrar, quedase fuera de la pantalla. Con
        dvh el panel nunca pasa del alto disponible. -->
+  <!--
+    `min-h-0` + `max-h-*` son lo que hacen que exista la barra: como hijo flex
+    con flex-basis 0 dentro de un panel que solo tiene max-height, crecía con
+    el texto en vez de recortarse, y el overflow-hidden del panel tapaba los
+    mensajes sin dejar scroll. Con un alto máximo propio la lista desborda de
+    verdad y aparece el scroll.
+  -->
   <div
     id="wa-messages"
-    class="min-h-[7rem] flex-1 space-y-3 overflow-y-auto bg-slate-50 px-4 py-4 sm:min-h-[11rem]"
+    class="wa-scroll min-h-0 max-h-[60dvh] flex-1 space-y-3 overflow-y-auto overscroll-contain bg-slate-50 px-4 py-4 sm:max-h-[22rem]"
     style="scroll-behavior: smooth"
     role="log"
     aria-live="polite"
@@ -205,3 +249,49 @@ const config = {
 -->
 <script type="application/json" id="wa-datos" set:html={JSON.stringify(config)} is:inline></script>
 <script src="/js/whatsapp-chat.js" is:inline></script>
+
+<style>
+  /*
+    Los enlaces van dentro del texto que pinta el bot, no como elemento propio:
+    sin esto saldrían con el color del párrafo y no se leerían como enlaces.
+  */
+  #wa-messages a {
+    color: #1b2a4e;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  #wa-messages a:hover {
+    color: #f04e00;
+  }
+
+  /*
+    Barra de scroll del chat. La de Chrome y Safari sale invisible hasta que
+    pasas el mouse por encima, así que en escritorio no había ninguna señal de
+    que la conversación seguía hacia arriba. Ahora siempre se ve.
+  */
+  .wa-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #94a3b8 #e2e8f0;
+  }
+
+  .wa-scroll::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .wa-scroll::-webkit-scrollbar-track {
+    background: #e2e8f0;
+    border-radius: 9999px;
+  }
+
+  .wa-scroll::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+    border: 2px solid #e2e8f0;
+    border-radius: 9999px;
+  }
+
+  .wa-scroll::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+  }
+</style>
