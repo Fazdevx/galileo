@@ -54,14 +54,17 @@ const IMAGENES = {
  *   primavera-picnic-galileano    ->  primavera            ->  primavera.jpg
  *   manitas-pintadas-galileo      ->  manitascreativas     ->  manitascreativas.jpg
  *   procesion-interna-galileo     ->  procesion-interna    ->  procesion-interna.jpg
+ *   recorrido-senor-milagros      ->  senor-de-los-milagros->  Señordelosmilagros.jpg
  *
  * Las claves deben quedar en ASCII: se usan tal cual para armar la ruta del
- * WebP generado, y una tilde ahí se rompe en algunos entornos de build.
+ * WebP generado, y una tilde ahí se rompe en algunos entornos de build. El
+ * master sí puede llevar tilde, porque solo se usa como nombre de archivo.
  */
 const PROPIAS = {
   primavera: 'primavera.jpg',
   manitascreativas: 'manitascreativas.jpg',
   'procesion-interna': 'procesion-interna.jpg',
+  'senor-de-los-milagros': 'Señordelosmilagros.jpg',
 };
 
 const VARIANTES = [

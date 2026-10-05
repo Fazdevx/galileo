@@ -73,6 +73,7 @@ const FOTO_POR_SLUG: Record<string, string> = {
   'primavera-picnic-galileano': 'primavera',
   'manitas-pintadas-galileo': 'manitascreativas',
   'procesion-interna-galileo': 'procesion-interna',
+  'recorrido-senor-de-los-milagros': 'senor-de-los-milagros',
 };
 
 /** Categoría cuya foto se muestra cuando nada más coincide. */
@@ -251,6 +252,25 @@ export const NOTICIAS_SEED: Noticia[] = [
       'Además, realizamos la Formación General, dando inicio oficialmente a las actividades programadas por nuestro Mes de Aniversario.',
       '¡Que siga la fiesta, la fe y la alegría Galileana!',
       'GALILEO: ME CUIDA, ME GUÍA, ME EDUCA.',
+    ],
+    actualizado: '2026-10-01T00:00:00.000Z',
+  },
+  {
+    slug: 'recorrido-senor-de-los-milagros',
+    titulo: 'Así vivimos el recorrido interno por el Señor de los Milagros',
+    fecha: '2026-10-01',
+    resumen:
+      'Fe, tradición y unidad: nuestro recorrido interno en honor al Señor de los Milagros, con estudiantes de Inicial, Primaria y Secundaria, docentes y toda la comunidad educativa.',
+    destacado: false,
+    publicado: true,
+    imagen: '',
+    imagenAlt: 'Comunidad educativa del Galileo en el recorrido interno por el Señor de los Milagros',
+    categoria: 'Aniversario',
+    cuerpo: [
+      'Así vivimos el recorrido interno de nuestro santo patrón, el Señor de los Milagros, por nuestra I.E. GALILEO.',
+      'Nuestros estudiantes de Inicial, Primaria y Secundaria, junto a docentes y miembros de nuestra comunidad educativa, participaron con mucha fe, respeto y devoción en este recorrido tan especial.',
+      'Un momento para compartir como familia, fortalecer nuestra unión y encomendar a nuestra institución y a todos sus integrantes bajo la bendición del Señor de los Milagros.',
+      'Y con mucha alegría, dimos por aperturado oficialmente nuestro Mes de Aniversario Galileano.',
     ],
     actualizado: '2026-10-01T00:00:00.000Z',
   },

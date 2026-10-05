@@ -1,6 +1,27 @@
 ---
 import { Image } from 'astro:assets';
 import frontis from '../assets/frontis.webp';
+import promotorImg from '../assets/promotor.png';
+import directorImg from '../assets/Directorgalileo.png';
+
+/**
+ * Autoridades de la institución. El promotor va primero porque es la máxima
+ * autoridad del colegio; el director dirige la operación académica.
+ */
+const autoridades = [
+  {
+    nombre: 'Víctor Loyola Padilla',
+    cargo: 'Promotor del Colegio y Academia Galileo',
+    src: promotorImg,
+    alt: 'Retrato de Víctor Loyola Padilla, promotor del Colegio y Academia Galileo',
+  },
+  {
+    nombre: 'Giovani Estupiñán',
+    cargo: 'Director de la Institución Educativa Galileo',
+    src: directorImg,
+    alt: 'Retrato de Giovani Estupiñán, director de la Institución Educativa Galileo',
+  },
+];
 
 const items = [
   {
@@ -65,6 +86,39 @@ const items = [
           <p class="mt-3 text-sm leading-relaxed text-slate-600">{item.desc}</p>
         </article>
       ))}
+    </div>
+
+    <div id="autoridades" class="mt-14 sm:mt-16 md:mt-20">
+      <div class="mx-auto max-w-2xl text-center">
+        <span class="text-sm font-bold uppercase tracking-wider text-brand-500">Autoridades</span>
+        <h3 class="mt-3 text-2xl font-extrabold text-navy-700 sm:text-3xl">Las autoridades educativas del Galileo</h3>
+        <p class="mt-4 text-slate-600">
+          Quienes dirigen y sostienen la institución, con el cargo que les corresponde dentro de la comunidad Galileana.
+        </p>
+      </div>
+
+      <div class="mx-auto mt-10 grid max-w-2xl gap-6 sm:grid-cols-2 sm:gap-8">
+        {autoridades.map((persona) => (
+          <article class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 transition-all hover:-translate-y-1 hover:shadow-xl hover:ring-brand-300">
+            <div class="aspect-3/4 overflow-hidden bg-slate-100">
+              <Image
+                src={persona.src}
+                alt={persona.alt}
+                widths={[320, 480, 640, 960]}
+                sizes="(min-width: 640px) 45vw, 90vw"
+                class="h-full w-full object-cover object-top"
+                loading="lazy"
+                decoding="async"
+                quality={90}
+              />
+            </div>
+            <div class="border-t border-slate-100 px-6 py-5 text-center">
+              <p class="text-lg font-extrabold text-navy-700">{persona.nombre}</p>
+              <p class="mt-1 text-sm font-semibold text-brand-600">{persona.cargo}</p>
+            </div>
+          </article>
+        ))}
+      </div>
     </div>
 
     <div class="mt-14 grid items-center gap-10 sm:mt-16 md:mt-20 md:grid-cols-2 md:gap-12">
