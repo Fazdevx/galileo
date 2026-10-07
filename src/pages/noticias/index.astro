@@ -109,39 +109,49 @@ const fotoCabecera = fotoCategoria('Aniversario', 'full');
         <div
           class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
           data-noticias-grid
+          data-noticias={JSON.stringify(listaInicial)}
           set:html={
             listaInicial.length ? tarjetasHTML(listaInicial) : vacioHTML('No hay noticias publicadas por ahora.')
           }
         />
-
-        <p class="mt-8 text-sm text-slate-500" data-noticias-estado aria-live="polite"></p>
       </div>
     </section>
   </main>
   <Footer />
 </Layout>
 
-<script define:vars={{ listaInicialJson: JSON.stringify(listaInicial) }}>
-  import { fetchNoticias } from '../../data/noticias';
+<script>
+  /**
+   * Solo el filtrado por categoría, que es de estado local. Las noticias llegan
+   * renderizadas desde el build: antes esta pagina las volvia a pedir a
+   * Firestore desde el navegador y las pintaba encima, lo que ademas hacia que
+   * el contenido cambiase despues de haberlo visto.
+   */
   import { tarjetasHTML, vacioHTML } from '../../lib/noticiaMarkup';
+  import type { Noticia } from '../../data/noticias';
 
-  (async () => {
-    const grid = document.querySelector('[data-noticias-grid]');
+  (() => {
+    const grid = document.querySelector<HTMLElement>('[data-noticias-grid]');
     if (!grid) return;
+    const contenedor: HTMLElement = grid;
 
-    let noticias = JSON.parse(listaInicialJson);
+    let noticias: Noticia[] = JSON.parse(contenedor.getAttribute('data-noticias') || '[]');
     let filtro = 'Todas';
 
-    const botones = Array.from(document.querySelectorAll < HTMLButtonElement > '[data-categoria]');
+    // Sin genérico en el querySelectorAll: dentro de un <script> de Astro los
+    // ángulos se interpretan como JSX y rompen el archivo.
+    const botones = Array.from(document.querySelectorAll('[data-categoria]')).filter(
+      (el): el is HTMLButtonElement => el instanceof HTMLButtonElement,
+    );
 
-    const claseBoton = (activo) =>
+    const claseBoton = (activo: boolean) =>
       activo
         ? 'bg-navy-800 text-white shadow-sm'
         : 'bg-slate-100 text-slate-700 hover:bg-brand-50 hover:text-brand-700';
 
     function pintar() {
       const lista = filtro === 'Todas' ? noticias : noticias.filter((n) => n.categoria === filtro);
-      grid.innerHTML = lista.length ? tarjetasHTML(lista) : vacioHTML(`No hay noticias en la categoría «${filtro}».`);
+      contenedor.innerHTML = lista.length ? tarjetasHTML(lista) : vacioHTML(`No hay noticias en la categoría «${filtro}».`);
     }
 
     for (const boton of botones) {
@@ -154,17 +164,6 @@ const fotoCabecera = fotoCategoria('Aniversario', 'full');
         }
         pintar();
       });
-    }
-
-    try {
-      const remotas = await fetchNoticias();
-      if (remotas.length) {
-        noticias = remotas;
-        pintar();
-        document.querySelector('[data-noticias-estado]')?.remove();
-      }
-    } catch (error) {
-      console.warn('[Noticias] No se pudo refrescar la lista:', error);
     }
   })();
 </script>

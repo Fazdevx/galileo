@@ -36,15 +36,26 @@ Sitio web institucional del Colegio y Academia Galileo (Huacho, Perú). Incluye 
 | `npm run preview` | Previsualizar el build                     |
 | `npm run check`   | Revisión de tipos (`astro check`)          |
 
-## Noticias y marcadores
+## Noticias
 
-- Las noticias viven en Firestore (`noticias/<slug>`) con respaldo en `src/data/noticias.ts`; el panel `/admin` las crea y edita.
+Las noticias viven **en el código**, en `NOTICIAS_SEED` de `src/data/noticias.ts`. No hay panel ni base de datos para ellas: `/noticias` y cada detalle se renderizan en el build, así que el sitio es HTML estático y no hace falta esperar a ninguna petición.
+
+Para publicar una noticia:
+
+1. Copiar la foto a `src/assets/` y registrarla en `scripts/gen-noticias-assets.mjs` → `PROPIAS` si es de un solo artículo, o `IMAGENES` si es la foto de una categoría.
+2. Añadir el nombre de esa foto en `FOTO_POR_SLUG`, apuntando al slug de la noticia.
+3. Meter el objeto de la noticia al final de `NOTICIAS_SEED`.
+4. `npm run build` — los `.webp` de las tarjetas se generan solos y cada detalle se prerenderiza.
+
+El único script del cliente es el filtrado por categoría en `/noticias`; el contenido ya viene en el HTML.
+
+## Marcadores de olimpiadas
+
 - Las olimpiadas se cuentan como noticia (categoría `Olimpiadas`); ya no existe una página `/olimpiadas`.
-- Los marcadores en vivo siguen alimentando el popup global (`src/components/LivePopup.astro`) y su pestaña en `/admin` desde Firestore (`olimpiadas/olimpiadas-data`).
-- Todo el acceso a Firebase del cliente vive en un solo módulo: `src/lib/firebase.ts` + `src/data/api.ts` + `src/lib/olimpiadasClient.ts`.
+- Los marcadores en vivo siguen alimentando el popup global (`src/components/LivePopup.astro`) y su pestaña en `/admin` desde Firestore (`olimpiadas/olimpiadas-data`). Esta parte sí es dinámica y sí usa Firebase.
 
 ## Configuración
 
 - La URL pública del sitio se resuelve automáticamente desde `VERCEL_PROJECT_PRODUCTION_URL` en el build de Vercel. Para override local o en otros entornos define `PUBLIC_SITE_URL`.
 
-> ⚠️ **Pendientes de seguridad** (no implementados): las reglas de Firestore (`firestore.rules`) están abiertas (`allow read, write: if true`) y la contraseña del admin se valida en el cliente. Antes de producción conviene restringir escrituras y mover la autenticación al servidor.
+> ⚠️ **Pendiente de seguridad**: las reglas de Firestore (`firestore.rules`) están abiertas (`allow read, write: if true`) y la contraseña de `/admin` se valida en el cliente, no con autenticación real. Ahora solo quedan ahí los marcadores de olimpiadas, pero conviene cerrar las escrituras antes de producción.

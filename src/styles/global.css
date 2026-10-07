@@ -100,3 +100,11 @@ section[id] {
     scroll-behavior: auto !important;
   }
 }
+
+/* Las tarjetas de noticias solo se pintan cuando entran en pantalla. Es la
+   unica optimizacion que hace falta ahora que las noticias salen del build:
+   el resto de la pagina ya es HTML estatico. */
+.noticia-lazy {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 480px;
+}

@@ -132,7 +132,7 @@ function gridHTML(noticia: Noticia): string {
   const { texto } = acento(noticia.categoria);
   const fecha = fechaHTML(noticia.fecha, true);
 
-  return `<article class="group relative flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1
+  return `<article class="noticia-lazy group relative flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1
     ring-slate-200 transition duration-300 hover:-translate-y-1 hover:shadow-2xl hover:ring-brand-300">
     <div class="relative aspect-[16/9] overflow-hidden bg-navy-800">
       ${fotoHTML(noticia, 'card', 'h-full w-full object-cover transition duration-500 group-hover:scale-105')}

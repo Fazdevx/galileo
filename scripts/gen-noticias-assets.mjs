@@ -55,6 +55,8 @@ const IMAGENES = {
  *   manitas-pintadas-galileo      ->  manitascreativas     ->  manitascreativas.jpg
  *   procesion-interna-galileo     ->  procesion-interna    ->  procesion-interna.jpg
  *   recorrido-senor-milagros      ->  senor-de-los-milagros->  Señordelosmilagros.jpg
+ *   talento-galileano-pinta-de-colores -> concurso-dibujo-pintura -> concurso-dibujo-pintura.jpg
+ *   visita-radio-maxima-967           ->  visita-radio        ->  visita-radio.jpg
  *
  * Las claves deben quedar en ASCII: se usan tal cual para armar la ruta del
  * WebP generado, y una tilde ahí se rompe en algunos entornos de build. El
@@ -65,6 +67,8 @@ const PROPIAS = {
   manitascreativas: 'manitascreativas.jpg',
   'procesion-interna': 'procesion-interna.jpg',
   'senor-de-los-milagros': 'Señordelosmilagros.jpg',
+  'concurso-dibujo-pintura': 'concurso-dibujo-pintura.jpg',
+  'visita-radio': 'visita-radio.jpg',
 };
 
 const VARIANTES = [

@@ -1,22 +1,17 @@
 /**
  * Noticias del colegio: aniversario, olimpiadas, desfile, admision, etc.
  *
- * Cada noticia es un documento dentro de la colección "noticias", con el slug
- * como ID. Se editan desde la pestaña "Noticias" del panel /admin.
+ * Las noticias viven AQUI, en NOTICIAS_SEED mas abajo. No hay panel ni base de
+ * datos: se anade una noticia escribiendo un objeto en ese array y se sube la
+ * foto a src/assets. Para publicarla hay que desplegar (npm run build).
  *
- * IMPORTANTE (decision conocida, pendiente de corregir):
- * firestore.rules esta en `allow read, write: if true` y el panel se protege
- * con una contrasena que viaja en el bundle de JS, no con autenticacion real.
- * Es decir, cualquiera que conozca la URL de /admin y lea el bundle puede
- * crear, editar o borrar noticias. Cuando se quiera cerrar esto hay que:
- *   1. Crear un usuario en Firebase Console > Authentication.
- *   2. Usar el getAuth() que ya esta importado en src/lib/firebase.ts.
- *   3. Cambiar las reglas a `allow read: if true; allow write: if request.auth != null;`
+ * Como se agrega una noticia:
+ *   1. Copiar la foto a src/assets y registrarla en scripts/gen-noticias-assets.mjs
+ *      (PROPIAS si es de un solo articulo, IMAGENES si es de una categoria).
+ *   2. Meter la foto en el array FOTO_POR_SLUG, con el slug de la noticia.
+ *   3. Añadir el objeto al final de NOTICIAS_SEED.
+ *   4. npm run build (los .webp de las tarjetas se generan solos).
  */
-
-import { initFirebase } from './api';
-
-export const NOTICIAS_COLLECTION = 'noticias';
 
 /** Tamaño de la foto según dónde se usa. */
 export type FormatoFoto = 'card' | 'full';
@@ -74,6 +69,8 @@ const FOTO_POR_SLUG: Record<string, string> = {
   'manitas-pintadas-galileo': 'manitascreativas',
   'procesion-interna-galileo': 'procesion-interna',
   'recorrido-senor-de-los-milagros': 'senor-de-los-milagros',
+  'talento-galileano-pinta-de-colores': 'concurso-dibujo-pintura',
+  'visita-radio-maxima-967': 'visita-radio',
 };
 
 /** Categoría cuya foto se muestra cuando nada más coincide. */
@@ -129,9 +126,11 @@ export function imagenDe(
 }
 
 /**
- * Contenido inicial. Se usa cuando Firestore todavia no tiene noticias, para
- * que la pagina nunca salga vacia. El orden numerico no importa: se ordena por
- * fecha.
+ * Todas las noticias del sitio. Este array ES el contenido: se renderiza en el
+ * build y no hay nada mas que leer en ninguna parte.
+ *
+ * El orden en que esten escritas no importa: las páginas ordenan por fecha con
+ * `ordenar()`. Para publicar una noticia nueva se agrega un objeto al final.
  *
  * Nota: el número de aniversario (39.º, 40.º...) NO se afirma aquí a propósito
  * porque el desfile del 39.º es un evento distinto de la UGEL, no el
@@ -274,6 +273,42 @@ export const NOTICIAS_SEED: Noticia[] = [
     ],
     actualizado: '2026-10-01T00:00:00.000Z',
   },
+  {
+    slug: 'talento-galileano-pinta-de-colores',
+    titulo: 'El talento Galileano se pinta de colores',
+    fecha: '2026-10-01',
+    resumen:
+      'El Colegio Galileo llevó a cabo el Concurso Interno de Dibujo y Pintura, donde todos los grados de Nivel Primaria mostraron su creatividad, imaginación y talento.',
+    destacado: false,
+    publicado: true,
+    imagen: '',
+    imagenAlt: 'Dibujos de estudiantes del Nivel Primaria en el Concurso Interno de Dibujo y Pintura',
+    categoria: 'Eventos',
+    cuerpo: [
+      'Continuando con nuestras actividades por nuestro mes de aniversario, el Colegio Galileo llevó a cabo un Concurso Interno de Dibujo y Pintura.',
+      'En esta divertida jornada participaron todos los grados del Nivel Primaria, demostrando su creatividad, imaginación y talento a través de cada dibujo y pincelada.',
+      'Cada trabajo reflejó el entusiasmo de nuestros estudiantes y nos recordó que el arte también es una forma de aprender, expresarse y compartir.',
+    ],
+    actualizado: '2026-10-01T00:00:00.000Z',
+  },
+  {
+    slug: 'visita-radio-maxima-967',
+    titulo: 'Nuestras experiencias que inspiran a nuestros pequeños',
+    fecha: '2026-10-01',
+    resumen:
+      'Los alumnos del Nivel Inicial vivieron una emocionante experiencia durante su visita a Radio Máxima 96.7, acompañados de sus maestras y del director general Giovanni Estupiñán.',
+    destacado: false,
+    publicado: true,
+    imagen: '',
+    imagenAlt: 'Alumnos del Nivel Inicial durante la visita a la emisora Radio Máxima 96.7',
+    categoria: 'Eventos',
+    cuerpo: [
+      'Como parte de nuestras actividades por nuestro mes de aniversario, nuestros alumnos del Nivel Inicial vivieron una emocionante experiencia durante su visita a Radio Máxima 96.7.',
+      'Acompañados de sus maestras y del director general, Giovanni Estupiñán, nuestros pequeños recorrieron las instalaciones de la emisora y conocieron de cerca cómo se desarrolla el trabajo detrás de la radio.',
+      'Una visita llena de curiosidad, alegría y aprendizaje, donde nuestros niños pudieron descubrir nuevos espacios y acercarse a experiencias que despiertan su imaginación y amplían su visión del mundo.',
+    ],
+    actualizado: '2026-10-01T00:00:00.000Z',
+  },
 ];
 
 /** Convierte un titulo en un slug seguro para URL. */
@@ -296,7 +331,7 @@ export function uniqueSlug(titulo: string, existentes: string[]): string {
   return `${base}-${n}`;
 }
 
-/** Etiquetas que el panel ofrece y que `normalizar` acepta sin inventar una. */
+/** Etiquetas disponibles. Cada una tiene su foto en scripts/gen-noticias-assets.mjs. */
 export const CATEGORIAS: readonly string[] = [
   'Aniversario',
   'Olimpiadas',
@@ -307,71 +342,6 @@ export const CATEGORIAS: readonly string[] = [
   'Eventos',
   'Comunicados',
 ];
-
-/** Normaliza un documento de Firestore para no romper la vista si falta un campo. */
-export function normalizar(doc: Record<string, unknown>): Noticia | null {
-  const titulo = typeof doc.titulo === 'string' ? doc.titulo.trim() : '';
-  const slug = typeof doc.slug === 'string' && doc.slug ? doc.slug : slugify(titulo);
-  if (!titulo || !slug) return null;
-
-  return {
-    slug,
-    titulo,
-    fecha: typeof doc.fecha === 'string' ? doc.fecha : '',
-    resumen: typeof doc.resumen === 'string' ? doc.resumen : '',
-    destacado: doc.destacado === true,
-    publicado: doc.publicado !== false,
-    imagen: typeof doc.imagen === 'string' ? doc.imagen : '',
-    imagenAlt: typeof doc.imagenAlt === 'string' ? doc.imagenAlt : titulo,
-    categoria: CATEGORIAS.includes(String(doc.categoria)) ? String(doc.categoria) : 'Comunicados',
-    cuerpo: Array.isArray(doc.cuerpo) ? doc.cuerpo.filter((p): p is string => typeof p === 'string') : [],
-    actualizado: typeof doc.actualizado === 'string' ? doc.actualizado : '',
-  };
-}
-
-/**
- * Convierte la respuesta de la API REST de Firestore (un solo documento) en
- * una Noticia. Ahi los campos vienen tipados: {stringValue}, {booleanValue},
- * {arrayValue}. Se separa de normalizar() para poder probarla sin red.
- */
-export function desdeDocFirestore(json: unknown, slug: string): Noticia | null {
-  const fields = (json as { fields?: Record<string, unknown> })?.fields;
-  if (!fields) return null;
-
-  const txt = (k: string): string => {
-    const v = fields[k] as { stringValue?: unknown } | undefined;
-    return typeof v?.stringValue === 'string' ? v.stringValue : '';
-  };
-  const bool = (k: string, def: boolean): boolean => {
-    const v = fields[k] as { booleanValue?: unknown } | undefined;
-    return typeof v?.booleanValue === 'boolean' ? v.booleanValue : def;
-  };
-  const lista = (k: string): string[] => {
-    const v = fields[k] as { arrayValue?: { values?: { stringValue?: unknown }[] } } | undefined;
-    const arr = v?.arrayValue?.values;
-    return Array.isArray(arr)
-      ? arr.map((x) => (typeof x?.stringValue === 'string' ? x.stringValue : '')).filter(Boolean)
-      : [];
-  };
-
-  const titulo = txt('titulo').trim();
-  if (!titulo) return null;
-
-  const categoria = txt('categoria');
-  return {
-    slug,
-    titulo,
-    fecha: txt('fecha'),
-    resumen: txt('resumen'),
-    destacado: bool('destacado', false),
-    publicado: bool('publicado', true),
-    imagen: txt('imagen'),
-    imagenAlt: txt('imagenAlt') || titulo,
-    categoria: CATEGORIAS.includes(categoria) ? categoria : 'Comunicados',
-    cuerpo: lista('cuerpo'),
-    actualizado: txt('actualizado'),
-  };
-}
 
 export function ordenar(noticias: Noticia[]): Noticia[] {
   return [...noticias].sort((a, b) => (a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : 0));
@@ -398,108 +368,4 @@ export function formatearFecha(iso: string): string {
   if (!m) return '';
   const [, y, mes, d] = m;
   return `${Number(d)} de ${MESES[Number(mes) - 1]} de ${y}`;
-}
-
-/** ---------------------------------------------------------------------- */
-/* Acceso a Firestore (solo en el navegador)                               */
-/* ---------------------------------------------------------------------- */
-
-/**
- * Mezcla lo guardado en Firestore con la semilla local.
- *
- * La semilla cubre los eventos permanentes (aniversario, desfile, olimpiadas)
- * para que no falten nunca, en especial mientras la colección esté vacía. Si
- * un evento de la semilla ya esta guardado en Firestore con el mismo slug,
- * manda la version de Firestore, que es la que edita el panel.
- */
-export function fusionarSemilla(remotas: Noticia[]): Noticia[] {
-  const porSlug = new Map<string, Noticia>();
-  for (const n of NOTICIAS_SEED) porSlug.set(n.slug, n);
-  for (const n of remotas) porSlug.set(n.slug, n);
-  return ordenar([...porSlug.values()]);
-}
-
-/**
- * Devuelve las noticias publicadas ordenadas por fecha descendente.
- * Si Firestore falla, devuelve solo la semilla, para que la pagina nunca
- * quede en blanco.
- */
-export async function fetchNoticias(): Promise<Noticia[]> {
-  if (typeof window === 'undefined') return ordenar(NOTICIAS_SEED);
-
-  try {
-    const db = await initFirebase();
-    if (!db) return ordenar(NOTICIAS_SEED);
-
-    const { collection, getDocs } = await import('firebase/firestore');
-    const snap = await getDocs(collection(db, NOTICIAS_COLLECTION));
-
-    const lista = snap.docs
-      .map((d) => normalizar({ ...d.data(), slug: d.id }))
-      .filter((n): n is Noticia => n !== null)
-      .filter((n) => n.publicado);
-
-    return fusionarSemilla(lista);
-  } catch (error) {
-    console.warn('[Noticias] No se pudo leer de Firestore, se usa la semilla:', error);
-    return ordenar(NOTICIAS_SEED);
-  }
-}
-
-/**
- * Variante para el panel: trae TODAS las noticias, incluidas las no publicadas,
- * para que se puedan editar. Devuelve [] si no hay ninguna guardada (a diferencia
- * de fetchNoticias, que cae en la semilla).
- */
-export async function fetchNoticiasAdmin(): Promise<Noticia[]> {
-  if (typeof window === 'undefined') return ordenar(NOTICIAS_SEED);
-  try {
-    const db = await initFirebase();
-    if (!db) return [];
-
-    const { collection, getDocs } = await import('firebase/firestore');
-    const snap = await getDocs(collection(db, NOTICIAS_COLLECTION));
-
-    return ordenar(
-      snap.docs.map((d) => normalizar({ ...d.data(), slug: d.id })).filter((n): n is Noticia => n !== null),
-    );
-  } catch (error) {
-    console.error('[Noticias] Error al leer para el panel:', error);
-    return [];
-  }
-}
-
-/** Crea o actualiza una noticia. El slug es el ID del documento. */
-export async function guardarNoticia(noticia: Noticia): Promise<boolean> {
-  if (typeof window === 'undefined') return false;
-  try {
-    const db = await initFirebase();
-    if (!db) return false;
-
-    const { doc, setDoc } = await import('firebase/firestore');
-    await setDoc(
-      doc(db, NOTICIAS_COLLECTION, noticia.slug),
-      { ...noticia, actualizado: new Date().toISOString() },
-      { merge: true },
-    );
-    return true;
-  } catch (error) {
-    console.error('[Noticias] Error al guardar:', error);
-    return false;
-  }
-}
-
-export async function borrarNoticia(slug: string): Promise<boolean> {
-  if (typeof window === 'undefined') return false;
-  try {
-    const db = await initFirebase();
-    if (!db) return false;
-
-    const { doc, deleteDoc } = await import('firebase/firestore');
-    await deleteDoc(doc(db, NOTICIAS_COLLECTION, slug));
-    return true;
-  } catch (error) {
-    console.error('[Noticias] Error al borrar:', error);
-    return false;
-  }
 }

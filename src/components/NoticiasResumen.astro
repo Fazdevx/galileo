@@ -15,8 +15,8 @@ import { resumenHTML } from '../lib/noticiaMarkup';
 interface Props {
   /**
    * Cuántas tarjetas mostrar como máximo. Por defecto, todas: la sección del
-   * home muestra el listado completo. `define:vars` lo serializa como JSON,
-   * así que tiene que ser un número finito, no Infinity.
+   * home muestra el listado completo. Viaja al script en un `data-limite`,
+   * porque `define:vars` lo convertiría en un script clásico sin módulos.
    */
   limite?: number;
   /** Titulo de la sección. */
@@ -77,39 +77,6 @@ const resumenInicial = ordenar(NOTICIAS_SEED.filter((n) => n.publicado))
       </a>
     </div>
 
-    <div class="mt-10" data-noticias-resumen set:html={resumenHTML(resumenInicial)} />
-
-    <p class="mt-6 text-sm text-slate-500" data-noticias-estado aria-live="polite"></p>
+    <div class="mt-10" set:html={resumenHTML(resumenInicial)} />
   </div>
 </section>
-
-<script define:vars={{ limite }}>
-  import { fetchNoticias } from '../data/noticias';
-  import { resumenHTML } from '../lib/noticiaMarkup';
-
-  (async () => {
-    const bloque = document.querySelector('[data-noticias-resumen]');
-    if (!bloque) return;
-
-    try {
-      const noticias = await fetchNoticias();
-
-      // Destacadas primero, y luego las más recientes, igual que en el
-      // respaldo del servidor. Se limita antes de dibujar para no enviar al
-      // navegador tarjetas que no se van a ver.
-      const lista = noticias
-        .slice()
-        .sort((a, b) => Number(b.destacado) - Number(a.destacado))
-        .slice(0, limite);
-      if (!lista.length) return;
-
-      bloque.innerHTML = resumenHTML(lista);
-
-      const estado = document.querySelector('[data-noticias-estado]');
-      estado?.remove();
-    } catch (error) {
-      // Si algo falla se mantiene el contenido ya renderizado por el servidor.
-      console.warn('[Noticias] No se pudo refrescar el resumen:', error);
-    }
-  })();
-</script>
