@@ -69,6 +69,11 @@ const PROPIAS = {
   'senor-de-los-milagros': 'Señordelosmilagros.jpg',
   'concurso-dibujo-pintura': 'concurso-dibujo-pintura.jpg',
   'visita-radio': 'visita-radio.jpg',
+  'pijama-day': 'pijama_day.jpg',
+  'radio-nivel-primaria': 'radio_nivelprimaria.jpg',
+  'senor-de-los-milagros-primaria': 'señordelosmilagrosprimaria.jpg',
+  'combate-de-angamos': 'combatedeangamos.jpg',
+  'simulacro-bimestral': 'simulacrobimestral.jpg',
 };
 
 const VARIANTES = [
