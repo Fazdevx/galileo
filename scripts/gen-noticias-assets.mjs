@@ -74,6 +74,7 @@ const PROPIAS = {
   'senor-de-los-milagros-primaria': 'señordelosmilagrosprimaria.jpg',
   'combate-de-angamos': 'combatedeangamos.jpg',
   'simulacro-bimestral': 'simulacrobimestral.jpg',
+  'salud-mental': 'saludmental.jpg',
 };
 
 const VARIANTES = [

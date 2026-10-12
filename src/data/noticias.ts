@@ -76,6 +76,7 @@ const FOTO_POR_SLUG: Record<string, string> = {
   'fe-y-devocion-4-aniversario-galileo': 'senor-de-los-milagros-primaria',
   'conmemoracion-combate-de-angamos': 'combate-de-angamos',
   'gran-simulacro-academico-galileo': 'simulacro-bimestral',
+  'dia-de-la-salud-mental-galileo': 'salud-mental',
 };
 
 /** Categoría cuya foto se muestra cuando nada más coincide. */
@@ -407,6 +408,25 @@ export const NOTICIAS_SEED: Noticia[] = [
       'Nuestros estudiantes de Inicial, Primaria y Secundaria participaron en esta importante jornada, poniendo a prueba sus conocimientos, fortaleciendo sus aprendizajes y demostrando todo su potencial académico.',
       'En Galileo, creemos que cada experiencia es una oportunidad para aprender, superar desafíos y seguir creciendo. ¡Continuamos formando estudiantes preparados para alcanzar grandes metas!',
       '¡En Galileo, cada reto es una oportunidad para demostrar que podemos llegar más lejos!',
+    ],
+    actualizado: '2026-10-10T00:00:00.000Z',
+  },
+  {
+    slug: 'dia-de-la-salud-mental-galileo',
+    titulo: 'Hoy conmemoramos el Día de la Salud Mental',
+    fecha: '2026-10-10',
+    resumen:
+      'Este 10 de octubre recordamos la importancia de cuidar nuestras emociones, escuchar con empatía y acompañar a quienes necesitan apoyo. En el Colegio Galileo promovemos el bienestar emocional de nuestros estudiantes.',
+    destacado: false,
+    publicado: true,
+    imagen: '',
+    imagenAlt: 'Conmemoración del Día de la Salud Mental en el Colegio Galileo',
+    categoria: 'Comunicados',
+    cuerpo: [
+      'Hoy conmemoramos el Día de la Salud Mental. Este 10 de octubre recordamos la importancia de cuidar nuestras emociones, escuchar con empatía y acompañar a quienes necesitan apoyo. Hablar de lo que sentimos y pedir ayuda también son formas de cuidarnos.',
+      'En el Colegio Galileo promovemos el bienestar emocional de nuestros estudiantes, el respeto y la confianza para que puedan expresar sus sentimientos. Cada emoción merece ser escuchada y cada persona merece sentirse valorada.',
+      'Una mente en calma es una vida en equilibrio.',
+      '¡Cuidar tu salud mental también es cuidar de ti!',
     ],
     actualizado: '2026-10-10T00:00:00.000Z',
   },
