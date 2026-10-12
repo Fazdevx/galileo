@@ -120,6 +120,12 @@ const twitter = redes.find((url) => url.includes('twitter.com') || url.includes(
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <!--
+      Verificacion de Search Console. Google busca esta etiqueta en el HTML
+      del sitio ya desplegado para confirmar que le pertenece al dominio. Va en
+      todas las paginas: no molesta al usuario y no ocupa indexacion.
+    -->
+    <meta name="google-site-verification" content="LOqYHKfREnPYg6I94HLS6eGXgZ2RQbfJY8641XVjnto" />
 
     <!--
       Solo PNG: el favicon.svg que traia el starter de Astro (el cohete) tiene
