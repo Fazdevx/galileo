@@ -26,9 +26,7 @@ const academiaWa = waLink(
 const admisionWa = waLink('Hola, quisiera información sobre el proceso de admisión.');
 const contactoWa = waLink('Hola, quisiera hacer una consulta sobre el Colegio Galileo.');
 
-const horariosTexto = SITE.hours
-  .map((h) => `${h.days} de ${h.opens} a ${h.closes}`)
-  .join('<br>');
+const horariosTexto = SITE.hours.map((h) => `${h.days} de ${h.opens} a ${h.closes}`).join('<br>');
 
 const temas = [
   {
@@ -93,7 +91,17 @@ const temas = [
     clave: 'contacto',
     chip: 'Contacto',
     pregunta: 'Datos de contacto',
-    keywords: ['contacto', 'telefono', 'whatsapp', 'numero', 'correo', 'email', 'escribir', 'llamar', 'direccion del colegio'],
+    keywords: [
+      'contacto',
+      'telefono',
+      'whatsapp',
+      'numero',
+      'correo',
+      'email',
+      'escribir',
+      'llamar',
+      'direccion del colegio',
+    ],
     respuesta: `<strong>Estos son nuestros datos:</strong><br><br><strong>Colegio</strong><br>${SITE.phone.display}<br><br><strong>Academia</strong><br>${SITE.phoneAcademia.display}<br><br><strong>Correo</strong><br>${SITE.email}<br><br><strong>Dirección</strong><br>${SITE.address.street}, ${SITE.address.city}<br><br><strong>Horario</strong><br>${SITE.hoursDisplay}`,
     accion: { texto: 'Ver el contacto completo', href: '/#contacto' },
   },

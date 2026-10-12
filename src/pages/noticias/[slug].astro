@@ -15,6 +15,7 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import { NOTICIAS_SEED, ordenar, formatearFecha, imagenDe, type Noticia } from '../../data/noticias';
 import { tarjetasHTML } from '../../lib/noticiaMarkup';
+import { articleJsonLd, breadcrumbs } from '../../lib/seo';
 
 export const prerender = true;
 
@@ -31,6 +32,9 @@ const fecha = noticia ? formatearFecha(noticia.fecha) : '';
 /** Foto grande de la cabecera. Nunca sale vacía: cae en la de la categoría. */
 const foto = noticia ? imagenDe(noticia, 'full') : '';
 
+/** Migas de pan: Home > Noticias > Titular. */
+const migas = breadcrumbs(Astro.url.pathname, noticia?.titulo);
+
 /** Relacionadas: otras tres de la misma categoría y, si no alcanzan, las más
  *  recientes. */
 const relacionadas = noticia
@@ -41,9 +45,15 @@ const relacionadas = noticia
 ---
 
 <Layout
-  title={noticia ? `${noticia.titulo} | Noticias Galileo` : 'Noticias | Colegio y Academia Galileo'}
+  title={noticia?.titulo}
   description={noticia?.resumen || 'Noticias del Colegio y Academia Galileo en Huacho.'}
   ogImage={noticia?.imagen || undefined}
+  ogImageAlt={noticia?.imagenAlt}
+  ogType={noticia ? 'article' : 'website'}
+  publishedTime={noticia?.fecha}
+  modifiedTime={noticia?.actualizado}
+  migas={migas}
+  jsonLd={noticia && articleJsonLd(noticia, Astro.url.pathname)}
 >
   <Header />
   <main id="contenido">

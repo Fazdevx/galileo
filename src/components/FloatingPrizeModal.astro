@@ -651,17 +651,15 @@ import WinForm from './PrizeWinForm.astro';
     dialog.open();
   }
 
-  function saveWinner(
-    prize: {
-      id: string;
-      name: string;
-      description: string;
-      icon: string;
-      parentName?: string;
-      phone?: string;
-      ticket?: string;
-    },
-  ) {
+  function saveWinner(prize: {
+    id: string;
+    name: string;
+    description: string;
+    icon: string;
+    parentName?: string;
+    phone?: string;
+    ticket?: string;
+  }) {
     const winners = JSON.parse(localStorage.getItem('galileo-winners') || '[]');
     winners.push({
       prizeId: prize.id,

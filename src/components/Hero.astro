@@ -469,7 +469,7 @@ const slides: Slide[] = [
     timer = null;
   };
 
-// El carrusel siempre rota. Con movimiento reducido solo se quita el fundido
+  // El carrusel siempre rota. Con movimiento reducido solo se quita el fundido
   // (motion-reduce:transition-none en el markup): apagar el autoplay dejaba el
   // primer slide como única vista posible en equipos sin animaciones.
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');

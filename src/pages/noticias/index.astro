@@ -151,7 +151,9 @@ const fotoCabecera = fotoCategoria('Aniversario', 'full');
 
     function pintar() {
       const lista = filtro === 'Todas' ? noticias : noticias.filter((n) => n.categoria === filtro);
-      contenedor.innerHTML = lista.length ? tarjetasHTML(lista) : vacioHTML(`No hay noticias en la categoría «${filtro}».`);
+      contenedor.innerHTML = lista.length
+        ? tarjetasHTML(lista)
+        : vacioHTML(`No hay noticias en la categoría «${filtro}».`);
     }
 
     for (const boton of botones) {

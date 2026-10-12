@@ -4,22 +4,48 @@ import WhatsappFloat from '../components/WhatsappFloat.astro';
 import LivePopup from '../components/LivePopup.astro';
 import ModalPreMatricula from '../components/ModalPreMatricula.astro';
 import { SITE, SITE_URL } from '../data/site';
+import { breadcrumbs, breadcrumbJsonLd } from '../lib/seo';
 
 interface Props {
   title?: string;
   description?: string;
   canonical?: string;
   ogImage?: string;
+  /** Texto alternativo de la imagen social; Google lo usa como caption. */
+  ogImageAlt?: string;
   noindex?: boolean;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  /** `article` en las noticias; `website` en el resto del sitio. */
+  ogType?: 'website' | 'article';
+  /** Solo con ogType="article". */
+  publishedTime?: string;
+  modifiedTime?: string;
+  /** Migas de pan. Si no se pasan se deducen de la URL. */
+  migas?: { name: string; href: string }[];
+  /** Texto del ultimo nivel de la miga deducida (el titular, en noticias). */
+  migasUltimo?: string;
 }
 
-const { title, description = SITE.description, canonical, ogImage, noindex = false, jsonLd } = Astro.props;
+const {
+  title,
+  description = SITE.description,
+  canonical,
+  ogImage,
+  ogImageAlt = `${SITE.name} — ${SITE.tagline}`,
+  noindex = false,
+  jsonLd,
+  ogType = 'website',
+  publishedTime,
+  modifiedTime,
+  migas: migasProp,
+  migasUltimo,
+} = Astro.props;
 
 const pageTitle = title ? `${title} | ${SITE.name}` : `${SITE.name} | ${SITE.tagline}`;
 const site = new URL(SITE_URL);
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, site).toString();
 const ogImageUrl = new URL(ogImage ?? '/og-image.png', site).toString();
+const migas = migasProp ?? breadcrumbs(Astro.url.pathname, migasUltimo);
 
 const defaultJsonLd = {
   '@context': 'https://schema.org',
@@ -54,10 +80,39 @@ const defaultJsonLd = {
     closes: h.closes,
   })),
   areaServed: { '@type': 'City', name: 'Huacho' },
+  hasMap: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    `${SITE.address.street}, ${SITE.address.city}, ${SITE.address.countryName}`,
+  )}`,
+  /** Contacto de admisiones: es lo que Google muestra en el panel local. */
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      contactType: 'admissions',
+      telephone: SITE.phone.e164,
+      email: SITE.email,
+      areaServed: 'PE',
+      availableLanguage: ['es'],
+    },
+    {
+      '@type': 'ContactPoint',
+      contactType: 'sales',
+      telephone: SITE.phoneAcademia.e164,
+      areaServed: 'PE',
+      availableLanguage: ['es'],
+    },
+  ],
+  knowsLanguage: 'es-PE',
   sameAs: Object.values(SITE.social).filter(Boolean),
 };
 
-const structuredData = jsonLd ? [defaultJsonLd, ...(Array.isArray(jsonLd) ? jsonLd : [jsonLd])] : [defaultJsonLd];
+const structuredData = [
+  defaultJsonLd,
+  ...(migas.length > 0 ? [breadcrumbJsonLd(migas)] : []),
+  ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []),
+];
+
+const redes = Object.values(SITE.social).filter((url) => url.length > 0) as string[];
+const twitter = redes.find((url) => url.includes('twitter.com') || url.includes('x.com'));
 ---
 
 <html lang={SITE.lang}>
@@ -81,7 +136,7 @@ const structuredData = jsonLd ? [defaultJsonLd, ...(Array.isArray(jsonLd) ? json
     <link rel="canonical" href={canonicalUrl} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:locale" content={SITE.locale} />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:title" content={pageTitle} />
@@ -90,10 +145,16 @@ const structuredData = jsonLd ? [defaultJsonLd, ...(Array.isArray(jsonLd) ? json
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    {ogType === 'article' && publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {ogType === 'article' && modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+    {ogType === 'article' && <meta property="article:publisher" content={SITE_URL} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+    {twitter && <meta name="twitter:site" content={`@${twitter.split('/').pop()}`} />}
 
     <meta name="theme-color" content={SITE.themeColor} />
 
