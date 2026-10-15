@@ -2,8 +2,27 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import aniversarioImg from '../assets/hero_aniversario.jpg';
+import aniversarioImg2 from '../assets/hero_aniversario2.jpg';
+import aniversarioImg3 from '../assets/hero_aniversario3.jpg';
+import aniversarioImg4 from '../assets/hero_aniversario4.jpg';
+import aniversarioImg5 from '../assets/hero_aniversario5.jpg';
+import aniversarioImg6 from '../assets/hero_aniversario6.jpg';
+import aniversarioImg7 from '../assets/hero_aniversario7.jpg';
+import aniversarioImg8 from '../assets/hero_aniversario8.jpg';
 import logoSrc from '../assets/logo.webp';
 import { waLink, TRAYECTORIA, ANIOS_ANTIGUEDAD } from '../data/site';
+
+/** Galería del cuadro del aniversario: rota sola dentro del slide. */
+const aniversarioGaleria = [
+  aniversarioImg,
+  aniversarioImg2,
+  aniversarioImg3,
+  aniversarioImg4,
+  aniversarioImg5,
+  aniversarioImg6,
+  aniversarioImg7,
+  aniversarioImg8,
+];
 
 interface Slide {
   id: string;
@@ -23,6 +42,8 @@ interface Slide {
   imageWidth?: number;
   imageHeight?: number;
   imageFill?: boolean;
+  /** Si existe, el cuadro se vuelve un carrusel con estas fotos. */
+  gallery?: ImageMetadata[];
 }
 
 const waFelicitaciones = waLink(
@@ -57,6 +78,7 @@ const slides: Slide[] = [
     imageWidth: 2048,
     imageHeight: 1365,
     imageFill: true,
+    gallery: aniversarioGaleria,
     bg: 'from-navy-700 via-navy-800 to-brand-600',
     badge: {
       text: 'Celebrado: 1 de Octubre',
@@ -255,25 +277,64 @@ const slides: Slide[] = [
                 <div class="relative mx-auto w-full max-w-sm md:max-w-none">
                   <div
                     class:list={[
-                      'aspect-square overflow-hidden rounded-3xl bg-white/95 shadow-2xl backdrop-blur flex items-center justify-center',
+                      'relative aspect-square overflow-hidden rounded-3xl bg-white/95 shadow-2xl backdrop-blur flex items-center justify-center',
                       slide.imageFill ? '' : 'p-6 sm:p-8',
                     ]}
                   >
-                    <Image
-                      src={slide.image!}
-                      alt={slide.eyebrow}
-                      // width/height fijos con `widths` collapsing el srcset a una
-                      // sola entrada: para las imágenes que llenan el cuadro
-                      // dejamos que Astro derive el tamaño de `widths`.
-                      width={slide.imageFill ? undefined : slide.imageWidth}
-                      height={slide.imageFill ? undefined : slide.imageHeight}
-                      widths={[640, 828, 1080, 1200, 1920]}
-                      sizes="(min-width: 1024px) 38vw, (min-width: 768px) 45vw, 100vw"
-                      loading={idx === 0 ? 'eager' : 'lazy'}
-                      fetchpriority={idx === 0 ? 'high' : 'auto'}
-                      quality={90}
-                      class:list={['w-full h-auto', slide.imageFill && 'h-full w-full object-cover']}
-                    />
+                    {slide.gallery ? (
+                      <div
+                        class="absolute inset-0"
+                        data-hero-gallery
+                        aria-roledescription="carrusel de fotos"
+                        aria-label="Fotos del aniversario"
+                      >
+                        {slide.gallery.map((foto, gi) => (
+                          <Image
+                            src={foto}
+                            alt={`Foto ${gi + 1} del Mes de Aniversario Galileo`}
+                            widths={[640, 828, 1080, 1440]}
+                            sizes="(min-width: 1024px) 38vw, (min-width: 768px) 45vw, 100vw"
+                            loading={idx === 0 && gi === 0 ? 'eager' : 'lazy'}
+                            fetchpriority={idx === 0 && gi === 0 ? 'high' : 'auto'}
+                            quality={90}
+                            data-hero-photo={gi}
+                            class:list={[
+                              'absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out motion-reduce:transition-none',
+                              gi === 0 ? 'opacity-100' : 'opacity-0',
+                            ]}
+                          />
+                        ))}
+                        <div class="absolute inset-x-0 bottom-3 z-10 flex justify-center gap-2">
+                          {slide.gallery.map((_, gi) => (
+                            <button
+                              type="button"
+                              data-hero-photo-dot={gi}
+                              aria-label={`Ver foto ${gi + 1} del aniversario`}
+                              class:list={[
+                                'h-2.5 rounded-full transition-all',
+                                gi === 0 ? 'w-7 bg-white' : 'w-2.5 bg-white/50 hover:bg-white/80',
+                              ]}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <Image
+                        src={slide.image!}
+                        alt={slide.eyebrow}
+                        // width/height fijos con `widths` collapsing el srcset a una
+                        // sola entrada: para las imágenes que llenan el cuadro
+                        // dejamos que Astro derive el tamaño de `widths`.
+                        width={slide.imageFill ? undefined : slide.imageWidth}
+                        height={slide.imageFill ? undefined : slide.imageHeight}
+                        widths={[640, 828, 1080, 1200, 1920]}
+                        sizes="(min-width: 1024px) 38vw, (min-width: 768px) 45vw, 100vw"
+                        loading={idx === 0 ? 'eager' : 'lazy'}
+                        fetchpriority={idx === 0 ? 'high' : 'auto'}
+                        quality={90}
+                        class:list={['w-full h-auto', slide.imageFill && 'h-full w-full object-cover']}
+                      />
+                    )}
                   </div>
 
                   <div
@@ -458,6 +519,53 @@ const slides: Slide[] = [
       restart();
     }),
   );
+
+  // Carrusel de fotos dentro del cuadro del aniversario: rota solo las fotos,
+  // el slide del hero sigue con su propio temporizador de 5 s.
+  (() => {
+    const galeria = document.querySelector('[data-hero-gallery]');
+    if (!galeria) return;
+
+    const fotos = Array.from(galeria.querySelectorAll('[data-hero-photo]'));
+    const puntos = Array.from(galeria.querySelectorAll('[data-hero-photo-dot]'));
+    if (fotos.length < 2) return;
+
+    let actual = 0;
+    let reloj: ReturnType<typeof setInterval> | null = null;
+    const PAUSA_MS = 4000;
+
+    const mostrar = (idx: number) => {
+      fotos.forEach((foto, i) => {
+        const activa = i === idx;
+        foto.classList.toggle('opacity-100', activa);
+        foto.classList.toggle('opacity-0', !activa);
+      });
+      puntos.forEach((punto, i) => {
+        const activa = i === idx;
+        punto.classList.toggle('w-7', activa);
+        punto.classList.toggle('bg-white', activa);
+        punto.classList.toggle('w-2.5', !activa);
+        punto.classList.toggle('bg-white/50', !activa);
+        punto.setAttribute('aria-current', activa ? 'true' : 'false');
+      });
+      actual = idx;
+    };
+
+    const arrancar = () => {
+      if (reloj) clearInterval(reloj);
+      reloj = setInterval(() => mostrar((actual + 1) % fotos.length), PAUSA_MS);
+    };
+
+    puntos.forEach((punto, i) =>
+      punto.addEventListener('click', () => {
+        mostrar(i);
+        arrancar();
+      }),
+    );
+
+    // El carrusel nunca se pausa: sigue girando aunque el cursor esté encima.
+    arrancar();
+  })();
 
   const restart = () => {
     if (timer) clearInterval(timer);

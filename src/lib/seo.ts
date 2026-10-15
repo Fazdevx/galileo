@@ -202,6 +202,7 @@ export function websiteJsonLd() {
     '@id': `${SITE_URL}/#website`,
     url: SITE_URL,
     name: SITE.name,
+    alternateName: 'Galileo Huacho',
     inLanguage: 'es-PE',
     publisher: { '@id': `${SITE_URL}/#organization` },
   };

@@ -52,6 +52,12 @@ const defaultJsonLd = {
   '@type': 'EducationalOrganization',
   '@id': `${SITE_URL}/#organization`,
   name: SITE.name,
+  /**
+   * Alias con el que la gente busca el colegio. Sin esto Google solo asocia
+   * "Galileo" con el nombre completo y la consulta "Galileo Huacho" no casa
+   * con la entidad del sitio.
+   */
+  alternateName: 'Galileo Huacho',
   legalName: SITE.legalName,
   description: SITE.description,
   url: SITE_URL,

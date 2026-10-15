@@ -14,9 +14,10 @@ import { resumenHTML } from '../lib/noticiaMarkup';
 
 interface Props {
   /**
-   * Cuántas tarjetas mostrar como máximo. Por defecto, todas: la sección del
-   * home muestra el listado completo. Viaja al script en un `data-limite`,
-   * porque `define:vars` lo convertiría en un script clásico sin módulos.
+   * Cuántas tarjetas mostrar como máximo. Por defecto, todas; el home pasa 3
+   * para que la sección no quede tan larga. Viaja al script en un
+   * `data-limite`, porque `define:vars` lo convertiría en un script clásico sin
+   * módulos.
    */
   limite?: number;
   /** Titulo de la sección. */
@@ -31,13 +32,10 @@ const { limite = SIN_LIMITE, titulo = 'Novedades del colegio' } = Astro.props;
 /**
  * Respaldo local para el render del servidor.
  *
- * Las marcadas como destacada desde el panel van primero, y después las más
- * recientes. Así la sección nunca sale con una sola tarjeta aunque nadie haya
- * marcado ninguna como destacada.
+ * `ordenar` ya deja las noticias de más reciente a más antigua, así que con
+ * cortar ahí alcanza para mostrar solo las últimas.
  */
-const resumenInicial = ordenar(NOTICIAS_SEED.filter((n) => n.publicado))
-  .sort((a, b) => Number(b.destacado) - Number(a.destacado))
-  .slice(0, limite);
+const resumenInicial = ordenar(NOTICIAS_SEED.filter((n) => n.publicado)).slice(0, limite);
 ---
 
 <section id="noticias" class="bg-slate-50 py-16 sm:py-20 md:py-24" aria-labelledby="noticias-titulo">

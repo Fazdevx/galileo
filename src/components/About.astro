@@ -2,9 +2,19 @@
 import { Image } from 'astro:assets';
 import frontis from '../assets/frontis.webp';
 import promotorImg from '../assets/promotor.png';
+import directorImg from '../assets/Directorgalileo.png';
+import rayImg from '../assets/rai.png';
+import rafaelImg from '../assets/rai 2.png';
+import nicolImg from '../assets/nickole.png';
+import karlaImg from '../assets/Karla.png';
+import rosaImg from '../assets/rosa.png';
+import juliImg from '../assets/juli.png';
+import gustavoImg from '../assets/gustavo.png';
+import hildaImg from '../assets/hildaolivares.png';
+import humbertoImg from '../assets/humbertojara.png';
 import { TRAYECTORIA } from '../data/site';
 
-/** "Hilda Olivares Roca" -> "HO". Es el avatar de quien todavia no tiene foto. */
+/** "Hilda Olivares Roca" -> "HO". Respaldo para quien no tiene retrato. */
 const iniciales = (nombre: string) =>
   nombre
     .split(' ')
@@ -29,7 +39,7 @@ const fundadores = [
   {
     nombre: 'Hilda Olivares Roca',
     cargo: 'Fundadora del Colegio y Academia Galileo',
-    foto: null,
+    foto: hildaImg,
   },
 ];
 
@@ -48,32 +58,37 @@ const organigrama = [
   {
     area: 'Dirección',
     resumen: 'Liderazgo de la institución y de la operación académica.',
-    personas: [{ nombre: 'Giovani Estupiñán', cargo: 'Director de la Institución Educativa Galileo' }],
+    personas: [{ nombre: 'Giovani Estupiñán', cargo: 'Director de la Institución Educativa Galileo', foto: directorImg }],
   },
   {
     area: 'Pedagógico y Administrativos',
     resumen: 'Planificación de estudios, currículo y gestión administrativa.',
-    personas: [{ nombre: 'Nicol Isidro', cargo: 'Responsable pedagógico y administrativo' }],
+    personas: [
+      { nombre: 'Humberto Jara', cargo: 'Responsable pedagógico', foto: humbertoImg },
+      { nombre: 'Nicol Isidro', cargo: 'Responsable administrativo', foto: nicolImg },
+    ],
   },
   {
     area: 'Área Psicológica',
     resumen: 'Acompañamiento socioemocional y orientación de estudiantes y familias.',
     personas: [
-      { nombre: 'Ray Argomedo', cargo: 'Psicólogo' },
-      { nombre: 'Rafael Castillo', cargo: 'Psicólogo' },
+      { nombre: 'Ray Argomedo', cargo: 'Psicólogo', foto: rayImg },
+      { nombre: 'Rafael Castillo', cargo: 'Psicólogo', foto: rafaelImg },
     ],
   },
   {
     area: 'Bienestar del Estudiante',
     resumen: 'Coordinación y acompañamiento de cada nivel educativo.',
-    personas: [],
-    cargos: ['Coordinación de Nivel Inicial', 'Coordinación de Nivel Primaria', 'Coordinación de Nivel Secundaria'],
+    personas: [
+      { nombre: 'Juliana Chunga', cargo: 'Coordinadora de Nivel Inicial', foto: juliImg },
+      { nombre: 'Rosa Lalupu', cargo: 'Coordinadora de Nivel Primaria', foto: rosaImg },
+      { nombre: 'Gustavo Melgarejo', cargo: 'Coordinador de Nivel Secundaria', foto: gustavoImg },
+    ],
   },
   {
     area: 'Enfermería',
     resumen: 'Atención de primeros auxilios y seguimiento de salud escolar.',
-    personas: [],
-    cargos: ['Enfermería escolar'],
+    personas: [{ nombre: 'Karla Vásquez', cargo: 'Enfermera escolar', foto: karlaImg }],
   },
   {
     area: 'Soporte',
@@ -217,7 +232,7 @@ const items = [
               )}
             </div>
             <div class="border-t border-slate-100 px-6 py-5 text-center">
-              <p class="text-lg font-extrabold text-navy-700">{persona.nombre}</p>
+              <p class="text-xl font-extrabold text-navy-700 sm:text-2xl">{persona.nombre}</p>
               <p class="mt-1 text-sm font-semibold text-brand-600">{persona.cargo}</p>
             </div>
           </article>
@@ -228,61 +243,116 @@ const items = [
         id="panel-organigrama"
         role="tabpanel"
         aria-labelledby="tab-organigrama"
-        class="mx-auto mt-8 hidden max-w-2xl"
+        class="mx-auto mt-8 hidden max-w-6xl"
       >
-        <ol class="space-y-3">
+        <div class="space-y-12">
           {organigrama.map((nivel, i) => (
-            <li class="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 transition hover:ring-brand-300 sm:p-5">
-              <div class="flex items-start gap-3 sm:gap-4">
-                <span class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-navy-800 text-xs font-black text-white">
-                  {i + 1}
-                </span>
-                <div class="min-w-0 flex-1">
-                  <h4 class="text-base font-extrabold text-navy-700">{nivel.area}</h4>
-                  <p class="mt-1 text-sm leading-relaxed text-slate-600">{nivel.resumen}</p>
-
-                  {nivel.personas.length > 0 && (
-                    <ul class="mt-3 space-y-2">
-                      {nivel.personas.map((persona) => (
-                        <li class="flex items-center gap-3 rounded-xl bg-slate-50 px-3 py-2.5 ring-1 ring-slate-200">
+            <section>
+              {i === 0 ? (
+                <div class="overflow-hidden rounded-3xl bg-gradient-to-br from-navy-700 via-navy-800 to-navy-900 p-6 shadow-xl ring-1 ring-navy-800/50 sm:p-8 lg:p-10">
+                  <div class="flex flex-col items-center gap-6 sm:flex-row sm:gap-10">
+                    <div class="h-48 w-48 flex-shrink-0 overflow-hidden rounded-full bg-navy-900 ring-4 ring-white/15 sm:h-56 sm:w-56">
+                      {nivel.personas[0]?.foto ? (
+                        <Image
+                          src={nivel.personas[0].foto}
+                          alt={`Foto de ${nivel.personas[0].nombre}`}
+                          widths={[600, 900]}
+                          sizes="(min-width: 640px) 224px, 192px"
+                          class="h-full w-full object-cover object-top"
+                          loading="lazy"
+                          decoding="async"
+                          quality={95}
+                        />
+                      ) : (
+                        <div class="flex h-full w-full items-center justify-center">
                           <span
-                            class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-brand-50 text-xs font-black text-brand-600"
+                            class="flex h-28 w-28 items-center justify-center rounded-full border-4 border-white/20 bg-white/10 text-4xl font-black tracking-wider text-white sm:h-32 sm:w-32 sm:text-5xl"
                             aria-hidden="true"
                           >
-                            {iniciales(persona.nombre)}
+                            {nivel.personas[0] ? iniciales(nivel.personas[0].nombre) : ''}
                           </span>
-                          <span class="min-w-0">
-                            <span class="block text-sm font-bold text-navy-700">{persona.nombre}</span>
-                            <span class="block text-xs text-slate-500">{persona.cargo}</span>
-                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    <div class="min-w-0 text-center sm:text-left">
+                      <span class="text-xs font-bold uppercase tracking-widest text-brand-400">{nivel.area}</span>
+                      <h4 class="mt-2 text-2xl font-extrabold text-white sm:text-3xl">{nivel.resumen}</h4>
+                      <div class="mt-6 space-y-4 border-t border-white/10 pt-6">
+                        {nivel.personas.map((persona) => (
+                          <div>
+                            <p class="text-xl font-extrabold text-white sm:text-2xl lg:text-3xl">{persona.nombre}</p>
+                            <p class="mt-0.5 text-sm font-semibold text-brand-300">{persona.cargo}</p>
+                          </div>
+                        ))}
+                      </div>
+                      {(nivel.cargos ?? []).length > 0 && (
+                        <ul class="mt-5 flex flex-wrap justify-center gap-2 sm:justify-start">
+                          {(nivel.cargos ?? []).map((cargo) => (
+                            <li class="rounded-full bg-white/10 px-4 py-1.5 text-sm font-semibold text-white/90 ring-1 ring-white/20">
+                              {cargo}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <header class="flex items-baseline gap-4">
+                    <div>
+                      <span class="text-base font-extrabold uppercase tracking-widest text-brand-500 sm:text-lg lg:text-xl">{nivel.area}</span>
+                      <p class="mt-2 text-base leading-relaxed text-slate-600 sm:text-lg">{nivel.resumen}</p>
+                    </div>
+                    <span class="hidden h-px flex-1 self-center bg-slate-300 sm:block"></span>
+                  </header>
+
+                  {nivel.personas.length > 0 && (
+                    <ul class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                      {nivel.personas.map((persona) => (
+                        <li class="group rounded-3xl bg-white p-6 text-center shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1.5 hover:shadow-xl hover:ring-brand-300 sm:p-7">
+                          <div class="mx-auto h-44 w-44 overflow-hidden rounded-full bg-slate-100 ring-4 ring-brand-100 transition duration-300 group-hover:ring-brand-300 sm:h-52 sm:w-52">
+                            {persona.foto ? (
+                              <Image
+                                src={persona.foto}
+                                alt={`Foto de ${persona.nombre}`}
+                                widths={[448, 640, 800]}
+                                sizes="(min-width: 640px) 208px, 176px"
+                                class="h-full w-full object-cover object-top transition duration-500 group-hover:scale-105"
+                                loading="lazy"
+                                decoding="async"
+                                quality={95}
+                              />
+                            ) : (
+                              <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-brand-50 to-brand-100">
+                                <span class="text-5xl font-black text-brand-500" aria-hidden="true">
+                                  {iniciales(persona.nombre)}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                          <p class="mt-5 text-xl font-extrabold text-navy-700 sm:text-2xl">{persona.nombre}</p>
+                          <p class="mt-1 text-sm font-semibold text-brand-600">{persona.cargo}</p>
                         </li>
                       ))}
                     </ul>
                   )}
 
-                  {(nivel.cargos ?? []).map((cargo) => (
-                    <p class="mt-2 flex items-center gap-2 text-sm text-slate-700">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="3"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="h-3.5 w-3.5 flex-shrink-0 text-brand-500"
-                        aria-hidden="true"
-                      >
-                        <path d="M5 13l4 4L19 7" />
-                      </svg>
-                      {cargo}
-                    </p>
-                  ))}
-                </div>
-              </div>
-            </li>
+                  {(nivel.cargos ?? []).length > 0 && (
+                    <ul class="mt-4 flex flex-wrap gap-2">
+                      {(nivel.cargos ?? []).map((cargo) => (
+                        <li class="rounded-full bg-white px-4 py-1.5 text-sm font-semibold text-slate-600 ring-1 ring-slate-200">
+                          {cargo}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </>
+              )}
+            </section>
           ))}
-        </ol>
+        </div>
       </div>
     </div>
 
