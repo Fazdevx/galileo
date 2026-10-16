@@ -43,11 +43,22 @@ export const SITE = {
   ],
   hoursDisplay: 'Lun a Vie 8:00 - 18:00',
   social: {
-    facebook: '',
+    facebook: 'https://www.facebook.com/ColegioGalileoHuacho',
     instagram: '',
-    youtube: '',
-    tiktok: '',
+    youtube: 'https://www.youtube.com/@ColegioPrivadoGalileoHuacho',
+    tiktok: 'https://www.tiktok.com/@colegalileohuacho',
   },
+} as const;
+
+/**
+ * Redes de la Academia Preuniversitaria. Cuentas propias, distintas a las del
+ * colegio. No entran en SITE.social porque ese objeto alimenta el sameAs del
+ * schema.org del colegio.
+ */
+export const ACADEMIA_SOCIAL = {
+  facebook: 'https://www.facebook.com/AcademiaGalileoHuacho',
+  youtube: 'https://www.youtube.com/@AcademiaGalileoHuacho-h2e',
+  tiktok: 'https://www.tiktok.com/@academiagalileopre',
 } as const;
 
 export const mapsQuery = `${SITE.address.street}, ${SITE.address.city}, ${SITE.address.countryName}`;

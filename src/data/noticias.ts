@@ -77,6 +77,8 @@ const FOTO_POR_SLUG: Record<string, string> = {
   'conmemoracion-combate-de-angamos': 'combate-de-angamos',
   'gran-simulacro-academico-galileo': 'simulacro-bimestral',
   'dia-de-la-salud-mental-galileo': 'salud-mental',
+  'capacitacion-emotiva-equipo-galileo': 'capacitacion',
+  'galileo-construye-un-equipo-mas-unido': 'capacitacion-psicologia',
 };
 
 /** Categoría cuya foto se muestra cuando nada más coincide. */
@@ -429,6 +431,46 @@ export const NOTICIAS_SEED: Noticia[] = [
       '¡Cuidar tu salud mental también es cuidar de ti!',
     ],
     actualizado: '2026-10-10T00:00:00.000Z',
+  },
+  {
+    slug: 'capacitacion-emotiva-equipo-galileo',
+    titulo: 'Galileo se capacita para seguir creciendo',
+    fecha: '2026-10-16',
+    resumen:
+      'Nuestro equipo participó en una capacitación emotiva dirigida por el ponente Iván Gutiérrez (Coach), reforzando la importancia de las pausas activas, la buena convivencia y las buenas prácticas dentro y fuera de las aulas.',
+    destacado: false,
+    publicado: true,
+    imagen: '',
+    imagenAlt: 'Capacitación del equipo docente y administrativo del Colegio Galileo',
+    categoria: 'Académico',
+    cuerpo: [
+      'En el Colegio Galileo seguimos apostando por la mejora continua y la formación de nuestro equipo, con el compromiso de brindar un servicio educativo cada vez mejor.',
+      'Nuestro equipo participó en una capacitación emotiva, dirigida por el destacado ponente Iván Gutiérrez (Coach), donde, mediante dinámicas y presentaciones, reforzamos la importancia de las pausas activas, la buena convivencia y las buenas prácticas dentro y fuera de las aulas.',
+      'Además, nuestros psicólogos Ray Argomedo y Rafael Castillo desarrollaron dinámicas de integración que permitieron fortalecer los lazos de compañerismo y confraternidad entre nuestros docentes y el personal administrativo.',
+      'Porque un equipo unido, motivado y preparado marca la diferencia en la educación de nuestros estudiantes.',
+      'En Galileo, ¡seguimos creciendo juntos para brindar lo mejor de nosotros!',
+    ],
+    actualizado: '2026-10-16T00:00:00.000Z',
+  },
+  {
+    slug: 'galileo-construye-un-equipo-mas-unido',
+    titulo: 'Galileo construye un equipo más unido',
+    fecha: '2026-10-16',
+    resumen:
+      'En el segundo día de nuestra jornada de capacitación, vivimos un espacio de diálogo, confianza e integración con todo nuestro personal docente y administrativo, dirigido por nuestros psicólogos Ray Argomedo y Rafael Castillo.',
+    destacado: false,
+    publicado: true,
+    imagen: '',
+    imagenAlt: 'Conversatorio de integración del equipo del Colegio Galileo dirigido por sus psicólogos',
+    categoria: 'Académico',
+    cuerpo: [
+      '¡Seguimos creciendo juntos! En el segundo día de nuestra jornada de capacitación, vivimos un espacio de diálogo, confianza e integración con todo nuestro personal docente y administrativo.',
+      'Nuestros psicólogos Ray Argomedo y Rafael Castillo dirigieron un conversatorio pensado para conocer mejor las necesidades de nuestro equipo, compartir experiencias y recordar, entre anécdotas educativas y momentos especiales, todo aquello que nos une como familia galileana.',
+      'Fue una jornada enriquecedora, llena de reflexión, compañerismo y aprendizaje, porque escuchar, comprender y apoyarnos también forma parte de una educación de calidad.',
+      'En el Colegio Galileo creemos que un equipo que se conoce, se escucha y se fortalece puede ofrecer lo mejor a nuestros estudiantes.',
+      '¡Seguimos trabajando juntos por una convivencia positiva y una educación cada vez mejor!',
+    ],
+    actualizado: '2026-10-16T00:00:00.000Z',
   },
 ];
 

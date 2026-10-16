@@ -1,18 +1,27 @@
 ---
 import { Image } from 'astro:assets';
 import frontis from '../assets/frontis.webp';
-import promotorImg from '../assets/promotor.png';
-import directorImg from '../assets/Directorgalileo.png';
-import rayImg from '../assets/rai.png';
-import rafaelImg from '../assets/rai 2.png';
-import nicolImg from '../assets/nickole.png';
-import karlaImg from '../assets/Karla.png';
-import rosaImg from '../assets/rosa.png';
-import juliImg from '../assets/juli.png';
-import gustavoImg from '../assets/gustavo.png';
-import hildaImg from '../assets/hildaolivares.png';
-import humbertoImg from '../assets/humbertojara.png';
+import victorImg from '../assets/retratos/victor-loyola-retrato.webp';
+import hildaImg from '../assets/retratos/hilda-olivares-retrato.webp';
+import directorImg from '../assets/retratos/giovani-estupinan-card.webp';
+import humbertoImg from '../assets/retratos/humberto-jara-card.webp';
+import nicolImg from '../assets/retratos/nicol-isidro-card.webp';
+import juliImg from '../assets/retratos/juliana-chunga-card.webp';
+import rosaImg from '../assets/retratos/rosa-lalupu-card.webp';
+import gustavoImg from '../assets/retratos/gustavo-melgarejo-card.webp';
+import rayImg from '../assets/retratos/ray-argomedo-card.webp';
+import rafaelImg from '../assets/retratos/rafael-castillo-card.webp';
+import karlaImg from '../assets/retratos/karla-vasquez-card.webp';
 import { TRAYECTORIA } from '../data/site';
+
+/**
+ * Retratos del personal, ya en WebP y tamaños razonables. Los masters (PNG de
+ * 4000x6000 y hasta 27 MB) se procesan en scripts/gen-retratos-assets.mjs con
+ * `-card` (512x512, circulos) y `-retrato` (640x854, tarjetas de fundadores).
+ * Importar los masters directamente hace que /nosotros tarde una eternidad.
+ * En Astro 5+ el import de un asset devuelve metadata: `.src` da la URL final.
+ */
+const url = (img: { src: string }) => img.src;
 
 /** "Hilda Olivares Roca" -> "HO". Respaldo para quien no tiene retrato. */
 const iniciales = (nombre: string) =>
@@ -34,67 +43,70 @@ const fundadores = [
   {
     nombre: 'Víctor Loyola Padilla',
     cargo: 'Fundador y promotor del Colegio y Academia Galileo',
-    foto: promotorImg,
+    foto: url(victorImg),
   },
   {
     nombre: 'Hilda Olivares Roca',
     cargo: 'Fundadora del Colegio y Academia Galileo',
-    foto: hildaImg,
+    foto: url(hildaImg),
   },
 ];
 
 /**
- * Organigrama de la institucion, en orden de jerarquia: direccion, area
- * pedagogica y administrativa, psicologia, bienestar del estudiante,
- * enfermeria y por ultimo soporte.
+ * Organigrama en dos ejes. La dirección va arriba (hero) y de ahí salen dos
+ * ramas: el eje académico (pedagógico -> coordinadores por grado -> psicología)
+ * y el eje administrativo y de apoyo (administrativo -> enfermería -> soporte).
  *
- * El orden del array es el orden en que se lee: es lo primero que ve la
- * persona al abrir el modal, asi que no se reordena al azar.
+ * Dentro de cada eje, `lead` es la persona responsable del eje (fila destacada)
+ * y `grupos` son las sub-áreas con sus personas, en orden jerárquico.
  *
- * `personas` lleva nombre propio; `cargos` son areas staffed por un rol, sin
- * titular nominado todavia.
+ * `personas` lleva nombre propio; `cargos` son roles sin titular nominado.
  */
-const organigrama = [
+const direccion = {
+  area: 'Dirección',
+  resumen: 'Liderazgo de la institución y de la operación académica.',
+  personas: [{ nombre: 'Giovani Estupiñán', cargo: 'Director de la Institución Educativa Galileo', foto: url(directorImg) }],
+};
+const director = direccion.personas[0];
+
+const ejes = [
   {
-    area: 'Dirección',
-    resumen: 'Liderazgo de la institución y de la operación académica.',
-    personas: [{ nombre: 'Giovani Estupiñán', cargo: 'Director de la Institución Educativa Galileo', foto: directorImg }],
-  },
-  {
-    area: 'Pedagógico y Administrativos',
-    resumen: 'Planificación de estudios, currículo y gestión administrativa.',
-    personas: [
-      { nombre: 'Humberto Jara', cargo: 'Responsable pedagógico', foto: humbertoImg },
-      { nombre: 'Nicol Isidro', cargo: 'Responsable administrativo', foto: nicolImg },
+    titulo: 'Eje Académico',
+    resumen: 'Coordinación pedagógica, niveles educativos y acompañamiento socioemocional.',
+    lead: { nombre: 'Humberto Jara', cargo: 'Responsable pedagógico', foto: url(humbertoImg) },
+    grupos: [
+      {
+        titulo: 'Coordinadores de nivel',
+        personas: [
+          { nombre: 'Juliana Chunga', cargo: 'Coordinadora de Nivel Inicial', foto: url(juliImg) },
+          { nombre: 'Rosa Lalupu', cargo: 'Coordinadora de Nivel Primaria', foto: url(rosaImg) },
+          { nombre: 'Gustavo Melgarejo', cargo: 'Coordinador de Nivel Secundaria', foto: url(gustavoImg) },
+        ],
+      },
+      {
+        titulo: 'Psicología',
+        personas: [
+          { nombre: 'Ray Argomedo', cargo: 'Psicólogo', foto: url(rayImg) },
+          { nombre: 'Rafael Castillo', cargo: 'Psicólogo', foto: url(rafaelImg) },
+        ],
+      },
     ],
   },
   {
-    area: 'Área Psicológica',
-    resumen: 'Acompañamiento socioemocional y orientación de estudiantes y familias.',
-    personas: [
-      { nombre: 'Ray Argomedo', cargo: 'Psicólogo', foto: rayImg },
-      { nombre: 'Rafael Castillo', cargo: 'Psicólogo', foto: rafaelImg },
+    titulo: 'Eje Administrativo y de Apoyo',
+    resumen: 'Gestión administrativa, salud escolar y servicios generales.',
+    lead: { nombre: 'Nicol Isidro', cargo: 'Responsable administrativo', foto: url(nicolImg) },
+    grupos: [
+      {
+        titulo: 'Enfermería',
+        personas: [{ nombre: 'Karla Vásquez', cargo: 'Enfermera escolar', foto: url(karlaImg) }],
+      },
+      {
+        titulo: 'Soporte',
+        personas: [],
+        cargos: ['Personal de soporte'],
+      },
     ],
-  },
-  {
-    area: 'Bienestar del Estudiante',
-    resumen: 'Coordinación y acompañamiento de cada nivel educativo.',
-    personas: [
-      { nombre: 'Juliana Chunga', cargo: 'Coordinadora de Nivel Inicial', foto: juliImg },
-      { nombre: 'Rosa Lalupu', cargo: 'Coordinadora de Nivel Primaria', foto: rosaImg },
-      { nombre: 'Gustavo Melgarejo', cargo: 'Coordinador de Nivel Secundaria', foto: gustavoImg },
-    ],
-  },
-  {
-    area: 'Enfermería',
-    resumen: 'Atención de primeros auxilios y seguimiento de salud escolar.',
-    personas: [{ nombre: 'Karla Vásquez', cargo: 'Enfermera escolar', foto: karlaImg }],
-  },
-  {
-    area: 'Soporte',
-    resumen: 'Mantenimiento, limpieza y servicios generales del colegio.',
-    personas: [],
-    cargos: ['Personal de soporte'],
   },
 ];
 
@@ -210,15 +222,14 @@ const items = [
           <article class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 transition-all hover:-translate-y-1 hover:shadow-xl hover:ring-brand-300">
             <div class="aspect-3/4 overflow-hidden bg-slate-100">
               {persona.foto ? (
-                <Image
+                <img
                   src={persona.foto}
                   alt={`Retrato de ${persona.nombre}, ${persona.cargo.toLowerCase()} del Colegio y Academia Galileo`}
-                  widths={[320, 480, 640, 960]}
-                  sizes="(min-width: 640px) 45vw, 90vw"
+                  width="640"
+                  height="854"
                   class="h-full w-full object-cover object-top"
                   loading="lazy"
                   decoding="async"
-                  quality={90}
                 />
               ) : (
                 <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-navy-700 to-navy-800">
@@ -245,113 +256,115 @@ const items = [
         aria-labelledby="tab-organigrama"
         class="mx-auto mt-8 hidden max-w-6xl"
       >
-        <div class="space-y-12">
-          {organigrama.map((nivel, i) => (
-            <section>
-              {i === 0 ? (
-                <div class="overflow-hidden rounded-3xl bg-gradient-to-br from-navy-700 via-navy-800 to-navy-900 p-6 shadow-xl ring-1 ring-navy-800/50 sm:p-8 lg:p-10">
-                  <div class="flex flex-col items-center gap-6 sm:flex-row sm:gap-10">
-                    <div class="h-48 w-48 flex-shrink-0 overflow-hidden rounded-full bg-navy-900 ring-4 ring-white/15 sm:h-56 sm:w-56">
-                      {nivel.personas[0]?.foto ? (
-                        <Image
-                          src={nivel.personas[0].foto}
-                          alt={`Foto de ${nivel.personas[0].nombre}`}
-                          widths={[600, 900]}
-                          sizes="(min-width: 640px) 224px, 192px"
-                          class="h-full w-full object-cover object-top"
-                          loading="lazy"
-                          decoding="async"
-                          quality={95}
-                        />
-                      ) : (
-                        <div class="flex h-full w-full items-center justify-center">
-                          <span
-                            class="flex h-28 w-28 items-center justify-center rounded-full border-4 border-white/20 bg-white/10 text-4xl font-black tracking-wider text-white sm:h-32 sm:w-32 sm:text-5xl"
-                            aria-hidden="true"
-                          >
-                            {nivel.personas[0] ? iniciales(nivel.personas[0].nombre) : ''}
-                          </span>
-                        </div>
-                      )}
-                    </div>
+        <div class="space-y-0">
+          <div class="mx-auto max-w-3xl overflow-hidden rounded-3xl bg-gradient-to-br from-navy-700 via-navy-800 to-navy-900 p-5 shadow-xl ring-1 ring-navy-800/50 sm:p-6">
+            <div class="flex items-center gap-5 sm:gap-8">
+              <div class="h-48 w-48 flex-shrink-0 overflow-hidden rounded-full bg-navy-900 ring-4 ring-white/15 sm:h-56 sm:w-56">
+                {director.foto ? (
+                  <img
+                    src={director.foto}
+                    alt={`Foto de ${director.nombre}`}
+                    width="512"
+                    height="512"
+                    class="h-full w-full object-cover object-top"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <div class="flex h-full w-full items-center justify-center">
+                    <span class="text-6xl font-black tracking-wider text-white" aria-hidden="true">{iniciales(director.nombre)}</span>
+                  </div>
+                )}
+              </div>
+              <div class="min-w-0">
+                <span class="text-xs font-bold uppercase tracking-widest text-brand-400">{direccion.area}</span>
+                <p class="mt-1 text-xl font-extrabold text-white sm:text-2xl">{director.nombre}</p>
+                <p class="mt-0.5 text-sm font-semibold text-brand-300">{director.cargo}</p>
+                <p class="mt-2 text-sm leading-relaxed text-navy-200 sm:text-base">{direccion.resumen}</p>
+              </div>
+            </div>
+          </div>
 
-                    <div class="min-w-0 text-center sm:text-left">
-                      <span class="text-xs font-bold uppercase tracking-widest text-brand-400">{nivel.area}</span>
-                      <h4 class="mt-2 text-2xl font-extrabold text-white sm:text-3xl">{nivel.resumen}</h4>
-                      <div class="mt-6 space-y-4 border-t border-white/10 pt-6">
-                        {nivel.personas.map((persona) => (
-                          <div>
-                            <p class="text-xl font-extrabold text-white sm:text-2xl lg:text-3xl">{persona.nombre}</p>
-                            <p class="mt-0.5 text-sm font-semibold text-brand-300">{persona.cargo}</p>
-                          </div>
-                        ))}
+          {/* Líneas del organigrama: baja del director y se divide en dos ejes. */}
+          <div class="relative hidden h-10 sm:block" aria-hidden="true">
+            <span class="absolute left-1/2 top-0 h-5 w-px -translate-x-1/2 bg-slate-300"></span>
+            <span class="absolute left-1/4 right-1/4 top-5 h-px bg-slate-300"></span>
+            <span class="absolute left-1/4 top-5 h-5 w-px bg-slate-300"></span>
+            <span class="absolute right-1/4 top-5 h-5 w-px bg-slate-300"></span>
+          </div>
+
+          <div class="grid gap-6 sm:grid-cols-2">
+            {ejes.map((eje) => (
+              <section class="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 sm:p-6">
+                <header class="border-b border-slate-100 pb-4">
+                  <span class="text-sm font-extrabold uppercase tracking-widest text-navy-700">{eje.titulo}</span>
+                  <p class="mt-1 text-sm text-slate-500">{eje.resumen}</p>
+                </header>
+
+                <div class="mt-4 flex items-center gap-4 rounded-2xl bg-brand-50/60 p-4 ring-2 ring-brand-200">
+                  <div class="h-28 w-28 flex-shrink-0 overflow-hidden rounded-full bg-slate-100 ring-2 ring-brand-300 sm:h-32 sm:w-32">
+                    {eje.lead.foto ? (
+                      <img
+                        src={eje.lead.foto}
+                        alt={`Foto de ${eje.lead.nombre}`}
+                        width="512"
+                        height="512"
+                        class="h-full w-full object-cover object-top"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ) : (
+                      <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-brand-50 to-brand-100">
+                        <span class="text-4xl font-black text-brand-500" aria-hidden="true">{iniciales(eje.lead.nombre)}</span>
                       </div>
-                      {(nivel.cargos ?? []).length > 0 && (
-                        <ul class="mt-5 flex flex-wrap justify-center gap-2 sm:justify-start">
-                          {(nivel.cargos ?? []).map((cargo) => (
-                            <li class="rounded-full bg-white/10 px-4 py-1.5 text-sm font-semibold text-white/90 ring-1 ring-white/20">
-                              {cargo}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
+                    )}
+                  </div>
+                  <div class="min-w-0">
+                    <p class="text-base font-extrabold text-navy-700 sm:text-lg">{eje.lead.nombre}</p>
+                    <p class="text-sm leading-snug text-slate-600">{eje.lead.cargo}</p>
                   </div>
                 </div>
-              ) : (
-                <>
-                  <header class="flex items-baseline gap-4">
-                    <div>
-                      <span class="text-base font-extrabold uppercase tracking-widest text-brand-500 sm:text-lg lg:text-xl">{nivel.area}</span>
-                      <p class="mt-2 text-base leading-relaxed text-slate-600 sm:text-lg">{nivel.resumen}</p>
-                    </div>
-                    <span class="hidden h-px flex-1 self-center bg-slate-300 sm:block"></span>
-                  </header>
 
-                  {nivel.personas.length > 0 && (
-                    <ul class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                      {nivel.personas.map((persona) => (
-                        <li class="group rounded-3xl bg-white p-6 text-center shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1.5 hover:shadow-xl hover:ring-brand-300 sm:p-7">
-                          <div class="mx-auto h-44 w-44 overflow-hidden rounded-full bg-slate-100 ring-4 ring-brand-100 transition duration-300 group-hover:ring-brand-300 sm:h-52 sm:w-52">
+                {eje.grupos.map((grupo) => (
+                  <div class="mt-5">
+                    <h5 class="text-[11px] font-bold uppercase tracking-wider text-brand-500">{grupo.titulo}</h5>
+                    <ul class="mt-3 space-y-3">
+                      {grupo.personas.map((persona) => (
+                        <li class="flex items-center gap-4 rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-100 transition hover:ring-brand-300">
+                          <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-full bg-slate-100 ring-2 ring-brand-100 sm:h-28 sm:w-28">
                             {persona.foto ? (
-                              <Image
+                              <img
                                 src={persona.foto}
                                 alt={`Foto de ${persona.nombre}`}
-                                widths={[448, 640, 800]}
-                                sizes="(min-width: 640px) 208px, 176px"
-                                class="h-full w-full object-cover object-top transition duration-500 group-hover:scale-105"
+                                width="512"
+                                height="512"
+                                class="h-full w-full object-cover object-top"
                                 loading="lazy"
                                 decoding="async"
-                                quality={95}
                               />
                             ) : (
                               <div class="flex h-full w-full items-center justify-center bg-gradient-to-br from-brand-50 to-brand-100">
-                                <span class="text-5xl font-black text-brand-500" aria-hidden="true">
-                                  {iniciales(persona.nombre)}
-                                </span>
+                                <span class="text-3xl font-black text-brand-500" aria-hidden="true">{iniciales(persona.nombre)}</span>
                               </div>
                             )}
                           </div>
-                          <p class="mt-5 text-xl font-extrabold text-navy-700 sm:text-2xl">{persona.nombre}</p>
-                          <p class="mt-1 text-sm font-semibold text-brand-600">{persona.cargo}</p>
+                          <div class="min-w-0">
+                            <p class="text-sm font-extrabold leading-tight text-navy-700 sm:text-base">{persona.nombre}</p>
+                            <p class="text-xs leading-snug text-slate-600 sm:text-sm">{persona.cargo}</p>
+                          </div>
                         </li>
                       ))}
-                    </ul>
-                  )}
-
-                  {(nivel.cargos ?? []).length > 0 && (
-                    <ul class="mt-4 flex flex-wrap gap-2">
-                      {(nivel.cargos ?? []).map((cargo) => (
-                        <li class="rounded-full bg-white px-4 py-1.5 text-sm font-semibold text-slate-600 ring-1 ring-slate-200">
+                      {(grupo.cargos ?? []).map((cargo) => (
+                        <li class="rounded-2xl bg-slate-50 px-4 py-3 text-sm font-semibold text-navy-700 ring-1 ring-slate-100">
                           {cargo}
                         </li>
                       ))}
                     </ul>
-                  )}
-                </>
-              )}
-            </section>
-          ))}
+                  </div>
+                ))}
+              </section>
+            ))}
+          </div>
         </div>
       </div>
     </div>

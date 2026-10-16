@@ -75,6 +75,8 @@ const PROPIAS = {
   'combate-de-angamos': 'combatedeangamos.jpg',
   'simulacro-bimestral': 'simulacrobimestral.jpg',
   'salud-mental': 'saludmental.jpg',
+  capacitacion: 'capacitacion.jpg',
+  'capacitacion-psicologia': 'capacitacionpsicologia.jpg',
 };
 
 const VARIANTES = [
